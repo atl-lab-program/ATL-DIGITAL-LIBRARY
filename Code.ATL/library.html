@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Document</title>
+  <h1>This is the book library!</h1>
+  <h2> Search for your favorite books!</h2>
+
+</head>
+
+<body>
+
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for books, authors, etc..." autocomplete="off">
+    <button type="submit" id="searchButton">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+      </svg>
+    </button>
+  </div>
+
+  <style>
+    body {
+      background: linear-gradient(to bottom, rgb(250, 217, 191), rgb(166, 253, 163), rgb(164, 253, 249));
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0px;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      max-width: 400px;
+      margin: 20px auto;
+      border: 2px solid #e0e0e0;
+      border-radius: 50px;
+      /* Makes it pill-shaped */
+      padding: 6px 15px;
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
+
+
+    .search-container:focus-within {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .search-container input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      padding: 8px;
+    }
+
+    .search-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      transition: color 0.2s;
+    }
+
+    .search-container button:hover {
+      color: #007bff;
+    }
+
+    p {
+      text-align: center;
+      font-family: 'Gabriola';
+      font-size: 20px;
+      color: rgb(0, 0, 0)
+    }
+
+
+
+    img {
+      width: 20%;
+      height: 50%;
+      display: block;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Gabriola';
+      font-size: 75px;
+      color: rgb(64, 1, 87);
+    }
+
+    h2 {
+      text-align: center;
+      font-family: 'Gabriola';
+      font-size: 35px;
+      color: rgb(64, 1, 87);
+    }
+
+    .img {
+      height: 300px;
+      width: auto;
+      margin-left: 20px;  
+    }
+
+    .image-side {
+      display: flex;
+    }
+  </style>
+
+  <script>
+
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+      let filter = this.value.toLowerCase();
+      let items = document.querySelectorAll('.list-item');
+
+      items.forEach(item => {
+        let text = item.textContent.toLowerCase();
+        if (text.includes(filter)) {
+          item.style.display = ""; // Show item
+        } else {
+          item.style.display = "none"; // Hide item
+        }
+      });
+    });
+
+  </script>
+  <div class="image-side">
+  <a href="/books/hp1.html">
+    
+    <img src="/assets/images/hp1.jpg" alt="hp1" class="img">
+  </a>
+   <a href="/books/hp2.html">
+    <img src="/assets/images/hp2.jpg" alt="hp2" class="img">
+   </a>
+   <a href="/books/hp3.html">
+    <img src="/assets/images/hp3.jpg" alt="hp3" class="img">
+   </a>
+   <a href="/books/hp4.html">
+    <img src="/assets/images/hp4.jpg" alt="hp4" class="img">
+   </a>
+   <a href="/books/hp5.html">
+    <img src="/assets/images/hp5.jpg" alt="hp5" class="img">
+   </a>
+   <a href="/books/hp6.html">
+    <img src="/assets/images/hp6.jpg" alt="hp6" class="img">
+   </a>
+   <a href="/books/hp7.html">
+    <img src="/assets/images/hp7.jpg" alt="hp7" class="img">
+   </a>
+     </div>
+</body>
+
+</html> 

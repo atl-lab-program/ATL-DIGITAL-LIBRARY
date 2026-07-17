@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #a5c4f3;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            background-color: #e0cff3;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555555;
+            font-size: 14px;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #fddddd;
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #ffffff;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border-color: #007bff;
+        }
+
+        .radio-group, 
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radio-options {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        .radio-options label {
+            font-weight: normal;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        
+        .password-wrapper input[type="password"],
+        .password-wrapper input[type="text"] {
+            padding-right: 60px; 
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            color: #007bff;
+            padding: 8px 10px;
+            transition: color 0.2s;
+        }
+        
+        .toggle-btn:hover {
+            color: #0056b3;
+        }
+
+        /* Button Styling */
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Registration Form</h1>
+
+        <form>
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="Full Name">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Parent Phone No. ( only 1 )</label>
+                <input type="text" id="phone" placeholder="+ 91">
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob">
+            </div>
+
+            <div class="form-group">
+                 <label for="confirm-phone">Confirm Phone No.</label>
+                 <input type="text" id="confirm-phone" placeholder="+ 91">
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="gender" value="male"> Male</label>
+                    <label><input type="radio" name="gender" value="female"> Female</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="grade">Grade</label>
+                <select id="grade">
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                    <option>Grade 10</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="passwordField">Create Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="passwordField" placeholder="Enter password">
+                    <button type="button" class="toggle-btn" id="toggleBtn1" onclick="togglePassword('passwordField','toggleBtn1')"id="toggleBtn1">Show</button>
+                </div>
+            </div>
+
+               <div class="form-group">
+                <label for="passwordField">Confirm Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmPasswordField" placeholder="Confirm password">
+                    <button type="button" class="toggle-btn" id="toggleBtn2" onclick="togglePassword('confirmPasswordField','toggleBtn2')"id="toggleBtn2">Show</button>
+                </div>
+            </div>
+            <a href="doc6.html">
+            <button type="submit">Submit Registration</button>
+            </a>
+        </form>
+    </div>
+
+    <script>
+    function togglePassword(fieldId, btnId) {
+        const passwordField = document.getElementById(fieldId);
+        const toggleBtn = document.getElementById(btnId);
+        
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleBtn.textContent = "Hide";
+        } else {
+            passwordField.type = "password";
+            toggleBtn.textContent = "Show";
+        }
+    }
+    </script>
+
+</body>
+</html>
