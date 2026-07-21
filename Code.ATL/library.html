@@ -111,23 +111,25 @@
       display: flex;
     }
   </style>
-
-  <script>
-
+<script>
     document.getElementById('searchInput').addEventListener('keyup', function () {
       let filter = this.value.toLowerCase();
-      let items = document.querySelectorAll('.list-item');
+      // Select all book elements
+      let items = document.querySelectorAll('.book-item');
 
       items.forEach(item => {
-        let text = item.textContent.toLowerCase();
-        if (text.includes(filter)) {
-          item.style.display = ""; // Show item
+        // Get the image element inside the <a> tag
+        let img = item.querySelector('img');
+        // Get search text from the image's alt attribute or the link text
+        let searchText = (img ? img.alt : item.textContent).toLowerCase();
+
+        if (searchText.includes(filter)) {
+          item.style.display = ""; // Show matching book
         } else {
-          item.style.display = "none"; // Hide item
+          item.style.display = "none"; // Hide non-matching book
         }
       });
     });
-
   </script>
   <div class="image-side">
   <a href="/books/hp1.html">
