@@ -21,12 +21,28 @@
     </button>
   </div>
 
-  <style>
+   <style>
     body {
       background: linear-gradient(to bottom, rgb(250, 217, 191), rgb(166, 253, 163), rgb(164, 253, 249));
       background-repeat: no-repeat;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0px;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Gabriola', sans-serif;
+      font-size: 75px;
+      color: rgb(64, 1, 87);
+      margin-bottom: 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-family: 'Gabriola', sans-serif;
+      font-size: 35px;
+      color: rgb(64, 1, 87);
+      margin-top: 0;
     }
 
     .search-container {
@@ -36,12 +52,10 @@
       margin: 20px auto;
       border: 2px solid #e0e0e0;
       border-radius: 50px;
-      /* Makes it pill-shaped */
       padding: 6px 15px;
       background-color: #fff;
       transition: all 0.3s ease;
     }
-
 
     .search-container:focus-within {
       border-color: #007bff;
@@ -72,43 +86,30 @@
       color: #007bff;
     }
 
-    p {
-      text-align: center;
-      font-family: 'Gabriola';
-      font-size: 20px;
-      color: rgb(0, 0, 0)
+    .image-side {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
     }
 
 
-
-    img {
-      width: 20%;
-      height: 50%;
-      display: block;
-    }
-
-    h1 {
-      text-align: center;
-      font-family: 'Gabriola';
-      font-size: 75px;
-      color: rgb(64, 1, 87);
-    }
-
-    h2 {
-      text-align: center;
-      font-family: 'Gabriola';
-      font-size: 35px;
-      color: rgb(64, 1, 87);
+    .book-item {
+      display: inline-block;
+      text-decoration: none;
     }
 
     .img {
       height: 300px;
       width: auto;
-      margin-left: 20px;  
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
     }
 
-    .image-side {
-      display: flex;
+    .img:hover {
+      transform: scale(1.05);
     }
   </style>
 <script>
