@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gloock&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geomini:wght@200..800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, rgb(250, 217, 191), rgb(166, 253, 163), rgb(164, 253, 249));
+            background-repeat: no-repeat;
+            margin: 0px;
+            perspective: 1000px;
+
+        }
+
+        .header-container {
+            width: auto;
+            height: auto;
+            background-color: rgba(255, 217, 2, 0.479);
+            display: flex;
+            justify-content: space-between;
+            padding: 11px;
+            border: 5px solid rgb(230, 195, 1);
+            border-radius: 0px 0px 30px 30px;
+        }
+
+        .header-image1,
+        .header-image2 {
+            width: 120px;
+            height: 130px;
+            border-radius: 20px;
+        }
+
+        .text {
+            font-family: "Playfair Display", serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 50px;
+            
+            
+ 
+        }
+
+        .register {
+            background-color: transparent;
+            max-width: 100%;
+            height: 50px;
+            padding: 0 25px;
+            font-size: 20px;
+            color: rgb(247, 247, 248);
+            cursor: pointer;
+            border-radius: 25px;
+            border: none;
+            transition: background-color 0.9s ease, transition 0.9s ease;
+
+        }
+
+        .button-styling {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(54, 52, 131);
+
+
+        }
+
+        .banner {
+            display: flex;
+            justify-content: center;
+            height: 443px;
+            border-radius: 7px;
+        }
+
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            gap: 20px;
+            margin-top: 30px;
+            font-size: 30px;
+        }
+
+        .about-us {
+            background-color: transparent;
+            max-width: 100%;
+            height: 50px;
+            padding: 0 25px;
+            font-size: 20px;
+            color: rgb(247, 247, 248);
+            cursor: pointer;
+            border-radius: 25px;
+            border: none;
+            transition: background-color 0.9s ease, transition 0.9s ease;
+        }
+
+        .login {
+            background-color: transparent;
+            max-width: 100%;
+            height: 50px;
+            padding: 0 25px;
+            font-size: 20px;
+            color: rgb(247, 247, 248);
+            cursor: pointer;
+            border-radius: 25px;
+            border: none;
+            transition: background-color 0.9s ease, transition 0.9s ease;
+
+        }
+
+        .library {
+            background-color: transparent;
+            max-width: 100%;
+            height: 50px;
+            padding: 0 25px;
+            font-size: 20px;
+            color: rgb(247, 247, 248);
+            cursor: pointer;
+            border-radius: 25px;
+            border: none;
+            transition: background-color 0.9s ease, transition 0.9s ease;
+
+        }
+
+        .register:hover {
+            background-color: rgb(38, 37, 90);
+            border-radius: 25px;
+        }
+
+        .about-us:hover {
+            background-color: rgb(38, 37, 90);
+            border-radius: 25px;
+        }
+
+        .login:hover {
+            background-color: rgb(38, 37, 90);
+            border-radius: 25px;
+        }
+
+        .library:hover {
+            background-color: rgb(38, 37, 90);
+            border-radius: 25px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header-container">
+        <img src="/assets/images/Bkhamct.png" class="header-image1">
+        <h1 class="text"> <b>ATL STUDENT LIBRARY</b>  </h1>
+        <img src="/assets/images/Rajhans_Logo.jpg" class="header-image2">
+    </div>
+    <hr>
+    <div class="blurred-linear-bg">
+
+        <div class="button-styling">
+            <a href="/sections/auth/registration.html">
+                <button class="register"> Register </button>
+            </a>
+            <a href="/About-Us.html">
+                <button class="about-us">About Us</button>
+            </a>
+            <a href="/sections/auth/index.html">
+                <button class="login">Login</button>
+            </a>
+            <a href="/library.html">
+                <button class="library"> Library </button>
+            </a>
+        </div>
+        <hr>
+        <br>
+        <br>
+    </div>
+
+    <div class="banner">
+        <img src="/assets/images/Banner.png">
+    </div>
+
+    <div class="content-wrapper">
+        <p class="intro-text">
+            This is the ATL Library!<br>
+            You can find books, save them, and bookmark them for yourself!<br>
+            This is just a small model of our library!<br>
+            <strong>- Suhaira, Siddharth and Aadi</strong>
+        </p>
+
+
+
+    </div>
+
+</body>
+
+</html>
