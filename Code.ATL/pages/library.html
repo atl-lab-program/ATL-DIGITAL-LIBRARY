@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Book Library</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, rgb(250, 217, 191), rgb(166, 253, 163), rgb(164, 253, 249));
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      margin: 0px;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Gabriola', sans-serif;
+      font-size: 75px;
+      color: rgb(64, 1, 87);
+      margin-bottom: 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-family: 'Gabriola', sans-serif;
+      font-size: 35px;
+      color: rgb(64, 1, 87);
+      margin-top: 0;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      max-width: 400px;
+      margin: 20px auto;
+      border: 2px solid #e0e0e0;
+      border-radius: 50px;
+      padding: 6px 15px;
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .search-container:focus-within {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .search-container input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      padding: 8px;
+    }
+
+    .search-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      transition: color 0.2s;
+    }
+
+    .search-container button:hover {
+      color: #007bff;
+    }
+
+    .image-side {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+    }
+
+
+    .book-item {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .img {
+      height: 300px;
+      width: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>This is the book library!</h1>
+  <h2>Search for your favorite books!</h2>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for books, authors, etc..." autocomplete="off">
+    <button type="submit" id="searchButton">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Book Gallery -->
+
+  <div class="image-side">
+    <a href="/books/hp/hp1.html" class="book-item">
+      <img src="/assets/images/hp/hp1.jpg" alt="Harry Potter and the Sorcerer's Stone(philosopher) J.K. Rowling" class="img">
+    </a>
+    <a href="/books/hp/hp2.html" class="book-item">
+      <img src="/assets/images/hp/hp2.jpg" alt="Harry Potter and the Chamber of Secrets J.K. Rowling" class="img">
+    </a>
+    <a href="/books/hp/hp3.html" class="book-item">
+      <img src="/assets/images/hp/hp3.jpg" alt="Harry Potter and the Prisoner of Azkaban J.K. Rowling" class="img">
+    </a>
+    <a href="/books/hp/hp4.html" class="book-item">
+      <img src="/assets/images/hp/hp4.jpg" alt="Harry Potter and the Goblet of Fire J.K. Rowling" class="img">
+    </a>
+    <a href="/books/hp/hp5.html" class="book-item">
+      <img src="/assets/images/hp/hp5.jpg" alt="Harry Potter and the Order of the Phoenix J.K. Rowling" class="img">
+    </a>
+    <a href="/books/hp/hp6.html" class="book-item">
+      <img src="/assets/images/hp/hp6.jpg" alt="Harry Potter and the Half-Blood Prince J.K. Rowling" class="img">
+    </a>
+    <a href="/books/hp/hp7.html" class="book-item">
+      <img src="/assets/images/hp/hp7.jpg" alt="Harry Potter and the Deathly Hallows J.K. Rowling" class="img">
+    </a>
+    <br>
+  </div>
+
+
+  <!-- JavaScript -->
+  <script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+      let filter = this.value.toLowerCase();
+      // Select all book elements
+      let items = document.querySelectorAll('.book-item');
+
+      items.forEach(item => {
+        // Get the image element inside the <a> tag
+        let img = item.querySelector('img');
+        // Get search text from the image's alt attribute or the link text
+        let searchText = (img ? img.alt : item.textContent).toLowerCase();
+
+        if (searchText.includes(filter)) {
+          item.style.display = ""; // Show matching book
+        } else {
+          item.style.display = "none"; // Hide non-matching book
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
