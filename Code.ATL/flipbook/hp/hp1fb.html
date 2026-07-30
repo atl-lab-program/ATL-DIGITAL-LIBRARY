@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flipbook Reader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #c76030;
+      background: radial-gradient(circle at center, rgb(170, 26, 21) 0%, rgb(0, 0, 0) 100%);
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    /* Outer Wrapper with Ambient Vignette */
+    .book-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100vw;
+      padding: 20px;
+      position: relative;
+      box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Canvas for Magic Dust Particles */
+    #dustCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    @keyframes candleFlicker {
+      0%, 100% { box-shadow: 0 0 55px rgba(255, 180, 50, 0.18); }
+      50% { box-shadow: 0 0 85px rgba(255, 180, 50, 0.28); }
+      75% { box-shadow: 0 0 45px rgba(255, 180, 50, 0.14); }
+    }
+
+    #book {
+      margin: 0 auto;
+      transition: transform 0.4s ease-in-out;
+      border-radius: 4px;
+      animation: candleFlicker 4s infinite ease-in-out;
+      position: relative;
+      transform-origin: center center;
+    }
+
+    /* Page Base Styling */
+    .my-page {
+      background-color: #f7f4ea;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      border: 1px solid rgba(197, 160, 89, 0.25);
+    }
+
+    .my-page:active {
+      cursor: grabbing;
+    }
+
+    .my-page img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      pointer-events: none;
+    }
+
+    /* Parchment Noise Overlay & Gold Corner Flare */
+    .my-page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(circle at center, transparent 40%, rgba(120, 80, 20, 0.12) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .my-page::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, transparent 50%, rgba(255, 220, 150, 0.3) 100%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 3;
+    }
+
+    .my-page:hover::after {
+      opacity: 1;
+    }
+
+    /* Spine Center Shadows */
+    .my-page:nth-child(even) {
+      box-shadow: inset -14px 0 18px -8px rgba(0, 0, 0, 0.4), 
+                  0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .my-page:nth-child(odd) {
+      box-shadow: inset 14px 0 18px -8px rgba(0, 0, 0, 0.4), 
+                  0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Back Cover */
+    .back-cover {
+      background: #141210;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #c5a059;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      border: 1px solid #2a241e;
+    }
+
+    /* Perfectly Centered Navigation Buttons */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(30, 27, 24, 0.75);
+      border: 1px solid #5986c5;
+      color: #5986c5;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1;
+      padding: 0;
+      transition: all 0.2s ease-in-out;
+      z-index: 100;
+      backdrop-filter: blur(6px);
+      user-select: none;
+    }
+
+    .nav-btn:hover {
+      background: #0068f9;
+      color: #0d0c0b;
+      box-shadow: 0 0 18px rgba(0, 104, 249, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev-btn { left: 30px; }
+    .next-btn { right: 30px; }
+
+    /* Page Counter Badge */
+    .page-number-badge {
+      position: absolute;
+      bottom: 25px;
+      background: rgba(15, 10, 8, 0.8);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      color: #c5a059;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      z-index: 90;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Glassmorphic Control Toolbar with Centered Icons */
+    .control-toolbar {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      background: rgba(15, 10, 8, 0.6);
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      backdrop-filter: blur(8px);
+    }
+
+    .tool-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(30, 25, 20, 0.8);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      color: #c5a059;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1;
+      padding: 0;
+      transition: all 0.2s ease;
+    }
+
+    .tool-btn:hover {
+      background: rgba(197, 160, 89, 0.9);
+      color: #0d0c0b;
+      box-shadow: 0 0 12px rgba(197, 160, 89, 0.5);
+      transform: scale(1.08);
+    }
+
+    .tool-btn.active {
+      background: #c5a059;
+      color: #0d0c0b;
+    }
+
+    /* Keyboard Hints Overlay */
+    .key-hints {
+      position: absolute;
+      bottom: 25px;
+      left: 25px;
+      color: rgba(197, 160, 89, 0.6);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      pointer-events: none;
+      z-index: 90;
+    }
+
+    @media (max-width: 768px) {
+      .nav-btn { width: 40px; height: 40px; font-size: 1rem; }
+      .prev-btn { left: 10px; }
+      .next-btn { right: 10px; }
+      .control-toolbar { top: 12px; right: 12px; padding: 4px 8px; gap: 6px; }
+      .tool-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+      .key-hints { display: none; }
+    }
+
+    /* Back to Home Button */
+.home-btn {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  z-index: 100;
+  padding: 10px 20px;
+  background: rgba(15, 10, 8, 0.85);
+  color: #5986c5;
+  border: 1px solid #5986c5;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: Georgia, serif;
+  letter-spacing: 1px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.home-btn:hover {
+  background: #0068f9;
+  color: #0d0c0b;
+  box-shadow: 0 0 15px rgba(0, 104, 249, 0.5);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .home-btn {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Remove left shadow from front cover */
+.my-page:first-child {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5) !important;
+}
+
+.no-cover-shadow {
+  box-shadow: none !important;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Audio Element for Page Flip -->
+<audio id="flipSound" preload="auto">
+    <source src="/assets/sounds/page-flip.mp3" type="audio/mpeg">
+</audio>
+
+  <!-- Canvas for Particles -->
+  <canvas id="dustCanvas"></canvas>
+
+  <div class="book-wrapper">
+    <!-- Toolbar Controls -->
+    <div class="control-toolbar">
+      <button class="tool-btn" id="soundBtn" title="Toggle Sound">🔊</button>
+      <button class="tool-btn" id="playBtn" title="Auto-Play Slideshow">▶</button>
+      <button class="tool-btn" id="zoomOutBtn" title="Zoom Out">-</button>
+      <button class="tool-btn" id="zoomResetBtn" title="Reset Zoom">100%</button>
+      <button class="tool-btn" id="zoomInBtn" title="Zoom In">+</button>
+      <button class="tool-btn" id="fullscreenBtn" title="Toggle Fullscreen">⛶</button>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <button class="nav-btn prev-btn" id="prevBtn" title="Previous Page">&#10094;</button>
+    <button class="nav-btn next-btn" id="nextBtn" title="Next Page">&#10095;</button>
+
+    <!-- Flipbook Container -->
+    <div id="book">
+      <!-- Front Hardcover -->
+      <div class="my-page" data-density="hard">
+        <img src="/assets/images/hp/hp1.jpg" alt="Cover">
+      </div>
+
+      <!-- Soft Inner Pages -->
+      <div class="my-page"><img src="/assets/images/hp/hp1.jpg" alt="Page 1"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b1.png" alt="Page 2"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f2.png" alt="Page 3"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b2.png" alt="Page 4"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f3.png" alt="Page 5"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b3.png" alt="Page 6"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f4.png" alt="Page 7"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b4.png" alt="Page 8"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f5.png" alt="Page 9"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b5.png" alt="Page 10"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f6.png" alt="Page 11"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b6.png" alt="Page 12"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f7.png" alt="Page 13"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b7.png" alt="Page 14"></div>
+      <div class="my-page"><img src="/flipbook/hp1/f8.png" alt="Page 15"></div>
+      <div class="my-page"><img src="/flipbook/hp1/b8.png" alt="Page 16"></div>
+
+      <!-- Rear Cover -->
+      <div class="my-page back-cover" data-density="hard">
+        <span>FINISH</span>
+      </div>
+    </div>
+
+    <div class="page-number-badge" id="pageBadge">Page 1</div>
+    <div class="key-hints">Keys: ← → Nav | + - Zoom | F Fullscreen</div>
+
+    <a href="/index.html" class="home-btn"> Back to Home</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+ 
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let previousPageIndex = 0;
+      let soundMuted = false;
+      let currentZoom = 1;
+      let autoPlayInterval = null;
+
+      // 1. Initialize PageFlip
+      const pageFlip = new St.PageFlip(
+        document.getElementById('book'),
+        {
+          width: 350,
+          height: 500,
+          size: 'stretch',
+          minWidth: 260,
+          maxWidth: 420,
+          minHeight: 380,
+          maxHeight: 600,
+          showCover: true,
+          drawShadow: false,
+          usePortrait: true,
+          autoCenter: true
+         
+        }
+      );
+
+      pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+
+      // 2. Cover Alignment & Badge Logic
+      function updateUIElements(e) {
+        const bookElement = document.getElementById('book');
+        const badge = document.getElementById('pageBadge');
+        
+        const pageCount = pageFlip.getPageCount();
+        const currentPage = e ? e.data : pageFlip.getCurrentPageIndex();
+
+        let offsetX = '0';
+        if (currentPage === 0) {
+          offsetX = '-25%';
+        } else if (currentPage === pageCount - 1) {
+          offsetX = '25%';
+        }
+
+        // Combine centering transform with zoom scale smoothly
+        bookElement.style.transform = `translateX(${offsetX}) scale(${currentZoom})`;
+
+        if (badge) {
+          badge.textContent = `Page ${currentPage + 1} of ${pageCount}`;
+        }
+      }
+
+      updateUIElements();
+      
+      pageFlip.on('flip', (e) => {
+        const currentPageIndex = e.data;
+        updateUIElements(e);
+
+        if (!soundMuted) {
+          const sound = document.getElementById('flipSound');
+          if (sound) {
+            sound.currentTime = 0;
+            sound.play().catch(() => {});
+          }
+        }
+
+        if (Math.random() > 0.4) {
+          const isFlippingForward = currentPageIndex > previousPageIndex;
+          triggerDustEffect(isFlippingForward);
+        }
+
+        previousPageIndex = currentPageIndex;
+      });
+
+      // 3. Navigation Controls
+      document.getElementById('prevBtn').addEventListener('click', () => pageFlip.flipPrev());
+      document.getElementById('nextBtn').addEventListener('click', () => pageFlip.flipNext());
+
+      // 4. Zoom Functionality directly applied on the book
+      const zoomResetBtn = document.getElementById('zoomResetBtn');
+
+      function setZoom(zoomLevel) {
+        currentZoom = Math.min(Math.max(0.7, zoomLevel), 1.6);
+        updateUIElements();
+        zoomResetBtn.textContent = `${Math.round(currentZoom * 100)}%`;
+      }
+
+      document.getElementById('zoomInBtn').addEventListener('click', () => setZoom(currentZoom + 0.15));
+      document.getElementById('zoomOutBtn').addEventListener('click', () => setZoom(currentZoom - 0.15));
+      zoomResetBtn.addEventListener('click', () => setZoom(1));
+
+      // 5. Auto-Play Slideshow Toggle
+      const playBtn = document.getElementById('playBtn');
+      playBtn.addEventListener('click', () => {
+        if (autoPlayInterval) {
+          clearInterval(autoPlayInterval);
+          autoPlayInterval = null;
+          playBtn.classList.remove('active');
+          playBtn.textContent = '▶';
+        } else {
+          playBtn.classList.add('active');
+          playBtn.textContent = '⏸';
+          autoPlayInterval = setInterval(() => {
+            const current = pageFlip.getCurrentPageIndex();
+            const total = pageFlip.getPageCount();
+            if (current < total - 1) {
+              pageFlip.flipNext();
+            } else {
+              pageFlip.flip(0);
+            }
+          }, 4000);
+        }
+      });
+
+      // 6. Sound & Fullscreen Controls
+      const soundBtn = document.getElementById('soundBtn');
+      soundBtn.addEventListener('click', () => {
+        soundMuted = !soundMuted;
+        soundBtn.textContent = soundMuted ? '🔇' : '🔊';
+      });
+
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          if (document.exitFullscreen) document.exitFullscreen();
+        }
+      });
+
+      // Keyboard Shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') pageFlip.flipPrev();
+        if (e.key === 'ArrowRight') pageFlip.flipNext();
+        if (e.key === '+' || e.key === '=') setZoom(currentZoom + 0.15);
+        if (e.key === '-' || e.key === '_') setZoom(currentZoom - 0.15);
+        if (e.key === '0') setZoom(1);
+        if (e.key === 'f' || e.key === 'F') fullscreenBtn.click();
+      });
+
+      // 7. Dust & Golden Particle System
+      const canvas = document.getElementById('dustCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      class Particle {
+        constructor(x, y, isFlippingForward) {
+          this.x = x;
+          this.y = y;
+          this.size = Math.random() * 2.2 + 0.5;
+          this.speedX = isFlippingForward ? (Math.random() * 2.5 + 0.5) : -(Math.random() * 2.5 + 0.5);
+          this.speedY = (Math.random() - 0.5) * 1.8 - 0.3;
+          this.opacity = Math.random() * 0.7 + 0.3;
+          this.life = 0;
+          this.maxLife = Math.random() * 35 + 25;
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.life++;
+          this.opacity -= 0.016;
+        }
+
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = Math.max(this.opacity, 0);
+          ctx.fillStyle = '#e6ba65';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      function triggerDustEffect(isFlippingForward) {
+        const bookRect = document.getElementById('book').getBoundingClientRect();
+        const spawnX = isFlippingForward ? bookRect.right - 20 : bookRect.left + 20;
+
+        for (let i = 0; i < 18; i++) {
+          const spawnY = bookRect.top + Math.random() * bookRect.height;
+          particles.push(new Particle(spawnX, spawnY, isFlippingForward));
+        }
+      }
+
+      function animateDust() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          particles[i].update();
+          particles[i].draw();
+          if (particles[i].opacity <= 0 || particles[i].life >= particles[i].maxLife) {
+            particles.splice(i, 1);
+          }
+        }
+        requestAnimationFrame(animateDust);
+      }
+      animateDust();
+    });
+  </script>
+</body>
+</html>

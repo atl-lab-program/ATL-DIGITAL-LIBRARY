@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Percy Jackson 2</title>
+    <h1>Percy Jackson 2</h1>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Metamorphous&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+           background: #FFFFFF;
+background: linear-gradient(180deg, rgb(127, 212, 138) 0%, rgb(81, 189, 111) 50%, rgb(67, 110, 170) 100%);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+            font-family: "Metamorphous", serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            font-weight: normal;
+            font-family: "Metamorphous", serif;
+        }
+
+        /* Hero main cover */
+        .pj2 {
+            text-align: center;
+        }
+
+        .pj2 img {
+            height: 472.44px;
+            width: 321.26px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 23px;
+            font-weight: bold;
+            font-family: "Metamorphous", serif;
+        }
+
+        /* Image gallery layout */
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+        }
+
+        /* Base state for book covers */
+        .image-row a img {
+            width: 200px;
+            height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Smooth, calm transition curve */
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+
+        /* Subtle hover effect */
+        .image-row a:hover img {
+            transform: scale(1.04) translateY(-3px); /* Mild scale and subtle lift */
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25); /* Soft depth adjustment */
+            cursor: pointer;
+        }
+
+        /* Navigation button */
+        .home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: rgb(41, 145, 0);
+            color: white;
+            border: none;
+            height: 35px;
+            width: 150px;
+            border-radius: 5px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: rgb(35, 122, 0);
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pj2">
+        <img src="/assets/images/pj/pj2.png" alt="Percy Jackson 2 Cover">
+    </div>
+
+    <p>
+        Percy Jackson and the Sea of Monsters is the second book in the famous series by Rick Riordan. 
+        It follows demigod Percy Jackson, his friend Annabeth Chase, and his cyclops half-brother Tyson as they journey 
+        into the dangerous <strong>Sea of Monsters</strong> (the Bermuda Triangle) to find the magical Golden Fleece and save Camp 
+        Half-Blood from being destroyed.
+    </p>
+
+    <h2>Books in the series</h2>
+
+    <div class="image-row">
+        <a href="pj1.html"><img src="/assets/images/pj/pj1.png" alt="Book 1"></a>
+        <a href="pj3.html"><img src="/assets/images/pj/pj3.png" alt="Book 3"></a>
+        <a href="pj4.html"><img src="/assets/images/pj/pj4.png" alt="Book 4"></a>
+        <a href="pj5.html"><img src="/assets/images/pj/pj5.png" alt="Book 5"></a>
+        <a href="pj6.html"><img src="/assets/images/pj/pj6.png" alt="Book 6"></a>
+        <a href="pj7.html"><img src="/assets/images/pj/pj7.png" alt="Book 7"></a>
+    </div>
+
+    <br><br>
+
+    <div class="home">
+        <a href="/index.html" class="btn-a">
+            <button class="btn"> Back to Home </button>
+        </a>
+    </div>
+
+</body>
+</html>
