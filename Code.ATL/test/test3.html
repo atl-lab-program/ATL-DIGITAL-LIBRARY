@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+    <style>
+      img {
+        height: 500px;
+        width: 300px;
+      }
+
+      .wrapper{
+    display: flex;
+    justify-content: center; /* Center aligns the book horizontally */
+    align-items: center;     /* Centers it vertically if needed */
+    margin-top: 80px;        /* Pushes the book down from the top of the screen */
+      }
+    </style>
+  </head>
+<body>
+    
+<div class="wrapper">
+<div id="book">
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp1.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp2.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp3.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp4.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp5.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp6.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/assets/images/hp/hp7.jpg" /></div>
+    <div class="page" data-density="soft"><img src="/flipbook/hp1/b8.png" /></div>
+</div>
+</div>
+
+<script>
+    const pageFlip = new St.PageFlip(document.getElementById('book'), {
+        width: 300,
+    height: 500,
+    showCover: true,
+    drawShadow: true,
+    maxShadowOpacity: 0.4,
+    flippingTime: 1200,
+});
+
+pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+</script>
