@@ -814,3 +814,908 @@ If changes are needed, I'll explain why before modifying anything, so you unders
 
 
 A stunning northern lights (aurora borealis) night sky over a peaceful pine forest, cinematic wide-angle composition, deep blue and purple sky with vibrant green aurora ribbons, stars visible, dark silhouetted trees only along the bottom 15–20% of the image, large open sky in the center for website content, soft lighting, ultra-realistic, 1920×1080, designed as a website background with plenty of negative space, no people, no buildings, no text.
+I have the context from your previous chat. We can continue from here.
+
+You were at the point where you wanted to upload your HTML/CSS/JS library project folder so I can analyze it and help you add an admin account system using only HTML, CSS, and JavaScript.
+
+Please upload the project as a .zip file (best option). Include everything:
+
+project/
+│
+├── index.html
+├── library.html
+├── book.html
+├── login.html
+├── admin.html (if you already made one)
+│
+├── css/
+│   ├── style.css
+│   └── other css files
+│
+├── js/
+│   ├── app.js
+│   ├── login.js
+│   └── other js files
+│
+├── assets/
+│
+└── any JSON files
+
+After I receive it, I will check:
+
+How your books are currently stored
+Are they inside HTML?
+JavaScript arrays?
+JSON?
+localStorage?
+How your login system works
+Existing user accounts?
+Hardcoded users?
+No login yet?
+How your book cards are generated
+Static HTML cards
+JavaScript generated cards
+The cleanest way to add admin functionality
+
+The likely system I will add (depending on your code) will look like this:
+
+login.html
+
+Student Login
+        |
+        |
+        ↓
+library.html
+(view books)
+
+
+Admin Login
+        |
+        |
+        ↓
+admin.html
+
+        |
+        ├── Edit Book Title
+        ├── Edit Author
+        ├── Edit Description
+        ├── Change Availability
+        └── Save Changes
+
+                ↓
+
+          localStorage
+
+                ↓
+
+        library.html updates
+
+Since you are using only HTML, CSS and JS, I will probably use:
+
+localStorage
+
+for saving data.
+
+Example:
+
+Before:
+
+{
+ title:"HTML Basics",
+ available:true
+}
+
+Admin changes it:
+
+{
+ title:"HTML Basics",
+ available:false
+}
+
+The browser stores the new version, and your library page reads it.
+
+I will also keep your current design intact. I won't rewrite the whole project unless necessary.
+
+When you upload it, I'll explain:
+
+what files need changing
+why each change is needed
+what each piece of JavaScript does
+how the admin login works
+how the book editing system works
+how to expand it later into a real database system
+
+Upload the zip whenever you're ready.
+
+The image attached is image.png; here's the code - <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/assets/images/image.png');
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center 30%;
+            
+        }
+
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(30px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 2rem;
+
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffe6c4;
+            font-size: 14px;
+        }
+
+        .form-group select {
+            color: #ffe6c4;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffe6c4;
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: transparent;
+        }
+
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border-color: #007bff;
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .password-wrapper input[type="password"],
+        .password-wrapper input[type="text"] {
+            padding-right: 60px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            color: #007bff;
+            padding: 8px 10px;
+            transition: color 0.2s;
+        }
+
+        .toggle-btn:hover {
+            color: #0056b3;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+            
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+            color: #ffe6c4;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .btn {
+            background-color: transparent;
+            color: white;
+            border: none;
+            height: 35px;
+            width: 150px;
+            border-radius: 25px;
+            transition: background-color 0.9s ease, transform 0.9s ease;
+            border: 1px solid white;
+        }
+
+        
+
+        select {
+            color: #ffe6c4;
+        }
+
+        select:invalid {
+            color: #999;
+        }
+
+        option {
+            color: black;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffe6c4;
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+
+            background: transparent;
+            color: #ffe6c4;
+        }
+
+        option {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffe6c4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h1>Login</h1>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="Full Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="grade">Grade</label>
+                <select id="grade" required>
+                    <option value="" class="grade" disabled selected>Select Grade</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                    <option>Grade 10</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="passwordField">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="passwordField" placeholder="Enter password" required>
+                    <button type="button" class="toggle-btn" id="toggleBtn" onclick="togglePassword()">Show</button>
+                </div>
+            </div>
+
+            <button type="submit">Login</button>
+
+            <br>
+            <hr>
+            <p>New User? <span><a href="/sections/auth/registration.html">Create Account</a></span></p>
+            <br>
+            <div class="home">
+                <a href="/index.html" class="btn-a">
+                    <button class="btn" type="button"> Back to Home </button>
+                </a>
+            </div>
+        </form>
+    </div>
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById("passwordField");
+            const toggleBtn = document.getElementById("toggleBtn");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleBtn.textContent = "Hide";
+            } else {
+                passwordField.type = "password";
+                toggleBtn.textContent = "Show";
+            }
+        }
+
+        // Login Authentication Logic
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Stop form from reloading page immediately
+
+            const enteredName = document.getElementById('full-name').value.trim();
+            const enteredGrade = document.getElementById('grade').value;
+            const enteredPassword = document.getElementById('passwordField').value;
+
+            // Retrieve registered user data from LocalStorage
+            const storedUserDataRaw = localStorage.getItem('atl_registered_user');
+
+            if (!storedUserDataRaw) {
+                alert("No account found! Please register first.");
+                return;
+            }
+
+            const storedUser = JSON.parse(storedUserDataRaw);
+
+            // Compare details (case-insensitive check for name)
+            const isNameValid = storedUser.fullName.trim().toLowerCase() === enteredName.toLowerCase();
+            const isGradeValid = storedUser.grade === enteredGrade;
+            const isPasswordValid = storedUser.password === enteredPassword;
+
+            if (isNameValid && isGradeValid && isPasswordValid) {
+                alert("Login successful! Welcome back, " + storedUser.fullName);
+
+                // Set session flag
+                localStorage.setItem('isLoggedIn', 'true');
+
+                // Redirect to root index.html
+                window.location.href = "/index.html";
+            } else {
+                alert("Invalid Credentials! Please check your name, grade, and password.");
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+
+I looked through both the screenshot and your code. For an ATL library project, this is already at a pretty strong level. The design direction is good: the aurora background + glass effect fits a modern library/login theme. I'll go through what looks good, what I would improve, and why.
+
+Overall rating (for a school project)
+
+Design: 8.5/10
+Code structure: 7.5/10
+User experience: 8/10
+
+The biggest thing holding it back is not the idea — it is small polish details.
+
+1. Background choice — excellent ✅
+
+Your image works very well.
+
+The reason it works:
+
+dark colors make white text readable
+the empty sky gives space for the login box
+the forest at the bottom creates depth
+
+Your CSS:
+
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+
+is correct.
+
+One small improvement:
+
+Currently you have:
+
+background-position: center;
+background-position: center 30%;
+
+The first one is overwritten.
+
+You only need:
+
+background-position: center 30%;
+
+The browser ignores the first one anyway because the second declaration replaces it.
+
+2. The glass login card is a good idea ✅
+
+This:
+
+.form-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(30px);
+}
+
+creates a glassmorphism effect.
+
+However, your blur is slightly too high.
+
+30px blur can make the background look slightly artificial.
+
+I would change:
+
+backdrop-filter: blur(30px);
+
+to:
+
+backdrop-filter: blur(15px);
+
+Why?
+
+Imagine looking through frosted glass:
+
+5px = slightly blurred
+15px = premium glass effect
+30px = very foggy
+
+For a login page, 15px feels cleaner.
+
+3. Your form width is good
+
+This:
+
+max-width: 450px;
+
+is a good choice.
+
+A lot of beginners make login boxes too wide.
+
+A login form should usually be around:
+
+350px - 450px
+
+You are already there.
+
+4. Your input fields need more contrast
+
+Currently:
+
+background-color: transparent;
+border: 1px solid #ffe6c4;
+
+The problem:
+
+The input blends into the background.
+
+On some parts of the aurora, the border will disappear.
+
+I would add:
+
+background: rgba(255,255,255,0.1);
+
+So:
+
+input[type="text"],
+input[type="password"],
+select {
+    width:100%;
+    padding:10px;
+    border:1px solid #ffe6c4;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    background:rgba(255,255,255,0.1);
+    color:white;
+}
+
+Why?
+
+You still keep the glass style, but users can clearly see where they type.
+
+5. Border radius is inconsistent
+
+You have:
+
+Input:
+
+border-radius:4px;
+
+Button:
+
+border-radius:4px;
+
+Home button:
+
+border-radius:25px;
+
+Your design has rounded elements already, so I would make everything consistent.
+
+Change inputs and login button:
+
+border-radius:10px;
+
+The result:
+
+Before:
+
+[____________]
+
+After:
+
+(____________)
+
+More modern.
+
+6. Login button needs more personality
+
+Currently:
+
+button[type="submit"] {
+background-color:#007bff;
+}
+
+The blue button does not match the aurora theme.
+
+I would use a gradient:
+
+button[type="submit"] {
+    background:linear-gradient(90deg,#00c6ff,#0072ff);
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+Why?
+
+Your page has:
+
+purple
+blue
+green
+
+A blue gradient fits better than a flat Bootstrap-style blue.
+
+7. Add a small hover animation
+
+Your buttons already have transitions, but the login button doesn't move.
+
+Add:
+
+button[type="submit"]:hover {
+    transform:translateY(-3px);
+}
+
+Now:
+
+Hover:
+
+Button
+  ↑
+moves slightly upward
+
+This makes the website feel more interactive.
+
+8. Your password toggle is good ✅
+
+This is actually a nice feature.
+
+Your JavaScript:
+
+passwordField.type="text";
+
+is exactly how it is normally done.
+
+One improvement:
+
+Instead of:
+
+Show
+Hide
+
+you could use:
+
+👁
+
+because modern websites use icons.
+
+Example:
+
+<button>
+👁
+</button>
+
+Not necessary though.
+
+9. Your login system is good for your current stage ✅
+
+This part:
+
+localStorage.getItem('atl_registered_user');
+
+is a smart choice for an HTML/CSS/JS-only project.
+
+The flow is:
+
+Registration page:
+
+User enters details
+        |
+        ↓
+localStorage saves user
+
+Login:
+
+User enters details
+        |
+        ↓
+JavaScript checks localStorage
+        |
+        ↓
+Access granted
+
+For an ATL demonstration, this is completely reasonable.
+
+10. One important security issue
+
+You have:
+
+localStorage.setItem('isLoggedIn','true');
+
+The problem:
+
+Anyone can open DevTools and type:
+
+localStorage.setItem('isLoggedIn','true')
+
+and become logged in.
+
+For your current project, this is acceptable.
+
+But later when you add the admin panel, do not rely only on:
+
+isLoggedIn=true
+
+Instead store:
+
+{
+ name:"Siddharth",
+ role:"student"
+}
+
+or
+
+{
+ name:"Admin",
+ role:"admin"
+}
+
+Then your admin page checks:
+
+if(user.role==="admin"){
+    showDashboard();
+}
+11. HTML improvement
+
+This:
+
+<a href="/index.html">
+<button>
+Back to Home
+</button>
+</a>
+
+is not ideal.
+
+A button inside a link is invalid HTML.
+
+Better:
+
+<a href="/index.html" class="btn">
+Back to Home
+</a>
+
+CSS:
+
+.btn{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+Why?
+
+Because <a> already navigates. You don't need a button inside it.
+
+My recommended small changes
+
+I would only change these:
+
+Form box
+backdrop-filter:blur(15px);
+Inputs
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+Login button
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+border-radius:10px;
+Add hover
+button[type="submit"]:hover{
+transform:translateY(-3px);
+}
+Final opinion
+
+For an ATL library website, this login page already feels more like a real product than a basic school form.
+
+Your next logical improvements would be:
+
+Add a logo/title above "Login"
+
+Example:
+
+        📚
+ ATL Student Library
+
+        Login
+Add a loading animation after login
+Checking credentials...
+      ⟳
+Add role selection internally:
+Student
+Admin
+
+(but don't show admin publicly in a real system)
+
+Connect this with your admin dashboard idea.
+
+The foundation is good. You are now at the stage where small UI details will make a bigger difference than adding lots of new features.
+
+done also i want description for image aesthetic generation foir background such as A stunning northern lights (aurora borealis) night sky over a peaceful pine forest, cinematic wide-angle composition, deep blue and purple sky with vibrant green aurora ribbons, stars visible, dark silhouetted trees only along the bottom 15–20% of the image, large open sky in the center for website content, soft lighting, ultra-realistic, 1920×1080, designed as a website background with plenty of negative space, no people, no buildings, no text.
+
+Since you already have an aurora style background, here are some more refined website background generation prompts with different aesthetics. I focused on keeping negative space for UI elements (login cards, navbar, text, etc.).
+
+1. Premium Glassmorphism Website Background (closest to your current style)
+
+Prompt:
+
+A cinematic ultra-realistic northern lights night landscape, vast arctic sky filled with glowing emerald green aurora ribbons flowing across deep navy and violet clouds, thousands of subtle stars scattered across the atmosphere, peaceful dark pine forest silhouette occupying only the bottom 15% of the frame, large empty sky area in the center for website interface elements, soft ambient lighting, dreamy atmosphere, high contrast but elegant colors, realistic photography style, wide-angle composition, 1920x1080 resolution, website hero background, plenty of negative space, no people, no buildings, no text.
+
+Mood:
+
+premium
+calm
+modern
+fits your glass login card
+2. Futuristic Library / Technology Theme
+
+Prompt:
+
+A futuristic night sky inspired by a digital library atmosphere, realistic aurora borealis glowing in cyan, teal, and purple tones above a quiet snowy pine forest, subtle particles floating like digital stars, deep blue gradient sky, cinematic lighting, minimal dark landscape at the bottom edge, enormous empty space in the middle for website content, elegant futuristic aesthetic, ultra realistic, 8K photography style, wide cinematic composition, designed as a modern technology website background, no humans, no buildings, no text.
+
+Mood:
+
+AI
+technology
+ATL project
+innovation
+3. Luxury Dark Academia Library Theme
+
+Prompt:
+
+A mysterious dark academia inspired winter night landscape, glowing aurora lights above a silent evergreen forest, deep midnight blue and purple sky, warm subtle golden highlights near the horizon, realistic stars, calm and intellectual atmosphere, dark forest silhouette along the lower edge only, large open sky with soft gradients for website typography, cinematic photography, ultra realistic, elegant and sophisticated, 1920x1080 website background, no people, no architecture, no text.
+
+Mood:
+
+library
+books
+knowledge
+sophisticated
+4. Minimal Clean Background (best for readability)
+
+Prompt:
+
+Minimalist realistic northern lights scene, smooth deep blue night sky with soft green aurora waves, sparse stars, calm snowy pine forest barely visible at the bottom, majority of the image consisting of empty gradient sky, subtle lighting, low visual clutter, perfect negative space for a website login form, modern UI background, cinematic wide-angle photography, ultra realistic, 1920x1080, no people, no buildings, no text.
+
+Mood:
+
+professional
+clean
+UI friendly
+5. More "Apple Website" Style
+
+Prompt:
+
+A breathtaking minimalist arctic landscape at night, soft flowing aurora borealis across a deep blue and purple sky, delicate stars, smooth gradients, dark evergreen forest silhouette at the bottom, calm peaceful atmosphere, premium cinematic photography, balanced composition, elegant lighting, luxurious modern website hero background, large negative space in the center, ultra realistic, high resolution, no people, no buildings, no text.
+
+Mood:
+
+expensive
+polished
+modern
+For your ATL Student Library specifically, I think the best prompt is a combination of #1 + #3:
+
+A cinematic dark academia northern lights landscape, ultra-realistic aurora borealis glowing with emerald green and violet ribbons across a deep midnight blue sky, thousands of subtle stars, peaceful pine forest silhouette only along the bottom edge, mysterious yet calming atmosphere representing knowledge and exploration, large empty central sky area for website login interface, soft ambient lighting, elegant premium aesthetic, wide-angle photography, 1920x1080 website background, realistic details, no people, no buildings, no text.
+
+That would match your:
+
+glass login card
+library theme
+dark UI
+modern ATL presentation style
+
+It would make the login page feel less like a generic form and more like a designed product.
+
+no i want like one photo in space so give me like text for that
+
+Got it — you want a single aesthetic space image prompt, not a website landscape. Something like a cinematic wallpaper. Here are some options:
+
+1. Deep Space Galaxy (premium cinematic)
+
+A breathtaking view of deep space, a massive spiral galaxy stretching across the darkness of the universe, glowing blue and purple nebula clouds surrounding billions of tiny stars, realistic cosmic dust particles, distant planets and celestial objects, dramatic cinematic lighting, ultra-realistic NASA-style space photography, incredibly detailed, 8K resolution, peaceful and mysterious atmosphere, vast empty space, no astronauts, no spacecraft, no text.
+
+2. Black Hole Aesthetic
+
+A cinematic ultra-realistic view of a massive black hole floating in deep space, a bright glowing accretion disk of orange and blue plasma swirling around the event horizon, stars and galaxies distorted by gravitational lensing, dark cosmic background filled with subtle stars, dramatic lighting, scientifically accurate, breathtaking scale, high detail, 8K space photography, no people, no spacecraft, no text.
+
+3. Nebula Wallpaper
+
+An enormous colorful nebula floating in deep space, vibrant clouds of purple, blue, pink, and turquoise cosmic gas illuminated by distant stars, thousands of stars scattered throughout the galaxy, soft glowing light rays, realistic astronomical photography, peaceful and dreamlike universe atmosphere, cinematic composition, ultra detailed, 8K resolution, no planets, no humans, no text.
+
+4. Earth From Space
+
+A stunning ultra-realistic view of Earth from outer space, the planet floating against the endless darkness of the universe, glowing blue atmosphere around the curved horizon, visible continents, city lights on the night side, stars and distant galaxies in the background, cinematic NASA-style photography, realistic lighting, breathtaking scale, 8K resolution, no astronauts, no spacecraft, no text.
+
+5. Futuristic Space (fits a modern website)
+
+A futuristic deep space scene, a massive galaxy in the background with glowing blue and violet nebula clouds, a lonely planet floating in the foreground with a soft atmospheric glow, millions of stars across the universe, cinematic lighting, realistic cosmic environment, mysterious and elegant mood, ultra-realistic digital photography style, 8K resolution, no humans, no spacecraft, no text.
+
+For your ATL Student Library login page, I think a galaxy + nebula background would fit better than Earth or black holes because it keeps the calm "knowledge/exploration" feeling while still looking premium.
