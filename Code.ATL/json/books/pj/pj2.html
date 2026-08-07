@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Percy Jackson 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Metamorphous&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #ffffff;
+            background: linear-gradient(180deg, rgb(127, 212, 138) 0%, rgb(81, 189, 111) 50%, rgb(67, 110, 170) 100%);;
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            font-weight: normal;
+            font-family: "Metamorphous", serif;
+            color: #222222;
+            margin-top: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+            font-family: "Metamorphous", serif;
+        }
+
+        .cover-container {
+            text-align: center;
+        }
+
+        .cover-container img {
+            height: 472.44px;
+            width: 321.26px;
+            border-radius: 7px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        p {
+            text-align: center;
+            font-size: 23px;
+            font-weight: normal;
+            font-family: "Metamorphous", serif;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.5;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .image-row a img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .image-row a:hover img {
+            transform: scale(1.04) translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+        }
+
+        .home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background-color: rgb(41, 145, 0);
+            color: white;
+            border: none;
+            height: 35px;
+            width: 150px;
+            border-radius: 5px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: rgb(22, 77, 0);
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Percy Jackson 2</h1>
+
+    <div class="cover-container">
+        <img src="/assets/images/pj/pj2.png" alt="Percy Jackson 2">
+    </div>
+
+    <p><b>Percy Jackson and the Sea of Monsters is the second book in the famous series by Rick Riordan. It follows demigod Percy Jackson, his friend Annabeth Chase, and his cyclops half-brother Tyson as they journey into the dangerous <strong>Sea of Monsters</strong> (the Bermuda Triangle) to find the magical Golden Fleece and save Camp Half-Blood from being destroyed.</b></p>
+
+    <h2>Books in the series</h2>
+
+    <div class="image-row">
+        
+        <a href="/json/books/pj/pj1.html"><img src="/assets/images/pj/pj1.png" alt="Book 2" class="a1"></a>
+        <a href="/json/books/pj/pj3.html"><img src="/assets/images/pj/pj3.png" alt="Book 3" class="a2"></a>
+        <a href="/json/books/pj/pj4.html"><img src="/assets/images/pj/pj4.png" alt="Book 4" class="a3"></a>
+        <a href="/json/books/pj/pj5.html"><img src="/assets/images/pj/pj5.png" alt="Book 5" class="a4"></a>
+        <a href="/json/books/pj/pj6.html"><img src="/assets/images/pj/pj6.png" alt="Book 6" class="a5"></a>
+        <a href="/json/books/pj/pj7.html"><img src="/assets/images/pj/pj7.png" alt="Book 7" class="a6"></a>
+    
+    </div>
+
+    <div class="home">
+        <a href="/index.html">
+            <button class="btn">Back to Home</button>
+        </a>
+    </div>
+
+</body>
+
+</html>
