@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, rgb(170, 26, 21) 0%, rgb(0, 0, 0) 100%);
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .book-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            padding: 20px;
+            position: relative;
+            box-shadow: inset 0 0 120px rgba(0, 0, 0, .85);
+        }
+
+        #dustCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        @keyframes candleFlicker {
+
+            0%,
+            100% {
+                box-shadow: 0 0 55px rgba(255, 180, 50, .18)
+            }
+
+            50% {
+                box-shadow: 0 0 85px rgba(255, 180, 50, .28)
+            }
+
+            75% {
+                box-shadow: 0 0 45px rgba(255, 180, 50, .14)
+            }
+        }
+
+        #book {
+            margin: 0 auto;
+            transition: transform .4s ease-in-out;
+            border-radius: 4px;
+            animation: candleFlicker 4s infinite ease-in-out;
+            position: relative;
+            transform-origin: center;
+        }
+
+        .my-page {
+            background: #f7f4ea;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+            border: 1px solid rgba(197, 160, 89, .25);
+        }
+
+        .my-page:active {
+            cursor: grabbing;
+        }
+
+        .my-page img,
+        .my-page canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: fill;
+        }
+
+        .my-page:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 40%, rgba(120, 80, 20, .12) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .my-page:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255, 220, 150, .3) 100%);
+            opacity: 0;
+            transition: .3s;
+            z-index: 3;
+        }
+
+        .my-page:hover:after {
+            opacity: 1;
+        }
+
+        .my-page:nth-child(even) {
+            box-shadow: inset -14px 0 18px -8px rgba(0, 0, 0, .4), 0 8px 16px rgba(0, 0, 0, .5);
+        }
+
+        .my-page:nth-child(odd) {
+            box-shadow: inset 14px 0 18px -8px rgba(0, 0, 0, .4), 0 8px 16px rgba(0, 0, 0, .5);
+        }
+
+        .my-page:first-child {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, .5) !important;
+        }
+
+        .back-cover {
+            background: #141210;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #c5a059;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            border: 1px solid #2a241e;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(30, 27, 24, .75);
+            border: 1px solid #5986c5;
+            color: #5986c5;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            transition: .2s;
+            z-index: 100;
+            backdrop-filter: blur(6px);
+        }
+
+        .nav-btn:hover {
+            background: #0068f9;
+            color: #0d0c0b;
+            box-shadow: 0 0 18px rgba(0, 104, 249, .5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn {
+            left: 30px;
+        }
+
+        .next-btn {
+            right: 30px;
+        }
+
+        .page-number-badge {
+            position: absolute;
+            bottom: 25px;
+            background: rgba(15, 10, 8, .8);
+            border: 1px solid rgba(197, 160, 89, .35);
+            color: #c5a059;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: .85rem;
+            letter-spacing: 1px;
+            backdrop-filter: blur(6px);
+            z-index: 90;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .5);
+        }
+
+        .control-toolbar {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            background: rgba(15, 10, 8, .6);
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(197, 160, 89, .25);
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(30, 25, 20, .8);
+            border: 1px solid rgba(197, 160, 89, .3);
+            color: #c5a059;
+            font-size: .95rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: .2s;
+        }
+
+        .tool-btn:hover {
+            background: rgba(197, 160, 89, .9);
+            color: #0d0c0b;
+            box-shadow: 0 0 12px rgba(197, 160, 89, .5);
+            transform: scale(1.08);
+        }
+
+        .tool-btn.active {
+            background: #c5a059;
+            color: #0d0c0b;
+        }
+
+        .key-hints {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            color: rgba(197, 160, 89, .6);
+            font-size: .75rem;
+            letter-spacing: 1px;
+            z-index: 90;
+        }
+
+        .home-btn {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            z-index: 100;
+            padding: 10px 20px;
+            background: rgba(15, 10, 8, .85);
+            color: #5986c5;
+            border: 1px solid #5986c5;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: .9rem;
+            font-family: Georgia, serif;
+            letter-spacing: 1px;
+            transition: .25s;
+            backdrop-filter: blur(8px);
+        }
+
+        .home-btn:hover {
+            background: #0068f9;
+            color: #0d0c0b;
+            box-shadow: 0 0 15px rgba(0, 104, 249, .5);
+            transform: translateY(-2px);
+        }
+
+        @media(max-width:768px) {
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .prev-btn {
+                left: 10px;
+            }
+
+            .next-btn {
+                right: 10px;
+            }
+
+            .control-toolbar {
+                top: 12px;
+                right: 12px;
+                padding: 4px 8px;
+                gap: 6px;
+            }
+
+            .tool-btn {
+                width: 32px;
+                height: 32px;
+                font-size: .8rem;
+            }
+
+            .key-hints {
+                display: none;
+            }
+
+            .home-btn {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: .8rem;
+            }
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipbook Reader</title>
+</head>
+
+<body>
+    </head>
+
+    <body>
+
+        <audio id="flipSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"
+            preload="auto"></audio>
+
+        <canvas id="dustCanvas"></canvas>
+
+        <div class="book-wrapper">
+
+            <div class="control-toolbar">
+                <button class="tool-btn" id="soundBtn" title="Toggle Sound">🔊</button>
+                <button class="tool-btn" id="playBtn" title="Auto Play">▶</button>
+                <button class="tool-btn" id="zoomOutBtn" title="Zoom Out">-</button>
+                <button class="tool-btn" id="zoomResetBtn" title="Reset Zoom">100%</button>
+                <button class="tool-btn" id="zoomInBtn" title="Zoom In">+</button>
+                <button class="tool-btn" id="fullscreenBtn" title="Fullscreen">⛶</button>
+            </div>
+
+            <button class="nav-btn prev-btn" id="prevBtn">&#10094;</button>
+            <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
+
+            <div id="book"></div>
+
+            <div class="page-number-badge" id="pageBadge">Page 1</div>
+
+            <div class="key-hints">
+                Keys: ← → Nav | + - Zoom | F Fullscreen
+            </div>
+
+            <a href="/pages/ebook.html" class="home-btn">Back to eBook Library</a>
+
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", async function () {
+
+                let soundMuted = false;
+                let currentZoom = 1;
+                let autoPlayInterval = null;
+                let previousPageIndex = 0;
+                let pageFlip;
+
+                const book = document.getElementById("book");
+                const soundBtn = document.getElementById("soundBtn");
+                const flipSound = document.getElementById("flipSound");
+
+                async function loadPDF() {
+
+                    const pdf = await pdfjsLib.getDocument("/pdf/Banda-Bahadur.pdf").promise;
+
+                    for (let i = 1; i <= pdf.numPages; i++) {
+
+                        const pdfPage = await pdf.getPage(i);
+
+                        const viewport = pdfPage.getViewport({
+                            scale: 2
+                        });
+
+                        const canvas = document.createElement("canvas");
+
+                        const ctx = canvas.getContext("2d");
+
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+
+                        await pdfPage.render({
+                            canvasContext: ctx,
+                            viewport: viewport
+                        }).promise;
+
+                        const page = document.createElement("div");
+
+                        page.className = "my-page";
+
+                        page.appendChild(canvas);
+
+                        book.appendChild(page);
+
+                    }
+
+                    pageFlip = new St.PageFlip(
+                        book,
+                        {
+                            width: 350,
+                            height: 500,
+                            size: "stretch",
+                            minWidth: 260,
+                            maxWidth: 420,
+                            minHeight: 380,
+                            maxHeight: 600,
+                            showCover: true,
+                            drawShadow: false,
+                            usePortrait: true,
+                            autoCenter: true
+                        }
+                    );
+
+                    pageFlip.loadFromHTML(
+                        document.querySelectorAll(".my-page")
+                    );
+
+                    setupFlipEvents();
+
+                    updateUI();
+
+                }
+
+                function setupFlipEvents() {
+
+                    pageFlip.on("flip", e => {
+
+                        updateUI(e);
+
+                        if (!soundMuted) {
+
+                            flipSound.currentTime = 0;
+
+                            flipSound.play().catch(() => { });
+
+                        }
+
+                        previousPageIndex = e.data;
+
+                    });
+
+                }
+
+                function updateUI(e) {
+
+                    if (!pageFlip) return;
+
+                    let index = e ? e.data : pageFlip.getCurrentPageIndex();
+
+                    let total = pageFlip.getPageCount();
+
+                    document.getElementById("pageBadge").textContent =
+                        `Page ${index + 1} of ${total}`;
+
+                    book.style.transform =
+                        `translateX(${index === 0 ? "-25%" : index === total - 1 ? "25%" : "0"}) scale(${currentZoom})`;
+
+                }
+
+                document.getElementById("prevBtn")
+                    .onclick = () => pageFlip.flipPrev();
+
+                document.getElementById("nextBtn")
+                    .onclick = () => pageFlip.flipNext();
+
+                soundBtn.onclick = () => {
+
+                    soundMuted = !soundMuted;
+
+                    soundBtn.textContent =
+                        soundMuted ? "🔇" : "🔊";
+
+                    if (!soundMuted) {
+
+                        flipSound.play()
+                            .then(() => {
+                                flipSound.pause();
+                                flipSound.currentTime = 0;
+                            })
+                            .catch(() => { });
+                    }
+
+                };
+
+                const zoomReset = document.getElementById("zoomResetBtn");
+
+                function setZoom(value) {
+
+                    currentZoom = Math.min(
+                        Math.max(value, 0.7),
+                        1.6
+                    );
+
+                    updateUI();
+
+                    zoomReset.textContent =
+                        Math.round(currentZoom * 100) + "%";
+
+                }
+
+                document.getElementById("zoomInBtn")
+                    .onclick = () => setZoom(currentZoom + 0.15);
+
+                document.getElementById("zoomOutBtn")
+                    .onclick = () => setZoom(currentZoom - 0.15);
+
+                zoomReset.onclick = () => setZoom(1);
+
+                const playBtn = document.getElementById("playBtn");
+
+                playBtn.onclick = () => {
+
+                    if (autoPlayInterval) {
+
+                        clearInterval(autoPlayInterval);
+
+                        autoPlayInterval = null;
+
+                        playBtn.textContent = "▶";
+
+                        playBtn.classList.remove("active");
+
+                    }
+
+                    else {
+
+                        playBtn.textContent = "⏸";
+
+                        playBtn.classList.add("active");
+
+                        autoPlayInterval = setInterval(() => {
+
+                            let current = pageFlip.getCurrentPageIndex();
+
+                            let total = pageFlip.getPageCount();
+
+                            if (current < total - 1) {
+
+                                pageFlip.flipNext();
+
+                            } else {
+
+                                pageFlip.flip(0);
+
+                            }
+
+                        }, 4000);
+
+                    }
+
+                };
+
+                document.getElementById("fullscreenBtn")
+                    .onclick = () => {
+
+                        if (!document.fullscreenElement) {
+
+                            document.documentElement.requestFullscreen();
+
+                        } else {
+
+                            document.exitFullscreen();
+
+                        }
+
+                    };
+
+                document.addEventListener("keydown", e => {
+
+                    if (!pageFlip) return;
+
+                    if (e.key === "ArrowLeft")
+                        pageFlip.flipPrev();
+
+                    if (e.key === "ArrowRight")
+                        pageFlip.flipNext();
+
+                    if (e.key === "+" || e.key === "=")
+                        setZoom(currentZoom + .15);
+
+                    if (e.key === "-" || e.key === "_")
+                        setZoom(currentZoom - .15);
+
+                    if (e.key === "0")
+                        setZoom(1);
+
+                    if (e.key === "f" || e.key === "F")
+                        document.getElementById("fullscreenBtn").click();
+
+                });
+
+                const canvas = document.getElementById("dustCanvas");
+
+                const ctx = canvas.getContext("2d");
+
+                let particles = [];
+
+                function resizeCanvas() {
+
+                    canvas.width = innerWidth;
+
+                    canvas.height = innerHeight;
+
+                }
+
+                resizeCanvas();
+
+                window.onresize = resizeCanvas;
+
+                function createDust() {
+
+                    let rect = book.getBoundingClientRect();
+
+                    for (let i = 0; i < 15; i++) {
+
+                        particles.push({
+
+                            x: rect.left + rect.width / 2,
+
+                            y: rect.top + Math.random() * rect.height,
+
+                            vx: (Math.random() - .5) * 3,
+
+                            vy: (Math.random() - .5) * 2,
+
+                            life: 40
+
+                        });
+
+                    }
+
+                }
+
+                function animateDust() {
+
+                    ctx.clearRect(
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+
+                    particles.forEach((p, i) => {
+
+                        p.x += p.vx;
+
+                        p.y += p.vy;
+
+                        p.life--;
+
+                        ctx.fillStyle =
+                            "rgba(230,186,101," + (p.life / 40) + ")";
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            p.x,
+                            p.y,
+                            2,
+                            0,
+                            Math.PI * 2
+                        );
+
+                        ctx.fill();
+
+                        particles.splice(i, 1);
+
+                    });
+
+                    requestAnimationFrame(animateDust);
+
+                }
+
+                animateDust();
+
+                setInterval(() => {
+
+                    if (pageFlip)
+                        createDust();
+
+                }, 5000);
+
+                await loadPDF();
+            });
+        </script>
+
+    </body>
+
+</html>
