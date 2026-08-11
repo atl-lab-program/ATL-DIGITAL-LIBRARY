@@ -22,7 +22,22 @@ books.forEach(book => {
     htmlContent = replaceVariable(htmlContent, 'author', book.author);
     htmlContent = replaceVariable(htmlContent, 'cover', book.cover);
     htmlContent = replaceVariable(htmlContent, 'description', book.description);
-    htmlContent = replaceVariable(htmlContent, 'seriesBooksHtml', book.seriesBooksHtml);
+
+    // --- Dynamic Series Section Logic ---
+    // If genre is 'ack', id is 'ack', or seriesBooksHtml is empty, omit the section completely.
+    let seriesSection = '';
+    const isAck = book.genre === 'ack' || book.id === 'ack';
+
+    if (!isAck && book.seriesBooksHtml && book.seriesBooksHtml.trim() !== '') {
+        const hasImageRow = book.seriesBooksHtml.includes('image-row');
+        
+        seriesSection = `
+        <h2>Books in the Series</h2>
+        ${hasImageRow ? book.seriesBooksHtml : `<div class="image-row">\n${book.seriesBooksHtml}\n</div>`}
+        `.trim();
+    }
+
+    htmlContent = replaceVariable(htmlContent, 'seriesSection', seriesSection);
 
     htmlContent = replaceVariable(
         htmlContent,
