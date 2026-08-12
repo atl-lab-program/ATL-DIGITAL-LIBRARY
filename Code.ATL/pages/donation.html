@@ -12,30 +12,36 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #a5c4f3;
+            background: url('/assets/images/img2.png');
             margin: 0;
             padding: 40px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center 30%;
         }
 
         .form-container {
-            background-color: #e0cff3;
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 30px;
-            border-radius: 8px;
+            border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 450px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
         }
 
         h1 {
             text-align: center;
-            color: #333333;
+            color: #fff;
             margin-top: 0;
             margin-bottom: 25px;
-            font-size: 24px;
+            font-size: 2rem;
         }
 
         .form-group {
@@ -47,7 +53,7 @@
         .form-group label {
             font-weight: bold;
             margin-bottom: 8px;
-            color: #555555;
+            color: #fff;
             font-size: 14px;
         }
 
@@ -61,7 +67,8 @@
             font-size: 15px;
             outline: none;
             transition: border-color 0.2s;
-            background-color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white; /* Add this */
         }
 
         input[type="text"]:focus,
@@ -122,6 +129,7 @@
         p {
             text-align: center;
             margin-top: 15px;
+            color: #fff;
         }
 
         a {
@@ -141,18 +149,20 @@
         }
 
         .btn {
-            background-color: rgb(41, 145, 0);
+            background-color: transparent;
             color: white;
             border: none;
             height: 35px;
             width: 150px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            border-radius: 25px;
+            transition: background-color 0.9s ease, transform 0.9s ease;
+            border: 1px solid white;
+            transform: 0.5s ease;
         }
 
         .btn:hover {
-            background-color: rgb(22, 77, 0);
+            background: white;
+            color: black;
         }
 
         .book-name, .book-name1 {
@@ -164,7 +174,7 @@
         .book-name label, .book-name1 label, .tandc label {
             font-weight: bold;
             margin-bottom: 8px;
-            color: #555555;
+            color: #fff;
             font-size: 14px;
         }
 
@@ -235,7 +245,7 @@
 
             <button type="submit">Donate</button>
             <br>
-            <hr>
+          
             <p>New User? .. <span><a href="/sections/auth/registration.html">Create Account</a></span></p>
             <br>
             <div class="home">
