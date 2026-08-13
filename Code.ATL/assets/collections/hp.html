@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Book Library</title>
+
+  <style>
+
+    /* =========================================
+       BACKGROUND
+       ========================================= */
+
+    body {
+      background: linear-gradient(
+        to bottom,
+        rgb(250, 217, 191),
+        rgb(166, 253, 163),
+        rgb(164, 253, 249)
+      );
+
+      background-repeat: no-repeat;
+
+      min-height: 100vh;
+
+      margin: 0;
+
+      font-family: Arial, sans-serif;
+    }
+
+
+    /* =========================================
+       HEADING 1
+       ========================================= */
+
+    h1 {
+      text-align: center;
+
+      font-family: 'Gabriola', sans-serif;
+
+      font-size: 75px;
+
+      color: rgb(64, 1, 87);
+
+      margin-bottom: 0;
+    }
+
+
+    /* =========================================
+       HEADING 2
+       ========================================= */
+
+    h2 {
+      text-align: center;
+
+      font-family: 'Gabriola', sans-serif;
+
+      font-size: 35px;
+
+      color: rgb(64, 1, 87);
+
+      margin-top: 0;
+    }
+
+
+    /* =========================================
+       SEARCH BAR
+       ========================================= */
+
+    .search-container {
+      display: flex;
+
+      align-items: center;
+
+      max-width: 400px;
+
+      margin: 20px auto;
+
+      border: 2px solid #e0e0e0;
+
+      border-radius: 50px;
+
+      padding: 6px 15px;
+
+      background-color: #fff;
+
+      transition: all 0.3s ease;
+
+      box-sizing: border-box;
+    }
+
+
+    .search-container:focus-within {
+      border-color: #007bff;
+
+      box-shadow:
+        0 0 8px rgba(0, 123, 255, 0.2);
+    }
+
+
+    .search-container input {
+      flex: 1;
+
+      border: none;
+
+      outline: none;
+
+      font-size: 16px;
+
+      padding: 8px;
+
+      min-width: 0;
+    }
+
+
+    .search-container button {
+      background: none;
+
+      border: none;
+
+      cursor: pointer;
+
+      color: #666;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 5px;
+
+      transition: color 0.2s;
+    }
+
+
+    .search-container button:hover {
+      color: #007bff;
+    }
+
+
+    /* =========================================
+       SEARCH RESULT MESSAGE
+       ========================================= */
+
+    #searchResultMessage {
+      text-align: center;
+
+      margin: 10px auto;
+
+      font-size: 16px;
+
+      font-weight: 500;
+
+      color: #444;
+    }
+
+
+    /* =========================================
+       BOOK CONTAINER
+       ========================================= */
+
+    .books-container {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+      gap: 28px 18px;
+
+      width: 100%;
+
+      max-width: 1400px;
+
+      margin: 0 auto;
+
+      padding: 25px;
+
+      box-sizing: border-box;
+
+      align-items: start;
+    }
+
+
+    /* =========================================
+       BOOK CARD
+       ========================================= */
+
+    .book-item {
+
+      display: block;
+
+      width: 100%;
+
+      min-width: 0;
+
+      text-decoration: none;
+
+      color: inherit;
+
+      background: #ffffff;
+
+      border-radius: 14px;
+
+      overflow: hidden;
+
+      box-sizing: border-box;
+
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.12);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+      position: relative;
+    }
+
+
+    /* =========================================
+       CARD HOVER
+       ========================================= */
+
+    .book-item:hover {
+
+      transform: translateY(-7px);
+
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.22);
+    }
+
+
+    /* =========================================
+       BOOK COVER
+       ========================================= */
+
+    .book-item .img {
+
+      display: block;
+
+      width: 100%;
+
+      height: 300px;
+
+      max-width: none;
+
+      max-height: none;
+
+      object-fit: cover;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      transition:
+        transform 0.3s ease;
+    }
+
+
+    /* =========================================
+       IMAGE HOVER
+       ========================================= */
+
+    .book-item:hover .img {
+
+      transform: scale(1.03);
+    }
+
+
+    /* =========================================
+       BOOK INFORMATION
+       ========================================= */
+
+    .book-info {
+
+      padding: 13px 10px 15px;
+
+      text-align: center;
+
+      background: #ffffff;
+
+      min-height: 72px;
+
+      box-sizing: border-box;
+    }
+
+
+    /* =========================================
+       BOOK TITLE
+       ========================================= */
+
+    .book-title {
+
+      font-size: 17px;
+
+      font-weight: 700;
+
+      line-height: 1.25;
+
+      color: #222;
+
+      margin: 0 0 5px 0;
+    }
+
+
+    /* =========================================
+       BOOK AUTHOR
+       ========================================= */
+
+    .book-author {
+
+      font-size: 13px;
+
+      line-height: 1.25;
+
+      color: #777;
+
+      margin: 0;
+    }
+
+
+    /* =========================================
+       RESPONSIVE - TABLET
+       ========================================= */
+
+    @media (max-width: 1000px) {
+
+      .books-container {
+
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+
+        gap: 22px 15px;
+      }
+
+    }
+
+
+    /* =========================================
+       RESPONSIVE - MOBILE
+       ========================================= */
+
+    @media (max-width: 650px) {
+
+      h1 {
+        font-size: 50px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+
+      .search-container {
+
+        max-width: 88%;
+      }
+
+
+      .books-container {
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+        gap: 20px 12px;
+
+        padding: 15px;
+      }
+
+
+      .book-item .img {
+
+        height: 260px;
+      }
+
+
+      .book-title {
+
+        font-size: 15px;
+      }
+
+
+      .book-author {
+
+        font-size: 12px;
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================
+       PAGE HEADINGS
+       ========================================= -->
+
+  <h1>Harry Potter Collection</h1>
+
+  <h2>View your favorites!</h2>
+
+
+  <!-- =========================================
+       SEARCH BAR
+       ========================================= -->
+
+  <div class="search-container">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search for books, authors, etc..."
+      autocomplete="off"
+    >
+
+    <button
+      type="button"
+      id="searchButton"
+      aria-label="Search"
+    >
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+        />
+
+      </svg>
+
+    </button>
+
+  </div>
+
+
+  <!-- =========================================
+       BOOK GALLERY
+       ========================================= -->
+
+  <div class="books-container">
+
+
+    <!-- =========================================
+         HARRY POTTER
+         ========================================= -->
+
+    <a href="/json/books/hp/hp1.html" class="book-item">
+      <img src="/assets/images/hp/hp1.jpg"
+        alt="Harry Potter and the Sorcerer's Stone(philosopher) J.K. Rowling"
+        class="img">
+    </a>
+
+    <a href="/json/books/hp/hp2.html" class="book-item">
+      <img src="/assets/images/hp/hp2.jpg"
+        alt="Harry Potter and the Chamber of Secrets J.K. Rowling"
+        class="img">
+    </a>
+
+    <a href="/json/books/hp/hp3.html" class="book-item">
+      <img src="/assets/images/hp/hp3.jpg"
+        alt="Harry Potter and the Prisoner of Azkaban J.K. Rowling"
+        class="img">
+    </a>
+
+    <a href="/json/books/hp/hp4.html" class="book-item">
+      <img src="/assets/images/hp/hp4.jpg"
+        alt="Harry Potter and the Goblet of Fire J.K. Rowling"
+        class="img">
+    </a>
+
+    <a href="/json/books/hp/hp5.html" class="book-item">
+      <img src="/assets/images/hp/hp5.jpg"
+        alt="Harry Potter and the Order of the Phoenix J.K. Rowling"
+        class="img">
+    </a>
+
+    <a href="/json/books/hp/hp6.html" class="book-item">
+      <img src="/assets/images/hp/hp6.jpg"
+        alt="Harry Potter and the Half-Blood Prince J.K. Rowling"
+        class="img">
+    </a>
+
+    <a href="/json/books/hp/hp7.html" class="book-item">
+      <img src="/assets/images/hp/hp7.jpg"
+        alt="Harry Potter and the Deathly Hallows J.K. Rowling"
+        class="img">
+    </a>
+
+
+  </div>
+
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+
+        const searchInput =
+          document.getElementById(
+            "searchInput"
+          );
+
+
+        const searchButton =
+          document.getElementById(
+            "searchButton"
+          );
+
+
+        const books =
+          document.querySelectorAll(
+            ".book-item"
+          );
+
+
+        if (
+          !searchInput ||
+          books.length === 0
+        ) {
+          return;
+        }
+
+
+        /* =====================================
+           CREATE BOOK CARDS
+           ===================================== */
+
+        books.forEach(function (book) {
+
+          const img =
+            book.querySelector(".img");
+
+
+          if (!img) {
+            return;
+          }
+
+
+          const altText =
+            (img.alt || "").trim();
+
+
+          if (!altText) {
+            return;
+          }
+
+
+          let title = altText;
+
+          let author = "";
+
+
+          /*
+          Known author names from
+          the current library.
+          */
+
+          const authors = [
+            "J.K. Rowling",
+            "Rick Riordan",
+            "Jeff Kinney",
+            "Liz Pichon"
+          ];
+
+
+          /*
+          Check for author
+          */
+
+          authors.forEach(
+            function (name) {
+
+              const position =
+                altText
+                  .toLowerCase()
+                  .lastIndexOf(
+                    name.toLowerCase()
+                  );
+
+
+              if (position !== -1) {
+
+                title =
+                  altText
+                    .substring(
+                      0,
+                      position
+                    )
+                    .trim();
+
+
+                author = name;
+
+              }
+
+            }
+          );
+
+
+          /*
+          Remove publisher names
+          for ACK and similar books.
+          */
+
+          if (
+            title.startsWith(
+              "Amar Chitra Katha "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Amar Chitra Katha ",
+                ""
+              );
+
+            author =
+              "Amar Chitra Katha";
+
+          }
+
+
+          /*
+          Roald Dahl titles
+          */
+
+          if (
+            title.startsWith(
+              "Roald Dahl "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Roald Dahl ",
+                ""
+              );
+
+            author =
+              "Roald Dahl";
+
+          }
+
+
+          /*
+          Wonder House titles
+          */
+
+          if (
+            title.startsWith(
+              "Wonder House "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Wonder House ",
+                ""
+              );
+
+            author =
+              "Wonder House";
+
+          }
+
+
+          /*
+          Parragon
+          */
+
+          if (
+            title.startsWith(
+              "Parragon "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Parragon ",
+                ""
+              );
+
+            author =
+              "Parragon";
+
+          }
+
+
+          /*
+          Create information container
+          */
+
+          const info =
+            document.createElement(
+              "div"
+            );
+
+
+          info.className =
+            "book-info";
+
+
+          /*
+          Create title
+          */
+
+          const titleElement =
+            document.createElement(
+              "div"
+            );
+
+
+          titleElement.className =
+            "book-title";
+
+
+          titleElement.textContent =
+            title;
+
+
+          info.appendChild(
+            titleElement
+          );
+
+
+          /*
+          Create author
+          */
+
+          if (author) {
+
+            const authorElement =
+              document.createElement(
+                "div"
+              );
+
+
+            authorElement.className =
+              "book-author";
+
+
+            authorElement.textContent =
+              author;
+
+
+            info.appendChild(
+              authorElement
+            );
+
+          }
+
+
+          /*
+          Add information to card
+          */
+
+          book.appendChild(
+            info
+          );
+
+        });
+
+
+        /* =====================================
+           GET SEARCHABLE BOOK NAME
+           ===================================== */
+
+        function getBookName(book) {
+
+          const img =
+            book.querySelector("img");
+
+
+          if (!img) {
+            return "";
+          }
+
+
+          return (img.alt || "")
+            .toLowerCase()
+            .replace(
+              /\s+/g,
+              " "
+            )
+            .trim();
+
+        }
+
+
+        /* =====================================
+           FILTER BOOKS
+           ===================================== */
+
+        function filterBooks() {
+
+          const searchText =
+            searchInput.value
+              .toLowerCase()
+              .replace(
+                /\s+/g,
+                " "
+              )
+              .trim();
+
+
+          let matchingBooks = [];
+
+
+          books.forEach(
+            function (book) {
+
+              const bookName =
+                getBookName(book);
+
+
+              if (
+                searchText === "" ||
+                bookName.includes(
+                  searchText
+                )
+              ) {
+
+                book.style.display =
+                  "";
+
+                matchingBooks.push(
+                  book
+                );
+
+              } else {
+
+                book.style.display =
+                  "none";
+
+              }
+
+            }
+          );
+
+
+          return matchingBooks;
+
+        }
+
+
+        /* =====================================
+           OPEN ONLY IF ONE RESULT
+           ===================================== */
+
+        function openBookIfSingleMatch() {
+
+          const searchText =
+            searchInput.value
+              .toLowerCase()
+              .replace(
+                /\s+/g,
+                " "
+              )
+              .trim();
+
+
+          if (
+            searchText === ""
+          ) {
+            return;
+          }
+
+
+          const matchingBooks =
+            filterBooks();
+
+
+          /*
+          NO RESULTS
+          */
+
+          if (
+            matchingBooks.length === 0
+          ) {
+
+            showNoResults(
+              searchText
+            );
+
+            return;
+
+          }
+
+
+          /*
+          MORE THAN ONE RESULT
+
+          Do NOT automatically open
+          anything.
+          */
+
+          if (
+            matchingBooks.length > 1
+          ) {
+
+            removeNoResults();
+
+            return;
+
+          }
+
+
+          /*
+          EXACTLY ONE RESULT
+          */
+
+          const book =
+            matchingBooks[0];
+
+
+          const bookLink =
+            book.getAttribute(
+              "href"
+            );
+
+
+          if (bookLink) {
+
+            window.location.href =
+              bookLink;
+
+          }
+
+        }
+
+
+        /* =====================================
+           NO RESULTS MESSAGE
+           ===================================== */
+
+        function showNoResults(
+          searchText
+        ) {
+
+          let resultMessage =
+            document.getElementById(
+              "searchResultMessage"
+            );
+
+
+          if (!resultMessage) {
+
+            resultMessage =
+              document.createElement(
+                "div"
+              );
+
+
+            resultMessage.id =
+              "searchResultMessage";
+
+
+            searchInput
+              .closest(
+                ".search-container"
+              )
+              .after(
+                resultMessage
+              );
+
+          }
+
+
+          resultMessage.innerHTML =
+            '❌ No book found for <strong>"' +
+            searchText +
+            '"</strong>';
+
+        }
+
+
+        /* =====================================
+           REMOVE NO RESULTS
+           ===================================== */
+
+        function removeNoResults() {
+
+          const resultMessage =
+            document.getElementById(
+              "searchResultMessage"
+            );
+
+
+          if (resultMessage) {
+
+            resultMessage.remove();
+
+          }
+
+        }
+
+
+        /* =====================================
+           SEARCH WHILE TYPING
+           ===================================== */
+
+        searchInput.addEventListener(
+          "input",
+          function () {
+
+            removeNoResults();
+
+            filterBooks();
+
+          }
+        );
+
+
+        /* =====================================
+           ENTER KEY
+           ===================================== */
+
+        searchInput.addEventListener(
+          "keydown",
+          function (event) {
+
+            if (
+              event.key === "Enter"
+            ) {
+
+              event.preventDefault();
+
+              openBookIfSingleMatch();
+
+            }
+
+          }
+        );
+
+
+        /* =====================================
+           SEARCH BUTTON
+           ===================================== */
+
+        if (searchButton) {
+
+          searchButton.addEventListener(
+            "click",
+            function (event) {
+
+              event.preventDefault();
+
+              openBookIfSingleMatch();
+
+            }
+          );
+
+        }
+
+
+        /* =====================================
+           ESCAPE KEY
+           ===================================== */
+
+        searchInput.addEventListener(
+          "keydown",
+          function (event) {
+
+            if (
+              event.key === "Escape"
+            ) {
+
+              searchInput.value =
+                "";
+
+              removeNoResults();
+
+
+              books.forEach(
+                function (book) {
+
+                  book.style.display =
+                    "";
+
+                }
+              );
+
+            }
+
+          }
+        );
+
+
+      }
+    );
+
+  </script>
+
+
+</body>
+
+</html>
