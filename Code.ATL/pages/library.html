@@ -2,785 +2,1775 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
+
   <title>Book Library</title>
+
   <style>
-    /*Background color*/
+
+    /* =========================================
+       BACKGROUND
+       ========================================= */
+
     body {
-      background: linear-gradient(to bottom, rgb(250, 217, 191), rgb(166, 253, 163), rgb(164, 253, 249));
+      background: linear-gradient(
+        to bottom,
+        rgb(250, 217, 191),
+        rgb(166, 253, 163),
+        rgb(164, 253, 249)
+      );
+
       background-repeat: no-repeat;
+
       min-height: 100vh;
-      margin: 0px;
+
+      margin: 0;
+
+      font-family: Arial, sans-serif;
     }
 
-    /*Styling of heading 1*/
+
+    /* =========================================
+       HEADING 1
+       ========================================= */
+
     h1 {
       text-align: center;
+
       font-family: 'Gabriola', sans-serif;
+
       font-size: 75px;
+
       color: rgb(64, 1, 87);
+
       margin-bottom: 0;
     }
 
-    /*Styling of heading 2*/
+
+    /* =========================================
+       HEADING 2
+       ========================================= */
+
     h2 {
       text-align: center;
+
       font-family: 'Gabriola', sans-serif;
+
       font-size: 35px;
+
       color: rgb(64, 1, 87);
+
       margin-top: 0;
     }
 
-    /*Styling of the search bar*/
+
+    /* =========================================
+       SEARCH BAR
+       ========================================= */
+
     .search-container {
       display: flex;
+
       align-items: center;
+
       max-width: 400px;
+
       margin: 20px auto;
+
       border: 2px solid #e0e0e0;
+
       border-radius: 50px;
+
       padding: 6px 15px;
+
       background-color: #fff;
+
       transition: all 0.3s ease;
+
+      box-sizing: border-box;
     }
 
-    /*More styling of the search bar*/
+
     .search-container:focus-within {
       border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+
+      box-shadow:
+        0 0 8px rgba(0, 123, 255, 0.2);
     }
+
 
     .search-container input {
       flex: 1;
+
       border: none;
+
       outline: none;
+
       font-size: 16px;
+
       padding: 8px;
+
+      min-width: 0;
     }
+
 
     .search-container button {
       background: none;
+
       border: none;
+
       cursor: pointer;
+
       color: #666;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       padding: 5px;
+
       transition: color 0.2s;
     }
 
-    /*Hover controls of the search bar*/
+
     .search-container button:hover {
       color: #007bff;
     }
 
-    /*Styling of the image row*/
-    .image-side {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      padding: 20px;
+
+    /* =========================================
+       SEARCH RESULT MESSAGE
+       ========================================= */
+
+    #searchResultMessage {
+      text-align: center;
+
+      margin: 10px auto;
+
+      font-size: 16px;
+
+      font-weight: 500;
+
+      color: #444;
     }
 
-    /* All books in one container */
+
+    /* =========================================
+       BOOK CONTAINER
+       ========================================= */
+
     .books-container {
+
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 25px 15px;
+
+      grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+      gap: 28px 18px;
+
       width: 100%;
+
       max-width: 1400px;
+
       margin: 0 auto;
-      padding: 20px;
+
+      padding: 25px;
+
       box-sizing: border-box;
+
       align-items: start;
     }
 
+
+    /* =========================================
+       BOOK CARD
+       ========================================= */
+
     .book-item {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+
+      display: block;
+
       width: 100%;
+
       min-width: 0;
+
       text-decoration: none;
-      border-radius: 5px;
+
+      color: inherit;
+
+      background: #ffffff;
+
+      border-radius: 14px;
+
+      overflow: hidden;
+
+      box-sizing: border-box;
+
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.12);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+      position: relative;
+    }
+
+
+    /* =========================================
+       CARD HOVER
+       ========================================= */
+
+    .book-item:hover {
+
+      transform: translateY(-7px);
+
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.22);
+    }
+
+
+    /* =========================================
+       BOOK COVER
+       ========================================= */
+
+    .book-item .img {
+
+      display: block;
+
+      width: 100%;
+
+      height: 300px;
+
+      max-width: none;
+
+      max-height: none;
+
+      object-fit: cover;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      transition:
+        transform 0.3s ease;
+    }
+
+
+    /* =========================================
+       IMAGE HOVER
+       ========================================= */
+
+    .book-item:hover .img {
+
+      transform: scale(1.03);
+    }
+
+
+    /* =========================================
+       BOOK INFORMATION
+       ========================================= */
+
+    .book-info {
+
+      padding: 13px 10px 15px;
+
+      text-align: center;
+
+      background: #ffffff;
+
+      min-height: 72px;
+
       box-sizing: border-box;
     }
 
-    .img {
-      display: block;
-      width: 100%;
-      max-width: 190px;
-      height: auto;
-      max-height: 300px;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
+
+    /* =========================================
+       BOOK TITLE
+       ========================================= */
+
+    .book-title {
+
+      font-size: 17px;
+
+      font-weight: 700;
+
+      line-height: 1.25;
+
+      color: #222;
+
+      margin: 0 0 5px 0;
     }
 
-    .img:hover {
-      transform: scale(1.05);
+
+    /* =========================================
+       BOOK AUTHOR
+       ========================================= */
+
+    .book-author {
+
+      font-size: 13px;
+
+      line-height: 1.25;
+
+      color: #777;
+
+      margin: 0;
     }
 
-    /* Responsive layout */
+
+    /* =========================================
+       RESPONSIVE - TABLET
+       ========================================= */
+
     @media (max-width: 1000px) {
+
       .books-container {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 20px 15px;
+
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+
+        gap: 22px 15px;
       }
+
     }
+
+
+    /* =========================================
+       RESPONSIVE - MOBILE
+       ========================================= */
 
     @media (max-width: 650px) {
+
+      h1 {
+        font-size: 50px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+
+      .search-container {
+
+        max-width: 88%;
+      }
+
+
       .books-container {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 20px 15px;
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+        gap: 20px 12px;
+
         padding: 15px;
       }
 
-      .img {
-        max-width: 180px;
+
+      .book-item .img {
+
+        height: 260px;
       }
+
+
+      .book-title {
+
+        font-size: 15px;
+      }
+
+
+      .book-author {
+
+        font-size: 12px;
+      }
+
     }
+
+
   </style>
+
 </head>
+
 
 <body>
 
+
+  <!-- =========================================
+       PAGE HEADINGS
+       ========================================= -->
+
   <h1>This is the book library!</h1>
+
   <h2>Search for your favorite books!</h2>
 
-  <!-- Search Bar -->
+
+  <!-- =========================================
+       SEARCH BAR
+       ========================================= -->
+
   <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search for books, authors, etc..." autocomplete="off">
-    <button type="submit" id="searchButton">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search for books, authors, etc..."
+      autocomplete="off"
+    >
+
+    <button
+      type="button"
+      id="searchButton"
+      aria-label="Search"
+    >
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+
         <path
-          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+        />
+
       </svg>
+
     </button>
+
   </div>
 
-  <!-- Book Gallery -->
+
+  <!-- =========================================
+       BOOK GALLERY
+       ========================================= -->
 
   <div class="books-container">
+
+
+    <!-- =========================================
+         HARRY POTTER
+         ========================================= -->
+
     <a href="/json/books/hp/hp1.html" class="book-item">
-      <img src="/assets/images/hp/hp1.jpg" alt="Harry Potter and the Sorcerer's Stone(philosopher) J.K. Rowling"
+      <img src="/assets/images/hp/hp1.jpg"
+        alt="Harry Potter and the Sorcerer's Stone(philosopher) J.K. Rowling"
         class="img">
     </a>
+
     <a href="/json/books/hp/hp2.html" class="book-item">
-      <img src="/assets/images/hp/hp2.jpg" alt="Harry Potter and the Chamber of Secrets J.K. Rowling" class="img">
+      <img src="/assets/images/hp/hp2.jpg"
+        alt="Harry Potter and the Chamber of Secrets J.K. Rowling"
+        class="img">
     </a>
+
     <a href="/json/books/hp/hp3.html" class="book-item">
-      <img src="/assets/images/hp/hp3.jpg" alt="Harry Potter and the Prisoner of Azkaban J.K. Rowling" class="img">
+      <img src="/assets/images/hp/hp3.jpg"
+        alt="Harry Potter and the Prisoner of Azkaban J.K. Rowling"
+        class="img">
     </a>
+
     <a href="/json/books/hp/hp4.html" class="book-item">
-      <img src="/assets/images/hp/hp4.jpg" alt="Harry Potter and the Goblet of Fire J.K. Rowling" class="img">
+      <img src="/assets/images/hp/hp4.jpg"
+        alt="Harry Potter and the Goblet of Fire J.K. Rowling"
+        class="img">
     </a>
+
     <a href="/json/books/hp/hp5.html" class="book-item">
-      <img src="/assets/images/hp/hp5.jpg" alt="Harry Potter and the Order of the Phoenix J.K. Rowling" class="img">
+      <img src="/assets/images/hp/hp5.jpg"
+        alt="Harry Potter and the Order of the Phoenix J.K. Rowling"
+        class="img">
     </a>
+
     <a href="/json/books/hp/hp6.html" class="book-item">
-      <img src="/assets/images/hp/hp6.jpg" alt="Harry Potter and the Half-Blood Prince J.K. Rowling" class="img">
+      <img src="/assets/images/hp/hp6.jpg"
+        alt="Harry Potter and the Half-Blood Prince J.K. Rowling"
+        class="img">
     </a>
+
     <a href="/json/books/hp/hp7.html" class="book-item">
-      <img src="/assets/images/hp/hp7.jpg" alt="Harry Potter and the Deathly Hallows J.K. Rowling" class="img">
+      <img src="/assets/images/hp/hp7.jpg"
+        alt="Harry Potter and the Deathly Hallows J.K. Rowling"
+        class="img">
     </a>
+
+
+    <!-- =========================================
+         PERCY JACKSON
+         ========================================= -->
+
     <a href="/json/books/pj/pj1.html" class="book-item">
-      <img src="/assets/images/pj/pj1.png" alt="Percy Jackson and the Lightning Thief Rick Riordan" class="img">
+      <img src="/assets/images/pj/pj1.png"
+        alt="Percy Jackson and the Lightning Thief Rick Riordan"
+        class="img">
     </a>
+
     <a href="/json/books/pj/pj2.html" class="book-item">
-      <img src="/assets/images/pj/pj2.png" alt="Percy Jackson and the Sea of Monsters Rick Riordan" class="img">
+      <img src="/assets/images/pj/pj2.png"
+        alt="Percy Jackson and the Sea of Monsters Rick Riordan"
+        class="img">
     </a>
+
     <a href="/json/books/pj/pj3.html" class="book-item">
-      <img src="/assets/images/pj/pj3.png" alt="Percy Jackson and the Titan's Curse Rick Riordan" class="img">
+      <img src="/assets/images/pj/pj3.png"
+        alt="Percy Jackson and the Titan's Curse Rick Riordan"
+        class="img">
     </a>
+
     <a href="/json/books/pj/pj4.html" class="book-item">
-      <img src="/assets/images/pj/pj4.png" alt="Percy Jackson and the Battle of the Labyrinth Rick Riordan" class="img">
+      <img src="/assets/images/pj/pj4.png"
+        alt="Percy Jackson and the Battle of the Labyrinth Rick Riordan"
+        class="img">
     </a>
+
     <a href="/json/books/pj/pj5.html" class="book-item">
-      <img src="/assets/images/pj/pj5.png" alt="Percy Jackson and the Last Olympian Rick Riordan" class="img">
+      <img src="/assets/images/pj/pj5.png"
+        alt="Percy Jackson and the Last Olympian Rick Riordan"
+        class="img">
     </a>
+
     <a href="/json/books/pj/pj6.html" class="book-item">
-      <img src="/assets/images/pj/pj6.png" alt="Percy Jackson and the Chalice of the Gods Rick Riordan" class="img">
+      <img src="/assets/images/pj/pj6.png"
+        alt="Percy Jackson and the Chalice of the Gods Rick Riordan"
+        class="img">
     </a>
+
     <a href="/json/books/pj/pj7.html" class="book-item">
-      <img src="/assets/images/pj/pj7.png" alt="Percy Jackson and the Wrath of the Triple Goddess Rick Riordan"
+      <img src="/assets/images/pj/pj7.png"
+        alt="Percy Jackson and the Wrath of the Triple Goddess Rick Riordan"
         class="img">
     </a>
+
+
+    <!-- =========================================
+         DIARY OF A WIMPY KID
+         ========================================= -->
+
     <a href="/json/books/wimpyk/d1.html" class="book-item">
-      <img src="/assets/images/wimpyk/d1.png" alt="Diary of a Wimpy Kid Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d1.png"
+        alt="Diary of a Wimpy Kid Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d2.html" class="book-item">
-      <img src="/assets/images/wimpyk/d2.png" alt="Diary of a Wimpy Kid Rodrick Rules Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d2.png"
+        alt="Diary of a Wimpy Kid Rodrick Rules Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d3.html" class="book-item">
-      <img src="/assets/images/wimpyk/d3.png" alt="Diary of a Wimpy Kid The Last Straw Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d3.png"
+        alt="Diary of a Wimpy Kid The Last Straw Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d4.html" class="book-item">
-      <img src="/assets/images/wimpyk/d4.png" alt="Diary of a Wimpy Kid Dog Days Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d4.png"
+        alt="Diary of a Wimpy Kid Dog Days Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d5.html" class="book-item">
-      <img src="/assets/images/wimpyk/d5.png" alt="Diary of a Wimpy Kid The Ugly Truth Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d5.png"
+        alt="Diary of a Wimpy Kid The Ugly Truth Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d6.html" class="book-item">
-      <img src="/assets/images/wimpyk/d6.png" alt="Diary of a Wimpy Kid Cabin Fever Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d6.png"
+        alt="Diary of a Wimpy Kid Cabin Fever Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d7.html" class="book-item">
-      <img src="/assets/images/wimpyk/d7.png" alt="Diary of a Wimpy Kid The Third Wheel Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d7.png"
+        alt="Diary of a Wimpy Kid The Third Wheel Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d8.html" class="book-item">
-      <img src="/assets/images/wimpyk/d8.png" alt="Diary of a Wimpy Kid Hard Luck Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d8.png"
+        alt="Diary of a Wimpy Kid Hard Luck Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d9.html" class="book-item">
-      <img src="/assets/images/wimpyk/d9.png" alt="Diary of a Wimpy Kid The Long Haul Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d9.png"
+        alt="Diary of a Wimpy Kid The Long Haul Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d10.html" class="book-item">
-      <img src="/assets/images/wimpyk/d10.png" alt="Diary of a Wimpy Kid Old School Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d10.png"
+        alt="Diary of a Wimpy Kid Old School Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d11.html" class="book-item">
-      <img src="/assets/images/wimpyk/d11.png" alt="Diary of a Wimpy Kid Double Down Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d11.png"
+        alt="Diary of a Wimpy Kid Double Down Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d12.html" class="book-item">
-      <img src="/assets/images/wimpyk/d12.png" alt="Diary of a Wimpy Kid The Getaway Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d12.png"
+        alt="Diary of a Wimpy Kid The Getaway Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d13.html" class="book-item">
-      <img src="/assets/images/wimpyk/d13.png" alt="Diary of a Wimpy Kid The Meltdown Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d13.png"
+        alt="Diary of a Wimpy Kid The Meltdown Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d14.html" class="book-item">
-      <img src="/assets/images/wimpyk/d14.png" alt="Diary of a Wimpy Kid Wrecking Ball Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d14.png"
+        alt="Diary of a Wimpy Kid Wrecking Ball Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d15.html" class="book-item">
-      <img src="/assets/images/wimpyk/d15.png" alt="Diary of a Wimpy Kid The Deep End Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d15.png"
+        alt="Diary of a Wimpy Kid The Deep End Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d16.html" class="book-item">
-      <img src="/assets/images/wimpyk/d16.png" alt="Diary of a Wimpy Kid Big Shot Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d16.png"
+        alt="Diary of a Wimpy Kid Big Shot Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d17.html" class="book-item">
-      <img src="/assets/images/wimpyk/d17.png" alt="Diary of a Wimpy Kid Diper Överlöde Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d17.png"
+        alt="Diary of a Wimpy Kid Diper Överlöde Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d18.html" class="book-item">
-      <img src="/assets/images/wimpyk/d18.png" alt="Diary of a Wimpy Kid No Brainer Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d18.png"
+        alt="Diary of a Wimpy Kid No Brainer Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d19.html" class="book-item">
-      <img src="/assets/images/wimpyk/d19.png" alt="Diary of a Wimpy Kid Hot Mess Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d19.png"
+        alt="Diary of a Wimpy Kid Hot Mess Jeff Kinney"
+        class="img">
     </a>
+
     <a href="/json/books/wimpyk/d20.html" class="book-item">
-      <img src="/assets/images/wimpyk/d20.png" alt="Diary of a Wimpy Kid Party Pooper Jeff Kinney" class="img">
+      <img src="/assets/images/wimpyk/d20.png"
+        alt="Diary of a Wimpy Kid Party Pooper Jeff Kinney"
+        class="img">
     </a>
+
+
+    <!-- =========================================
+         TOM GATES
+         ========================================= -->
+
     <a href="/json/books/tg/tg1.html" class="book-item">
-      <img src="/assets/images/tg/tg1.png" alt="Tom Gates The Brilliant World of Tom Gates Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg1.png"
+        alt="Tom Gates The Brilliant World of Tom Gates Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg2.html" class="book-item">
-      <img src="/assets/images/tg/tg2.png" alt="Tom Gates Excellent Excuses (and Other Good Stuff) Liz Pichon"
+      <img src="/assets/images/tg/tg2.png"
+        alt="Tom Gates Excellent Excuses (and Other Good Stuff) Liz Pichon"
         class="img">
     </a>
+
     <a href="/json/books/tg/tg3.html" class="book-item">
-      <img src="/assets/images/tg/tg3.png" alt="Tom Gates Everything's Amazing (Sort Of) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg3.png"
+        alt="Tom Gates Everything's Amazing (Sort Of) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg4.html" class="book-item">
-      <img src="/assets/images/tg/tg4.png" alt="Tom Gates Genius Ideas (Mostly) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg4.png"
+        alt="Tom Gates Genius Ideas (Mostly) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg5.html" class="book-item">
-      <img src="/assets/images/tg/tg5.png" alt="Tom Gates Tom Gates Is Absolutely Fantastic (at Some Things) Liz Pichon"
+      <img src="/assets/images/tg/tg5.png"
+        alt="Tom Gates Tom Gates Is Absolutely Fantastic (at Some Things) Liz Pichon"
         class="img">
     </a>
+
     <a href="/json/books/tg/tg6.html" class="book-item">
-      <img src="/assets/images/tg/tg6.png" alt="Tom Gates Extra Special Treats (Not) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg6.png"
+        alt="Tom Gates Extra Special Treats (Not) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg7.html" class="book-item">
-      <img src="/assets/images/tg/tg7.png" alt="Tom Gates A Tiny Bit Lucky Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg7.png"
+        alt="Tom Gates A Tiny Bit Lucky Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg8.html" class="book-item">
-      <img src="/assets/images/tg/tg8.png" alt="Tom Gates Yes! No (Maybe...) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg8.png"
+        alt="Tom Gates Yes! No (Maybe...) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg9.html" class="book-item">
-      <img src="/assets/images/tg/tg9.png" alt="Tom Gates Top of the Class (Nearly) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg9.png"
+        alt="Tom Gates Top of the Class (Nearly) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg10.html" class="book-item">
-      <img src="/assets/images/tg/tg10.png" alt="Tom Gates Super Good Skills (Almost...) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg10.png"
+        alt="Tom Gates Super Good Skills (Almost...) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg11.html" class="book-item">
-      <img src="/assets/images/tg/tg11.png" alt="Tom Gates DogZombies Rule (for Now) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg11.png"
+        alt="Tom Gates DogZombies Rule (for Now) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg12.html" class="book-item">
-      <img src="/assets/images/tg/tg12.png" alt="Tom Gates Family Friends and Furry Creatures Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg12.png"
+        alt="Tom Gates Family Friends and Furry Creatures Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg13.html" class="book-item">
-      <img src="/assets/images/tg/tg13.png" alt="Tom Gates Epic Adventure (Kind Of) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg13.png"
+        alt="Tom Gates Epic Adventure (Kind Of) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg14.html" class="book-item">
-      <img src="/assets/images/tg/tg14.png" alt="Tom Gates Biscuits Bands and Very Big Plans Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg14.png"
+        alt="Tom Gates Biscuits Bands and Very Big Plans Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg15.html" class="book-item">
-      <img src="/assets/images/tg/tg15.png" alt="Tom Gates What Monster? Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg15.png"
+        alt="Tom Gates What Monster? Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg16.html" class="book-item">
-      <img src="/assets/images/tg/tg16.png" alt="Tom Gates Mega Make and Do (and Stories Too!) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg16.png"
+        alt="Tom Gates Mega Make and Do (and Stories Too!) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg17.html" class="book-item">
-      <img src="/assets/images/tg/tg17.png" alt="Tom Gates Spectacular School Trip (Really) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg17.png"
+        alt="Tom Gates Spectacular School Trip (Really) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg18.html" class="book-item">
-      <img src="/assets/images/tg/tg18.png" alt="Tom Gates Ten Tremendous Tales Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg18.png"
+        alt="Tom Gates Ten Tremendous Tales Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg19.html" class="book-item">
-      <img src="/assets/images/tg/tg19.png" alt="Tom Gates Random Acts of Fun Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg19.png"
+        alt="Tom Gates Random Acts of Fun Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg20.html" class="book-item">
-      <img src="/assets/images/tg/tg20.png" alt="Tom Gates Happy to Help (Eventually) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg20.png"
+        alt="Tom Gates Happy to Help (Eventually) Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg21.html" class="book-item">
-      <img src="/assets/images/tg/tg21.png" alt="Tom Gates Five Star Stories Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg21.png"
+        alt="Tom Gates Five Star Stories Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg22.html" class="book-item">
-      <img src="/assets/images/tg/tg22.png" alt="Tom Gates Book of Everything Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg22.png"
+        alt="Tom Gates Book of Everything Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg23.html" class="book-item">
-      <img src="/assets/images/tg/tg23.png" alt="Tom Gates Ha! Ha! Hilarious Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg23.png"
+        alt="Tom Gates Ha! Ha! Hilarious Liz Pichon"
+        class="img">
     </a>
+
     <a href="/json/books/tg/tg24.html" class="book-item">
-      <img src="/assets/images/tg/tg24.png" alt="Tom Gates Pesky Pets and Parties (Hopefully) Liz Pichon" class="img">
+      <img src="/assets/images/tg/tg24.png"
+        alt="Tom Gates Pesky Pets and Parties (Hopefully) Liz Pichon"
+        class="img">
     </a>
+
+
+    <!-- =========================================
+         AMAR CHITRA KATHA
+         ========================================= -->
+
     <a href="/json/books/ack/Agastya.html" class="book-item">
-      <img src="/assets/images/ack/agastya.png" alt="Amar Chitra Katha Agastya" class="img">
+      <img src="/assets/images/ack/agastya.png"
+        alt="Amar Chitra Katha Agastya"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Akbar.html" class="book-item">
-      <img src="/assets/images/ack/akbar.png" alt="Amar Chitra Katha Akbar" class="img">
+      <img src="/assets/images/ack/akbar.png"
+        alt="Amar Chitra Katha Akbar"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Aniruddha.html" class="book-item">
-      <img src="/assets/images/ack/aniruddha.png" alt="Amar Chitra Katha Aniruddha" class="img">
+      <img src="/assets/images/ack/aniruddha.png"
+        alt="Amar Chitra Katha Aniruddha"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Ashoka.html" class="book-item">
-      <img src="/assets/images/ack/ashoka.png" alt="Amar Chitra Katha Ashoka" class="img">
+      <img src="/assets/images/ack/ashoka.png"
+        alt="Amar Chitra Katha Ashoka"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Battle of Wits.html" class="book-item">
-      <img src="/assets/images/ack/battleow.png" alt="Amar Chitra Katha Battle of Wits" class="img">
+      <img src="/assets/images/ack/battleow.png"
+        alt="Amar Chitra Katha Battle of Wits"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Bheema and Hanuman.html" class="book-item">
-      <img src="/assets/images/ack/bheemhanum.png" alt="Amar Chitra Katha Bheema and Hanuman" class="img">
+      <img src="/assets/images/ack/bheemhanum.png"
+        alt="Amar Chitra Katha Bheema and Hanuman"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Bheeshma.html" class="book-item">
-      <img src="/assets/images/ack/bheeshma.png" alt="Amar Chitra Katha Bheeshma" class="img">
+      <img src="/assets/images/ack/bheeshma.png"
+        alt="Amar Chitra Katha Bheeshma"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Drona.html" class="book-item">
-      <img src="/assets/images/ack/drona.png" alt="Amar Chitra Katha Drona" class="img">
+      <img src="/assets/images/ack/drona.png"
+        alt="Amar Chitra Katha Drona"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Ganga.html" class="book-item">
-      <img src="/assets/images/ack/ganga.png" alt="Amar Chitra Katha Ganga" class="img">
+      <img src="/assets/images/ack/ganga.png"
+        alt="Amar Chitra Katha Ganga"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Ghatotkacha.html" class="book-item">
-      <img src="/assets/images/ack/ghatotkacha.png" alt="Amar Chitra Katha Ghatotkacha" class="img">
+      <img src="/assets/images/ack/ghatotkacha.png"
+        alt="Amar Chitra Katha Ghatotkacha"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Hanuman.html" class="book-item">
-      <img src="/assets/images/ack/hanum.png" alt="Amar Chitra Katha Hanuman" class="img">
+      <img src="/assets/images/ack/hanum.png"
+        alt="Amar Chitra Katha Hanuman"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Hanuman To The Rescue.html" class="book-item">
-      <img src="/assets/images/ack/hanumtoresc.png" alt="Amar Chitra Katha Hanuman To The Rescue" class="img">
+      <img src="/assets/images/ack/hanumtoresc.png"
+        alt="Amar Chitra Katha Hanuman To The Rescue"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Harishchandra.html" class="book-item">
-      <img src="/assets/images/ack/harishchandra.png" alt="Amar Chitra Katha Harishchandra" class="img">
+      <img src="/assets/images/ack/harishchandra.png"
+        alt="Amar Chitra Katha Harishchandra"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Jallianwala Bagh.html" class="book-item">
-      <img src="/assets/images/ack/jallianwalla.png" alt="Amar Chitra Katha Jallianwala Bagh" class="img">
+      <img src="/assets/images/ack/jallianwalla.png"
+        alt="Amar Chitra Katha Jallianwala Bagh"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Krishna.html" class="book-item">
-      <img src="/assets/images/ack/krishna.png" alt="Amar Chitra Katha Krishna" class="img">
+      <img src="/assets/images/ack/krishna.png"
+        alt="Amar Chitra Katha Krishna"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Kumbhakarna.html" class="book-item">
-      <img src="/assets/images/ack/kumbhakarna.png" alt="Amar Chitra Katha Kumbhakarna" class="img">
+      <img src="/assets/images/ack/kumbhakarna.png"
+        alt="Amar Chitra Katha Kumbhakarna"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Mahabharata.html" class="book-item">
-      <img src="/assets/images/ack/mahab.png" alt="Amar Chitra Katha Mahabharata" class="img">
+      <img src="/assets/images/ack/mahab.png"
+        alt="Amar Chitra Katha Mahabharata"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Rabindranath Tagore.html" class="book-item">
-      <img src="/assets/images/ack/rabintagore.png" alt="Amar Chitra Katha Rabindranath Tagore" class="img">
+      <img src="/assets/images/ack/rabintagore.png"
+        alt="Amar Chitra Katha Rabindranath Tagore"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Rana Pratap.html" class="book-item">
-      <img src="/assets/images/ack/ranap.png" alt="Amar Chitra Katha Rana Pratap" class="img">
+      <img src="/assets/images/ack/ranap.png"
+        alt="Amar Chitra Katha Rana Pratap"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Savitri.html" class="book-item">
-      <img src="/assets/images/ack/savitri.png" alt="Amar Chitra Katha Savitri" class="img">
+      <img src="/assets/images/ack/savitri.png"
+        alt="Amar Chitra Katha Savitri"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Subhas Chandra Bose.html" class="book-item">
-      <img src="/assets/images/ack/scb.png" alt="Amar Chitra Katha Subhas Chandra Bose" class="img">
+      <img src="/assets/images/ack/scb.png"
+        alt="Amar Chitra Katha Subhas Chandra Bose"
+        class="img">
     </a>
+
     <a href="/json/books/ack/The Gita.html" class="book-item">
-      <img src="/assets/images/ack/gita.png" alt="Amar Chitra Katha The Gita" class="img">
+      <img src="/assets/images/ack/gita.png"
+        alt="Amar Chitra Katha The Gita"
+        class="img">
     </a>
+
     <a href="/json/books/ack/The Golden Mongoose.html" class="book-item">
-      <img src="/assets/images/ack/thegoldmongoo.png" alt="Amar Chitra Katha The Golden Mongoose" class="img">
+      <img src="/assets/images/ack/thegoldmongoo.png"
+        alt="Amar Chitra Katha The Golden Mongoose"
+        class="img">
     </a>
+
     <a href="/json/books/ack/Uloopi.html" class="book-item">
-      <img src="/assets/images/ack/Uloopi.png" alt="Amar Chitra Katha Uloopi" class="img">
+      <img src="/assets/images/ack/Uloopi.png"
+        alt="Amar Chitra Katha Uloopi"
+        class="img">
     </a>
+
+
+    <!-- =========================================
+         ROALD DAHL
+         ========================================= -->
+
     <a href="/json/books/rd/Boy.html" class="book-item">
-      <img src="/assets/images/rd/boy.png" alt="Roald Dahl Boy" class="img">
+      <img src="/assets/images/rd/boy.png"
+        alt="Roald Dahl Boy"
+        class="img">
     </a>
+
     <a href="/json/books/rd/Charlie and the Great Glass Elevator.html" class="book-item">
-      <img src="/assets/images/rd/charliegge.png" alt="Roald Dahl Charlie and the Great Glass Elevator" class="img">
+      <img src="/assets/images/rd/charliegge.png"
+        alt="Roald Dahl Charlie and the Great Glass Elevator"
+        class="img">
     </a>
+
     <a href="/json/books/rd/Danny the Champion of the World.html" class="book-item">
-      <img src="/assets/images/rd/danny.png" alt="Roald Dahl Danny the Champion of the World" class="img">
+      <img src="/assets/images/rd/danny.png"
+        alt="Roald Dahl Danny the Champion of the World"
+        class="img">
     </a>
+
     <a href="/json/books/rd/Fantastic Mr Fox.html" class="book-item">
-      <img src="/assets/images/rd/mrfox.png" alt="Roald Dahl Fantastic Mr Fox" class="img">
+      <img src="/assets/images/rd/mrfox.png"
+        alt="Roald Dahl Fantastic Mr Fox"
+        class="img">
     </a>
+
     <a href="/json/books/rd/George's Marvellous Medicine.html" class="book-item">
-      <img src="/assets/images/rd/georgemar.png" alt="Roald Dahl George's Marvellous Medicine" class="img">
+      <img src="/assets/images/rd/georgemar.png"
+        alt="Roald Dahl George's Marvellous Medicine"
+        class="img">
     </a>
+
     <a href="/json/books/rd/Going Solo.html" class="book-item">
-      <img src="/assets/images/rd/goingsolo.png" alt="Going Solo" class="img">
+      <img src="/assets/images/rd/goingsolo.png"
+        alt="Going Solo"
+        class="img">
     </a>
+
     <a href="/json/books/rd/James and the Giant Peach.html" class="book-item">
-      <img src="/assets/images/rd/james.png" alt="James and the Giant Peach" class="img">
+      <img src="/assets/images/rd/james.png"
+        alt="James and the Giant Peach"
+        class="img">
     </a>
+
     <a href="/json/books/rd/Matilda.html" class="book-item">
-      <img src="/assets/images/rd/matilda.png" alt="Roald Dahl Matilda" class="img">
+      <img src="/assets/images/rd/matilda.png"
+        alt="Roald Dahl Matilda"
+        class="img">
     </a>
+
     <a href="/json/books/rd/The BFG.html" class="book-item">
-      <img src="/assets/images/rd/bfg.png" alt="Roald Dahl The BFG" class="img">
+      <img src="/assets/images/rd/bfg.png"
+        alt="Roald Dahl The BFG"
+        class="img">
     </a>
+
     <a href="/json/books/rd/The Giraffe and The Pelly and Me.html" class="book-item">
-      <img src="/assets/images/rd/gpame.png" alt="Roald Dahl The Giraffe and The Pelly and Me" class="img">
+      <img src="/assets/images/rd/gpame.png"
+        alt="Roald Dahl The Giraffe and The Pelly and Me"
+        class="img">
     </a>
+
     <a href="/json/books/rd/The Magic Finger.html" class="book-item">
-      <img src="/assets/images/rd/magfinger.png" alt="Roald Dahl The Magic Finger" class="img">
+      <img src="/assets/images/rd/magfinger.png"
+        alt="Roald Dahl The Magic Finger"
+        class="img">
     </a>
+
     <a href="/json/books/rd/The Twits.html" class="book-item">
-      <img src="/assets/images/rd/twits.png" alt="Roald Dahl The Twits" class="img">
+      <img src="/assets/images/rd/twits.png"
+        alt="Roald Dahl The Twits"
+        class="img">
     </a>
+
     <a href="/json/books/rd/The Witches.html" class="book-item">
-      <img src="/assets/images/rd/witches.png" alt="Roald Dahl The Witches" class="img">
-    </a>
-    <a href="/json/books/encyclopedia/Wonder House Earth Natural Wonders Encyclopedia.html" class="book-item">
-      <img src="/assets/images/encyclopedia/whearthnw.png" alt="Wonder House Earth Natural Wonders Encyclopedia"
+      <img src="/assets/images/rd/witches.png"
+        alt="Roald Dahl The Witches"
         class="img">
     </a>
-    <a href="/json/books/encyclopedia/Wonder House Earth Rocks and Minerals Encyclopedia.html" class="book-item">
-      <img src="/assets/images/encyclopedia/whearthrm.png" alt="Wonder House Earth Rocks and Minerals Encyclopedia"
+
+
+    <!-- =========================================
+         ENCYCLOPEDIAS
+         ========================================= -->
+
+    <a href="/json/books/encyclopedia/Wonder House Earth Natural Wonders Encyclopedia.html"
+      class="book-item">
+      <img src="/assets/images/encyclopedia/whearthnw.png"
+        alt="Wonder House Earth Natural Wonders Encyclopedia"
         class="img">
     </a>
-    <a href="/json/books/encyclopedia/Wonder House Science Force and Movement Encyclopedia.html" class="book-item">
-      <img src="/assets/images/encyclopedia/whscifm.png" alt="Wonder House Science Force and Motion Encyclopedia"
+
+    <a href="/json/books/encyclopedia/Wonder House Earth Rocks and Minerals Encyclopedia.html"
+      class="book-item">
+      <img src="/assets/images/encyclopedia/whearthrm.png"
+        alt="Wonder House Earth Rocks and Minerals Encyclopedia"
         class="img">
     </a>
+
+    <a href="/json/books/encyclopedia/Wonder House Science Force and Movement Encyclopedia.html"
+      class="book-item">
+      <img src="/assets/images/encyclopedia/whscifm.png"
+        alt="Wonder House Science Force and Motion Encyclopedia"
+        class="img">
+    </a>
+
     <a href="/json/books/encyclopedia/Wonder House Science Future Science and Technology Encyclopedia.html"
       class="book-item">
-      <img src="/assets/images/encyclopedia/whscifst.png" alt="Wonder House Science Future Science Encyclopedia"
+      <img src="/assets/images/encyclopedia/whscifst.png"
+        alt="Wonder House Science Future Science Encyclopedia"
         class="img">
     </a>
-    <a href="/json/books/encyclopedia/Wonder House Space Mission Exploration Encyclopedia.html" class="book-item">
-      <img src="/assets/images/encyclopedia/whspme.png" alt="Wonder House Space Mission Exploration Encyclopedia"
+
+    <a href="/json/books/encyclopedia/Wonder House Space Mission Exploration Encyclopedia.html"
+      class="book-item">
+      <img src="/assets/images/encyclopedia/whspme.png"
+        alt="Wonder House Space Mission Exploration Encyclopedia"
         class="img">
     </a>
-    <a href="/json/books/encyclopedia/Wonder House Space Our Universe Encyclopedia.html" class="book-item">
-      <img src="/assets/images/encyclopedia/whspou.png" alt="Wonder House Space Our Universe Encyclopedia" class="img">
+
+    <a href="/json/books/encyclopedia/Wonder House Space Our Universe Encyclopedia.html"
+      class="book-item">
+      <img src="/assets/images/encyclopedia/whspou.png"
+        alt="Wonder House Space Our Universe Encyclopedia"
+        class="img">
     </a>
+
     <a href="/json/books/encyclopedia/Wonder House Human Body Immune System and Common Diseases Encyclopedia.html"
       class="book-item">
       <img src="/assets/images/encyclopedia/whhbiscd.png"
-        alt="Wonder House Human Body Immune System and Common Diseases Encyclopedia" class="img">
+        alt="Wonder House Human Body Immune System and Common Diseases Encyclopedia"
+        class="img">
     </a>
+
     <a href="/json/books/encyclopedia/Wonder House Human Body Skeletal and Muscular System Encyclopedia.html"
       class="book-item">
       <img src="/assets/images/encyclopedia/whhbsm.png"
-        alt="Wonder House Human Body Skeletal and Muscular System Encyclopedia " class="img">
+        alt="Wonder House Human Body Skeletal and Muscular System Encyclopedia"
+        class="img">
     </a>
-    <a href="/json/books/encyclopedia/Parragon Human Body Encyclopedia.html" class="book-item">
-      <img src="/assets/images/encyclopedia/parhumbo.png" alt="Parragon Human Body Encyclopedia" class="img">
+
+    <a href="/json/books/encyclopedia/Parragon Human Body Encyclopedia.html"
+      class="book-item">
+      <img src="/assets/images/encyclopedia/parhumbo.png"
+        alt="Parragon Human Body Encyclopedia"
+        class="img">
     </a>
-    <a href="/json/books/trialsofapollo/ta1.html" class="book-item">
-      <img src="/assets/images/trialsofapollo/ta1.png" alt="The Trials of Apollo The Hidden Oracle" class="img">
+
+
+    <!-- =========================================
+         THE TRIALS OF APOLLO
+         ========================================= -->
+
+    <a href="/json/books/trialsofapollo/ta1.html"
+      class="book-item">
+      <img src="/assets/images/trialsofapollo/ta1.png"
+        alt="The Trials of Apollo The Hidden Oracle"
+        class="img">
     </a>
-    <a href="/json/books/trialsofapollo/ta2.html" class="book-item">
-      <img src="/assets/images/trialsofapollo/ta2.png" alt="The Trials of Apollo The Dark Prophecy" class="img">
+
+    <a href="/json/books/trialsofapollo/ta2.html"
+      class="book-item">
+      <img src="/assets/images/trialsofapollo/ta2.png"
+        alt="The Trials of Apollo The Dark Prophecy"
+        class="img">
     </a>
-    <a href="/json/books/trialsofapollo/ta3.html" class="book-item">
-      <img src="/assets/images/trialsofapollo/ta3.png" alt="The Trials of Apollo The Burning Maze" class="img">
+
+    <a href="/json/books/trialsofapollo/ta3.html"
+      class="book-item">
+      <img src="/assets/images/trialsofapollo/ta3.png"
+        alt="The Trials of Apollo The Burning Maze"
+        class="img">
     </a>
-    <a href="/json/books/trialsofapollo/ta4.html" class="book-item">
-      <img src="/assets/images/trialsofapollo/ta4.png" alt="The Trials of Apollo The Tyrant's Tomb" class="img">
+
+    <a href="/json/books/trialsofapollo/ta4.html"
+      class="book-item">
+      <img src="/assets/images/trialsofapollo/ta4.png"
+        alt="The Trials of Apollo The Tyrant's Tomb"
+        class="img">
     </a>
-    <a href="/json/books/trialsofapollo/ta5.html" class="book-item">
-      <img src="/assets/images/trialsofapollo/ta5.png" alt="The Trials of Apollo The Tower of Nero" class="img">
+
+    <a href="/json/books/trialsofapollo/ta5.html"
+      class="book-item">
+      <img src="/assets/images/trialsofapollo/ta5.png"
+        alt="The Trials of Apollo The Tower of Nero"
+        class="img">
     </a>
+
+
   </div>
 
-  <!-- JavaScript -->
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-      const searchInput = document.getElementById("searchInput");
-      const searchButton = document.getElementById("searchButton");
-      const books = document.querySelectorAll(".book-item");
-
-      if (!searchInput || books.length === 0) {
-        return;
-      }
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
 
 
-      /* ================================
-         GET BOOK NAME
-         ================================ */
+        const searchInput =
+          document.getElementById(
+            "searchInput"
+          );
 
-      function getBookName(book) {
 
-        const img = book.querySelector("img");
+        const searchButton =
+          document.getElementById(
+            "searchButton"
+          );
 
-        if (!img) {
-          return "";
+
+        const books =
+          document.querySelectorAll(
+            ".book-item"
+          );
+
+
+        if (
+          !searchInput ||
+          books.length === 0
+        ) {
+          return;
         }
 
-        return (img.alt || "")
-          .toLowerCase()
-          .replace(/\s+/g, " ")
-          .trim();
-      }
 
-
-      /* ================================
-         FILTER BOOKS
-         ================================ */
-
-      function filterBooks() {
-
-        const searchText = searchInput.value
-          .toLowerCase()
-          .replace(/\s+/g, " ")
-          .trim();
-
-        let matchingBooks = [];
+        /* =====================================
+           CREATE BOOK CARDS
+           ===================================== */
 
         books.forEach(function (book) {
 
-          const bookName = getBookName(book);
+          const img =
+            book.querySelector(".img");
+
+
+          if (!img) {
+            return;
+          }
+
+
+          const altText =
+            (img.alt || "").trim();
+
+
+          if (!altText) {
+            return;
+          }
+
+
+          let title = altText;
+
+          let author = "";
+
+
+          /*
+          Known author names from
+          the current library.
+          */
+
+          const authors = [
+            "J.K. Rowling",
+            "Rick Riordan",
+            "Jeff Kinney",
+            "Liz Pichon"
+          ];
+
+
+          /*
+          Check for author
+          */
+
+          authors.forEach(
+            function (name) {
+
+              const position =
+                altText
+                  .toLowerCase()
+                  .lastIndexOf(
+                    name.toLowerCase()
+                  );
+
+
+              if (position !== -1) {
+
+                title =
+                  altText
+                    .substring(
+                      0,
+                      position
+                    )
+                    .trim();
+
+
+                author = name;
+
+              }
+
+            }
+          );
+
+
+          /*
+          Remove publisher names
+          for ACK and similar books.
+          */
 
           if (
-            searchText === "" ||
-            bookName.includes(searchText)
+            title.startsWith(
+              "Amar Chitra Katha "
+            )
           ) {
 
-            book.style.display = "";
-            matchingBooks.push(book);
+            title =
+              title.replace(
+                "Amar Chitra Katha ",
+                ""
+              );
 
-          } else {
-
-            book.style.display = "none";
+            author =
+              "Amar Chitra Katha";
 
           }
+
+
+          /*
+          Roald Dahl titles
+          */
+
+          if (
+            title.startsWith(
+              "Roald Dahl "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Roald Dahl ",
+                ""
+              );
+
+            author =
+              "Roald Dahl";
+
+          }
+
+
+          /*
+          Wonder House titles
+          */
+
+          if (
+            title.startsWith(
+              "Wonder House "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Wonder House ",
+                ""
+              );
+
+            author =
+              "Wonder House";
+
+          }
+
+
+          /*
+          Parragon
+          */
+
+          if (
+            title.startsWith(
+              "Parragon "
+            )
+          ) {
+
+            title =
+              title.replace(
+                "Parragon ",
+                ""
+              );
+
+            author =
+              "Parragon";
+
+          }
+
+
+          /*
+          Create information container
+          */
+
+          const info =
+            document.createElement(
+              "div"
+            );
+
+
+          info.className =
+            "book-info";
+
+
+          /*
+          Create title
+          */
+
+          const titleElement =
+            document.createElement(
+              "div"
+            );
+
+
+          titleElement.className =
+            "book-title";
+
+
+          titleElement.textContent =
+            title;
+
+
+          info.appendChild(
+            titleElement
+          );
+
+
+          /*
+          Create author
+          */
+
+          if (author) {
+
+            const authorElement =
+              document.createElement(
+                "div"
+              );
+
+
+            authorElement.className =
+              "book-author";
+
+
+            authorElement.textContent =
+              author;
+
+
+            info.appendChild(
+              authorElement
+            );
+
+          }
+
+
+          /*
+          Add information to card
+          */
+
+          book.appendChild(
+            info
+          );
 
         });
 
-        return matchingBooks;
-      }
+
+        /* =====================================
+           GET SEARCHABLE BOOK NAME
+           ===================================== */
+
+        function getBookName(book) {
+
+          const img =
+            book.querySelector("img");
 
 
-      /* ================================
-         OPEN BOOK ONLY IF ONE MATCH
-         ================================ */
-
-      function openBookIfSingleMatch() {
-
-        const searchText = searchInput.value
-          .toLowerCase()
-          .replace(/\s+/g, " ")
-          .trim();
-
-        if (searchText === "") {
-          return;
-        }
-
-        const matchingBooks = filterBooks();
+          if (!img) {
+            return "";
+          }
 
 
-        /* ================================
-           NO MATCHES
-           ================================ */
-
-        if (matchingBooks.length === 0) {
-
-          showNoResults(searchText);
-
-          return;
-        }
-
-
-        /* ================================
-           MORE THAN ONE MATCH
-           ================================ */
-
-        if (matchingBooks.length > 1) {
-
-          removeNoResults();
-
-          return;
-        }
-
-
-        /* ================================
-           EXACTLY ONE MATCH
-           ================================ */
-
-        const book = matchingBooks[0];
-
-        const bookLink =
-          book.getAttribute("href");
-
-        if (bookLink) {
-
-          window.location.href = bookLink;
+          return (img.alt || "")
+            .toLowerCase()
+            .replace(
+              /\s+/g,
+              " "
+            )
+            .trim();
 
         }
-      }
 
 
-      /* ================================
-         NO RESULTS MESSAGE
-         ================================ */
+        /* =====================================
+           FILTER BOOKS
+           ===================================== */
 
-      function showNoResults(searchText) {
+        function filterBooks() {
 
-        let resultMessage =
-          document.getElementById(
-            "searchResultMessage"
+          const searchText =
+            searchInput.value
+              .toLowerCase()
+              .replace(
+                /\s+/g,
+                " "
+              )
+              .trim();
+
+
+          let matchingBooks = [];
+
+
+          books.forEach(
+            function (book) {
+
+              const bookName =
+                getBookName(book);
+
+
+              if (
+                searchText === "" ||
+                bookName.includes(
+                  searchText
+                )
+              ) {
+
+                book.style.display =
+                  "";
+
+                matchingBooks.push(
+                  book
+                );
+
+              } else {
+
+                book.style.display =
+                  "none";
+
+              }
+
+            }
           );
 
-        if (!resultMessage) {
 
-          resultMessage =
-            document.createElement("div");
-
-          resultMessage.id =
-            "searchResultMessage";
-
-          resultMessage.style.textAlign =
-            "center";
-
-          resultMessage.style.margin =
-            "10px auto";
-
-          resultMessage.style.fontSize =
-            "16px";
-
-          resultMessage.style.fontWeight =
-            "500";
-
-          searchInput
-            .closest(".search-container")
-            .after(resultMessage);
-        }
-
-        resultMessage.innerHTML =
-          '❌ No book found for <strong>"' +
-          searchText +
-          '"</strong>';
-      }
-
-
-      /* ================================
-         REMOVE NO RESULTS MESSAGE
-         ================================ */
-
-      function removeNoResults() {
-
-        const resultMessage =
-          document.getElementById(
-            "searchResultMessage"
-          );
-
-        if (resultMessage) {
-
-          resultMessage.remove();
+          return matchingBooks;
 
         }
-      }
 
 
-      /* ================================
-         SEARCH WHILE TYPING
-         ================================ */
+        /* =====================================
+           OPEN ONLY IF ONE RESULT
+           ===================================== */
 
-      searchInput.addEventListener(
-        "input",
-        function () {
+        function openBookIfSingleMatch() {
 
-          removeNoResults();
+          const searchText =
+            searchInput.value
+              .toLowerCase()
+              .replace(
+                /\s+/g,
+                " "
+              )
+              .trim();
 
-          filterBooks();
 
-        }
-      );
+          if (
+            searchText === ""
+          ) {
+            return;
+          }
 
 
-      /* ================================
-         ENTER KEY
-         ================================ */
+          const matchingBooks =
+            filterBooks();
 
-      searchInput.addEventListener(
-        "keydown",
-        function (event) {
 
-          if (event.key === "Enter") {
+          /*
+          NO RESULTS
+          */
 
-            event.preventDefault();
+          if (
+            matchingBooks.length === 0
+          ) {
 
-            openBookIfSingleMatch();
+            showNoResults(
+              searchText
+            );
+
+            return;
+
+          }
+
+
+          /*
+          MORE THAN ONE RESULT
+
+          Do NOT automatically open
+          anything.
+          */
+
+          if (
+            matchingBooks.length > 1
+          ) {
+
+            removeNoResults();
+
+            return;
+
+          }
+
+
+          /*
+          EXACTLY ONE RESULT
+          */
+
+          const book =
+            matchingBooks[0];
+
+
+          const bookLink =
+            book.getAttribute(
+              "href"
+            );
+
+
+          if (bookLink) {
+
+            window.location.href =
+              bookLink;
 
           }
 
         }
-      );
 
 
-      /* ================================
-         SEARCH BUTTON
-         ================================ */
+        /* =====================================
+           NO RESULTS MESSAGE
+           ===================================== */
 
-      if (searchButton) {
+        function showNoResults(
+          searchText
+        ) {
 
-        searchButton.addEventListener(
-          "click",
-          function (event) {
+          let resultMessage =
+            document.getElementById(
+              "searchResultMessage"
+            );
 
-            event.preventDefault();
 
-            openBookIfSingleMatch();
+          if (!resultMessage) {
+
+            resultMessage =
+              document.createElement(
+                "div"
+              );
+
+
+            resultMessage.id =
+              "searchResultMessage";
+
+
+            searchInput
+              .closest(
+                ".search-container"
+              )
+              .after(
+                resultMessage
+              );
+
+          }
+
+
+          resultMessage.innerHTML =
+            '❌ No book found for <strong>"' +
+            searchText +
+            '"</strong>';
+
+        }
+
+
+        /* =====================================
+           REMOVE NO RESULTS
+           ===================================== */
+
+        function removeNoResults() {
+
+          const resultMessage =
+            document.getElementById(
+              "searchResultMessage"
+            );
+
+
+          if (resultMessage) {
+
+            resultMessage.remove();
+
+          }
+
+        }
+
+
+        /* =====================================
+           SEARCH WHILE TYPING
+           ===================================== */
+
+        searchInput.addEventListener(
+          "input",
+          function () {
+
+            removeNoResults();
+
+            filterBooks();
 
           }
         );
 
-      }
 
+        /* =====================================
+           ENTER KEY
+           ===================================== */
 
-      /* ================================
-         ESCAPE KEY
-         ================================ */
+        searchInput.addEventListener(
+          "keydown",
+          function (event) {
 
-      searchInput.addEventListener(
-        "keydown",
-        function (event) {
+            if (
+              event.key === "Enter"
+            ) {
 
-          if (event.key === "Escape") {
+              event.preventDefault();
 
-            searchInput.value = "";
+              openBookIfSingleMatch();
 
-            removeNoResults();
-
-            books.forEach(function (book) {
-
-              book.style.display = "";
-
-            });
+            }
 
           }
+        );
+
+
+        /* =====================================
+           SEARCH BUTTON
+           ===================================== */
+
+        if (searchButton) {
+
+          searchButton.addEventListener(
+            "click",
+            function (event) {
+
+              event.preventDefault();
+
+              openBookIfSingleMatch();
+
+            }
+          );
 
         }
-      );
 
-    });
+
+        /* =====================================
+           ESCAPE KEY
+           ===================================== */
+
+        searchInput.addEventListener(
+          "keydown",
+          function (event) {
+
+            if (
+              event.key === "Escape"
+            ) {
+
+              searchInput.value =
+                "";
+
+              removeNoResults();
+
+
+              books.forEach(
+                function (book) {
+
+                  book.style.display =
+                    "";
+
+                }
+              );
+
+            }
+
+          }
+        );
+
+
+      }
+    );
+
   </script>
+
 
 </body>
 
