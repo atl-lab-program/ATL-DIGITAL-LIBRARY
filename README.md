@@ -1,14 +1,14 @@
 # ⚡ ATL DIGITAL LIBRARY 📚
 
 > **Official Repository**: [github.com/atl-lab-program/ATL-DIGITAL-LIBRARY](https://github.com/atl-lab-program/ATL-DIGITAL-LIBRARY)  
-> **Student Developers**: Suhaira (Grade 8), Siddharth (Grade 8), Aadi (Grade 7)  
+> **Student Developers**: Suhaira (Grade 7), Siddharth (Grade 7), Aadi (Grade 7)  
 > **Mentoring Institutions**: BKHM School & Rajhans Vidyalaya under Atal Tinkering Lab (ATL)
 
 ---
 
 ## 🌟 Overview & Mission
 
-The **ATL Digital Library** is an educational, interactive web platform created by 7th & 8th grade students at Atal Tinkering Lab (ATL). The goal of this project is to foster software engineering skills, innovation, and a love for reading by providing a 3D digital flipbook reader, comic collections (Amar Chitra Katha, Harry Potter, Percy Jackson, Wimpy Kid), and a student softcopy donation hub!
+The **ATL Digital Library** is an educational, interactive web platform created by 7th grade students at Atal Tinkering Lab (ATL). The goal of this project is to foster software engineering skills, innovation, and a love for reading by providing a 3D digital flipbook reader, comic collections (Amar Chitra Katha, Harry Potter, Percy Jackson, Wimpy Kid), and a student softcopy donation hub!
 
 ---
 
@@ -114,9 +114,9 @@ ATL-DIGITAL-LIBRARY/
 
 ## 🌟 Student Creators Credits
 
-Made with passion by 7th & 8th grade student innovators at Atal Tinkering Lab (ATL):
-- **Suhaira** (Grade 8): Lead UI/UX & Catalog Architect
-- **Siddharth** (Grade 8): PDF Database & Digital Books Manager
+Made with passion by 7th grade student innovators at Atal Tinkering Lab (ATL):
+- **Suhaira** (Grade 7): Lead UI/UX & Catalog Architect
+- **Siddharth** (Grade 7): PDF Database & Digital Books Manager
 - **Aadi** (Grade 7): Comic Collections & Audio Curator
 
 Mentored by **BKHM School** and **Rajhans Vidyalaya**.
