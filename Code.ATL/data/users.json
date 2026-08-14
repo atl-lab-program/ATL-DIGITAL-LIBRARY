@@ -1,0 +1,42 @@
+[
+  {
+    "id": "u1",
+    "username": "suhaira",
+    "fullName": "Suhaira",
+    "grade": "8th Grade",
+    "avatar": "🦁",
+    "role": "Creator & Student",
+    "favoriteBooks": ["ancestors-of-ram", "hp1", "monkey-stories"],
+    "readingHistory": [
+      { "bookId": "ancestors-of-ram", "lastPage": 12, "updatedAt": "2026-08-14" },
+      { "bookId": "monkey-stories", "lastPage": 8, "updatedAt": "2026-08-13" }
+    ],
+    "badges": ["Creator Hero", "Bookworm Master", "Mythology Explorer"]
+  },
+  {
+    "id": "u2",
+    "username": "siddharth",
+    "fullName": "Siddharth",
+    "grade": "8th Grade",
+    "avatar": "🤖",
+    "role": "Creator & Student",
+    "favoriteBooks": ["chandrashekhar-azad", "pj1"],
+    "readingHistory": [
+      { "bookId": "chandrashekhar-azad", "lastPage": 20, "updatedAt": "2026-08-14" }
+    ],
+    "badges": ["Creator Hero", "History Buff"]
+  },
+  {
+    "id": "u3",
+    "username": "aadi",
+    "fullName": "Aadi",
+    "grade": "7th Grade",
+    "avatar": "🚀",
+    "role": "Creator & Student",
+    "favoriteBooks": ["wimpy1", "tales-of-shiva"],
+    "readingHistory": [
+      { "bookId": "wimpy1", "lastPage": 15, "updatedAt": "2026-08-14" }
+    ],
+    "badges": ["Creator Hero", "Comic Captain"]
+  }
+]
