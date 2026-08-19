@@ -35,7 +35,7 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
 
           <h3 style="font-size: 1.25rem; color: var(--text-heading); margin: 24px 0 14px; display: flex; align-items: center; gap: 8px;">
-            <?php echo get_icon('file-text', 'icon-svg', 20); ?> 2. Attach Softcopy PDF File (Optional)
+            <?php echo get_icon('file-text', 'icon-svg', 20); ?> 2. Attach Softcopy PDF File
           </h3>
 
           <div id="pdfDropzone" style="border: 2px dashed var(--accent-violet); border-radius: var(--radius-md); padding: 24px 20px; text-align: center; cursor: pointer; background: rgba(124, 58, 237, 0.04); display: flex; flex-direction: column; align-items: center; gap: 8px;">
@@ -102,7 +102,8 @@ require_once __DIR__ . '/includes/navbar.php';
 </main>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
+
     const coverDropzone = document.getElementById("coverDropzone");
     const coverFileInput = document.getElementById("coverFileInput");
     const coverPreview = document.getElementById("coverPreview");
@@ -111,60 +112,164 @@ require_once __DIR__ . '/includes/navbar.php';
     const pdfFileInput = document.getElementById("pdfFileInput");
     const pdfStatusText = document.getElementById("pdfStatusText");
 
-    let coverDataUrl = "";
-    let pdfDataUrl = "";
-
-    coverDropzone.onclick = () => coverFileInput.click();
-    coverFileInput.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          coverDataUrl = ev.target.result;
-          coverPreview.src = coverDataUrl;
-          coverPreview.style.display = "block";
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-
-    pdfDropzone.onclick = () => pdfFileInput.click();
-    pdfFileInput.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        pdfStatusText.textContent = `Attached: ${file.name} (${Math.round(file.size / 1024)} KB)`;
-        pdfStatusText.style.color = "var(--accent-sky)";
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          pdfDataUrl = ev.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-
     const form = document.getElementById("softcopyDonationForm");
     const successCard = document.getElementById("successCard");
 
-    form.onsubmit = (e) => {
-      e.preventDefault();
-      const donorName = document.getElementById("donorName").value.trim();
-      const title = document.getElementById("bookTitle").value.trim();
-      const genre = document.getElementById("genreSelect").value;
-      const description = document.getElementById("description").value.trim();
-
-      ATLDatabase.addDonatedBook({
-        donorName,
-        title,
-        genre,
-        description,
-        coverDataUrl,
-        pdfDataUrl
-      });
-
-      successCard.style.display = "block";
-      form.reset();
+    /* COVER PREVIEW */
+    coverDropzone.onclick = function (e) {
+        if (e.target !== coverFileInput) coverFileInput.click();
     };
-  });
+
+    coverFileInput.onchange = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Please select a valid image file.");
+            coverFileInput.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            coverPreview.src = event.target.result;
+            coverPreview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    };
+
+    /* PDF SELECT */
+    pdfDropzone.onclick = function (e) {
+        if (e.target !== pdfFileInput) pdfFileInput.click();
+    };
+
+    pdfFileInput.onchange = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.type !== "application/pdf") {
+            alert("Please select a valid PDF file.");
+            pdfFileInput.value = "";
+            return;
+        }
+
+        pdfStatusText.textContent = `Attached: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+        pdfStatusText.style.color = "var(--accent-sky)";
+    };
+
+    /* FORM SUBMIT */
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const donorName = document.getElementById("donorName").value.trim();
+        const title = document.getElementById("bookTitle").value.trim();
+        const genre = document.getElementById("genreSelect").value;
+        const description = document.getElementById("description").value.trim();
+        const coverFile = coverFileInput.files[0];
+        const pdfFile = pdfFileInput.files[0];
+
+        if (!donorName || !title) {
+            alert("Please enter donor name and book title.");
+            return;
+        }
+
+        if (!pdfFile) {
+            alert("Please attach a PDF file.");
+            return;
+        }
+
+        const submitButton = form.querySelector("button[type='submit']");
+        const originalButtonText = submitButton.innerHTML;
+
+        submitButton.disabled = true;
+        submitButton.innerHTML = "Uploading...";
+
+        try {
+            let uploadSuccessful = false;
+            let serverErrorMsg = "";
+
+            // 1. Try PHP Backend Upload First
+            try {
+                const formData = new FormData();
+                formData.append("donorName", donorName);
+                formData.append("title", title);
+                formData.append("genre", genre);
+                formData.append("description", description);
+                if (coverFile) formData.append("cover", coverFile);
+                formData.append("pdf", pdfFile);
+
+                const response = await fetch("upload_book.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        uploadSuccessful = true;
+                    } else {
+                        serverErrorMsg = result.message || "Server rejected the upload.";
+                    }
+                } else {
+                    serverErrorMsg = "Server returned status code " + response.status;
+                }
+            } catch (err) {
+                console.warn("Backend upload_book.php unreachable, attempting local db fallback...", err);
+            }
+
+            // 2. Local Storage Fallback via db.js if server upload wasn't used
+            if (!uploadSuccessful && !serverErrorMsg && window.ATLDatabase && typeof ATLDatabase.addDonatedBook === 'function') {
+                const readFileAsDataURL = (file) => new Promise((resolve) => {
+                    if (!file) return resolve('');
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.readAsDataURL(file);
+                });
+
+                const coverDataUrl = await readFileAsDataURL(coverFile);
+                const pdfDataUrl = await readFileAsDataURL(pdfFile);
+
+                ATLDatabase.addDonatedBook({
+                    title: title,
+                    donorName: donorName,
+                    genre: genre,
+                    description: description,
+                    coverDataUrl: coverDataUrl,
+                    pdfDataUrl: pdfDataUrl
+                });
+                uploadSuccessful = true;
+            }
+
+            if (!uploadSuccessful) {
+                throw new Error(serverErrorMsg || "Failed to save the book. Ensure folder permissions are writable for data/donated_books.json.");
+            }
+
+            // Reset cache
+            if (window.ATLDatabase && typeof ATLDatabase.clearCache === 'function') {
+                ATLDatabase.clearCache();
+            }
+
+            /* SUCCESS UI UPDATES */
+            successCard.style.display = "block";
+            form.reset();
+
+            coverPreview.src = "";
+            coverPreview.style.display = "none";
+            pdfStatusText.textContent = "Click to Attach PDF Document";
+            pdfStatusText.style.color = "var(--accent-violet)";
+
+            alert("Book uploaded successfully!");
+
+        } catch (error) {
+            console.error("Upload error:", error);
+            alert("Upload failed:\n\n" + error.message);
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+        }
+    });
+
+});
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
