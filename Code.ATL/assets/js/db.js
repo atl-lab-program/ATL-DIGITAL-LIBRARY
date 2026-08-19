@@ -1,12 +1,11 @@
-/* ==========================================================================
-   ATL DIGITAL LIBRARY - FILE & LOCALSTORAGE DATABASE ENGINE (v2.0)
-   Supports Static JSON + Dynamic Softcopy Book Donations & Uploads
-   ========================================================================== */
+/*
+ * ATL DIGITAL LIBRARY - DATABASE ENGINE (db.js)
+ */
 
 const ATLDatabase = (function () {
-  const STORAGE_KEY_USER = 'atl_current_user';
+  const STORAGE_KEY_USER = 'atl_user_session';
   const STORAGE_KEY_FAVORITES = 'atl_user_favorites';
-  const STORAGE_KEY_PROGRESS = 'atl_user_progress';
+  const STORAGE_KEY_PROGRESS = 'atl_user_reading_progress';
   const STORAGE_KEY_DONATED_BOOKS = 'atl_custom_donated_books';
 
   let booksCache = null;
@@ -14,91 +13,127 @@ const ATLDatabase = (function () {
   function getBasePath() {
     const path = window.location.pathname;
     if (path.includes('/pages/') || path.includes('/sections/') || path.includes('/flipbook/')) {
-      return '../..';
+      return '..';
     }
     return '.';
   }
 
-  // Get Custom Donated Softcopy Books from LocalStorage
+  /* DONATED BOOKS (LOCALSTORAGE FALLBACK) */
   function getDonatedBooks() {
-    const saved = localStorage.getItem(STORAGE_KEY_DONATED_BOOKS);
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_DONATED_BOOKS);
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.warn("Could not read local donated books", e);
+      return [];
+    }
   }
 
-  // Add New Donated Softcopy Book
-  function addDonatedBook(bookObj) {
+  function addDonatedBook(bookData) {
     const donated = getDonatedBooks();
     const newBook = {
       id: 'donated_' + Date.now(),
-      title: bookObj.title,
-      author: bookObj.donorName || 'Student Donor',
-      genre: bookObj.genre || 'Donated Book',
+      title: bookData.title || 'Untitled',
+      author: bookData.donorName ? `Donated by ${bookData.donorName}` : 'Student Donor',
+      genre: bookData.genre || 'General',
       category: 'donated',
-      cover: bookObj.coverDataUrl || `${getBasePath()}/assets/images/ack/ancestors-of-rama.png`,
-      pdf: bookObj.pdfDataUrl || '',
+      cover: bookData.coverDataUrl || `${getBasePath()}/assets/images/ack/ancestors-of-rama.png`,
+      pdf: bookData.pdfDataUrl || '',
       rating: '5.0',
-      description: bookObj.description || 'Donated by a student member of ATL Library.',
-      badge: '🎁 Student Donated',
+      description: bookData.description || `Donated by a student member of ATL Library.`,
+      badge: '🎁 Donated Book',
       badgeColor: 'green',
       isDonated: true
     };
+
     donated.unshift(newBook);
-    localStorage.setItem(STORAGE_KEY_DONATED_BOOKS, JSON.stringify(donated));
-    booksCache = null; // reset cache
+    try {
+      localStorage.setItem(STORAGE_KEY_DONATED_BOOKS, JSON.stringify(donated));
+    } catch (e) {
+      console.warn("LocalStorage space full for PDF DataURL", e);
+    }
+    booksCache = null; // Reset cache
     return newBook;
   }
 
-  // Fetch all books (JSON base + Donated softcopies)
+  /* CATALOG FETCHING */
   async function getAllBooks() {
     if (booksCache) return booksCache;
+
     let baseBooks = [];
+    let serverDonatedBooks = [];
+
+    const basePath = getBasePath();
+
+    // 1. Fetch Main Catalog Books
     try {
-      const basePath = getBasePath();
       const response = await fetch(`${basePath}/data/books.json`);
       if (response.ok) {
         baseBooks = await response.json();
+      } else {
+        const altResponse = await fetch(`${basePath}/json/books.json`);
+        if (altResponse.ok) baseBooks = await altResponse.json();
       }
     } catch (e) {
-      console.warn('Could not fetch data/books.json, using fallback books.', e);
+      console.warn('Could not fetch main books.json:', e);
       baseBooks = getFallbackBooks();
     }
 
-    if (baseBooks.length === 0) baseBooks = getFallbackBooks();
+    // 2. Fetch Server Donated Books from data/donated_books.json
+    try {
+      const donatedRes = await fetch(`${basePath}/data/donated_books.json?_=${Date.now()}`);
+      if (donatedRes.ok) {
+        serverDonatedBooks = await donatedRes.json();
+      }
+    } catch (e) {
+      console.warn('Could not fetch data/donated_books.json:', e);
+    }
 
-    const donatedBooks = getDonatedBooks();
-    booksCache = [...donatedBooks, ...baseBooks];
+    // 3. Get LocalStorage Donated Books
+    const localDonated = getDonatedBooks();
+
+    // Combine all sources into cache
+    booksCache = [...serverDonatedBooks, ...localDonated, ...baseBooks];
     return booksCache;
+  }
+
+  function clearCache() {
+    booksCache = null;
   }
 
   async function getBookById(id) {
     const books = await getAllBooks();
-    return books.find(b => b.id === id) || books[0];
+    return books.find(b => String(b.id) === String(id)) || books[0];
   }
 
   async function searchBooks(query = '', category = 'all') {
     const books = await getAllBooks();
     const q = query.toLowerCase().trim();
     return books.filter(book => {
-      const matchesCategory = (category === 'all' || book.category === category || book.genre.toLowerCase() === category.toLowerCase());
-      const matchesQuery = !q || 
-        book.title.toLowerCase().includes(q) || 
-        book.author.toLowerCase().includes(q) || 
-        book.genre.toLowerCase().includes(q) || 
-        (book.description && book.description.toLowerCase().includes(q));
+      const matchesCategory = category === 'all' || 
+                              (book.category && book.category.toLowerCase() === category.toLowerCase()) || 
+                              (book.genre && book.genre.toLowerCase() === category.toLowerCase());
+      if (!q) return matchesCategory;
+      const matchesQuery = book.title.toLowerCase().includes(q) ||
+                           book.author.toLowerCase().includes(q) ||
+                           (book.genre && book.genre.toLowerCase().includes(q)) ||
+                           (book.description && book.description.toLowerCase().includes(q));
       return matchesCategory && matchesQuery;
     });
   }
 
-  // User Session Management
+  /* USER SESSION MANAGEMENT */
   function getCurrentUser() {
     const saved = localStorage.getItem(STORAGE_KEY_USER);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
     return {
-      username: 'suhaira',
-      fullName: 'Suhaira',
-      grade: '8th Grade',
-      avatar: '🦁',
-      role: 'Student & Creator'
+      username: 'Suhaira',
+      displayName: 'Suhaira',
+      grade: '7th Grade',
+      avatar: '1',
+      role: 'Student Reader & Creator'
     };
   }
 
@@ -108,20 +143,20 @@ const ATLDatabase = (function () {
 
   function loginUser(username) {
     const user = {
-      username: username.toLowerCase(),
-      fullName: username.charAt(0).toUpperCase() + username.slice(1),
-      grade: '7th/8th Grade',
-      avatar: ['🦁', '🤖', '🚀', '🦉', '🧙‍♂️', '⚡'][Math.floor(Math.random() * 6)],
+      username: username.trim(),
+      displayName: username.trim().charAt(0).toUpperCase() + username.trim().slice(1),
+      grade: '7th Grade',
+      avatar: String(Math.floor(Math.random() * 6) + 1),
       role: 'Student Reader'
     };
     setCurrentUser(user);
     return user;
   }
 
-  // Favorites Management
+  /* FAVORITES MANAGEMENT */
   function getFavorites() {
-    const favs = localStorage.getItem(STORAGE_KEY_FAVORITES);
-    return favs ? JSON.parse(favs) : ['ancestors-of-ram', 'monkey-stories', 'tales-of-shiva'];
+    const saved = localStorage.getItem(STORAGE_KEY_FAVORITES);
+    return saved ? JSON.parse(saved) : ['ancestors-of-ram', 'monkey-stories', 'tales-of-shiva'];
   }
 
   function toggleFavorite(bookId) {
@@ -142,26 +177,26 @@ const ATLDatabase = (function () {
     return getFavorites().includes(bookId);
   }
 
-  // Reading Progress Storage
+  /* READING PROGRESS */
   function saveReadingProgress(bookId, pageNum) {
     const progress = getReadingProgress();
-    progress[bookId] = { page: pageNum, timestamp: Date.now() };
+    progress[bookId] = pageNum;
     localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(progress));
   }
 
   function getReadingProgress(bookId = null) {
     const saved = localStorage.getItem(STORAGE_KEY_PROGRESS);
     const progress = saved ? JSON.parse(saved) : {};
-    if (bookId) return progress[bookId] ? progress[bookId].page : 1;
+    if (bookId) return progress[bookId] || 1;
     return progress;
   }
 
   function getFallbackBooks() {
     return [
-      { id: "ancestors-of-ram", title: "Ancestors of Rama", author: "Amar Chitra Katha", genre: "Mythology", category: "ack", cover: `${getBasePath()}/assets/images/ack/ancestors-of-rama.png`, pdf: `${getBasePath()}/pdf/Ancestors-of-Rama.pdf`, rating: "4.9", description: "Glorious tales of Lord Rama's ancestors.", badge: "Mythology Master", badgeColor: "yellow" },
-      { id: "ayyappan", title: "Ayyappan", author: "Amar Chitra Katha", genre: "Mythology", category: "ack", cover: `${getBasePath()}/assets/images/ack/ayyapan.png`, pdf: `${getBasePath()}/pdf/Ayyappan.pdf`, rating: "4.8", description: "The divine birth and adventures of Lord Ayyappan.", badge: "Divine Tales", badgeColor: "cyan" },
-      { id: "banda-bahadur", title: "Banda Bahadur", author: "Amar Chitra Katha", genre: "History", category: "ack", cover: `${getBasePath()}/assets/images/ack/banda-bahadur.png`, pdf: `${getBasePath()}/pdf/Banda-Bahadur.pdf`, rating: "4.9", description: "Brave chronicle of warrior commander Banda Bahadur.", badge: "Hero Legend", badgeColor: "pink" },
-      { id: "tales-of-shiva", title: "Tales of Shiva", author: "Amar Chitra Katha", genre: "Mythology", category: "ack", cover: `${getBasePath()}/assets/images/ack/tales-of-shiva.png`, pdf: `${getBasePath()}/pdf/tales-of-shiva.pdf`, rating: "5.0", description: "Stories of Mahadeva Lord Shiva.", badge: "Top Rated", badgeColor: "yellow" }
+      { id: 'ancestors-of-ram', title: 'Ancestors of Rama', author: 'Amar Chitra Katha', genre: 'Mythology', category: 'ack', cover: `${getBasePath()}/assets/images/ack/ancestors-of-rama.png` },
+      { id: 'ayyappan', title: 'Ayyappan', author: 'Amar Chitra Katha', genre: 'Mythology', category: 'ack', cover: `${getBasePath()}/assets/images/ack/ancestors-of-rama.png` },
+      { id: 'banda-bahadur', title: 'Banda Bahadur', author: 'Amar Chitra Katha', genre: 'History', category: 'ack', cover: `${getBasePath()}/assets/images/ack/ancestors-of-rama.png` },
+      { id: 'tales-of-shiva', title: 'Tales of Shiva', author: 'Amar Chitra Katha', genre: 'Mythology', category: 'ack', cover: `${getBasePath()}/assets/images/ack/ancestors-of-rama.png` }
     ];
   }
 
@@ -171,14 +206,15 @@ const ATLDatabase = (function () {
     searchBooks,
     addDonatedBook,
     getDonatedBooks,
-    getCurrentUser,
     setCurrentUser,
+    getCurrentUser,
     loginUser,
-    getFavorites,
     toggleFavorite,
     isFavorite,
+    getFavorites,
     saveReadingProgress,
     getReadingProgress,
+    clearCache,
     getBasePath
   };
 })();
