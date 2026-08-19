@@ -114,7 +114,20 @@ ATL-DIGITAL-LIBRARY/
    ```bash
    C:/php/php.exe -d upload_max_filesize=350M -d post_max_size=355M -S localhost:8000
    ```
+5. **test**
+ ```bash
+  # 1. Clear out any broken paths
+Remove-Item Env:\OPENAI_API_BASE -ErrorAction SilentlyContinue
 
+# 2. Force it to use the Gemini Flash model name
+$env:OPENAI_MODEL_NAME="gemini-2.0-flash"
+
+# 3. Route the internet destination directly to Google's translation bridge
+$env:OPENAI_API_BASE="https://generativelanguage.googleapis.com/v1beta/openai/"
+
+# 4. Swap your Gemini key into the slot it reads from
+$env:OPENAI_API_KEY="AIza_PASTE_YOUR_GEMINI_KEY_HERE"
+``` 
 ---
 
 ## 🌟 Student Creators Credits
