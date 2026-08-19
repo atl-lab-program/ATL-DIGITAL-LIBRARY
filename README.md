@@ -111,7 +111,9 @@ ATL-DIGITAL-LIBRARY/
    Navigate to **`http://localhost:8080/index.php`** in your browser!
 
 4. **How to run via vs code**
+   ```bash
    C:/php/php.exe -d upload_max_filesize=350M -d post_max_size=355M -S localhost:8000
+   ```
 
 ---
 
