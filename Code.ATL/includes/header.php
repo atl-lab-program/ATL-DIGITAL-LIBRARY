@@ -49,7 +49,7 @@ require_once __DIR__ . '/icons.php';
     <!-- CREATORS SHOWCASE MINI BADGE -->
     <a href="<?php echo BASE_URL; ?>about.php" class="creators-mini-chip">
       <?php echo get_icon('award', 'icon-svg', 18); ?>
-      <span>Student Creators (Grades 7 & 8)</span>
+      <span>Student Creators (Grade 7)</span>
     </a>
 
   </div>
