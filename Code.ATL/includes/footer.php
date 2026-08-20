@@ -9,7 +9,7 @@ require_once __DIR__ . '/search_modal.php';
   <div class="footer-content">
     <div class="chip-badge" style="padding: 10px 24px; font-size: 1rem; background: var(--accent-sky); color: white; border: none;">
       <?php echo get_icon('award', 'icon-svg', 20); ?>
-      Built by Student Creators Suhaira, Siddharth & Aadi (Grades 7 & 8)
+      Built by Student Creators Suhaira, Siddharth & Aadi (Grade 7 )
     </div>
     <p style="font-weight: 600; color: var(--text-muted); font-size: 0.95rem; margin-top: 10px;">
       ATL Student Digital Library • Powered by Modular PHP & Local Storage Engine
