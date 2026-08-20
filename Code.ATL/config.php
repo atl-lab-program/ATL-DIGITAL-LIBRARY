@@ -17,22 +17,22 @@ define('BASE_URL', $protocol . '://' . $host . '/');
 $STUDENT_CREATORS = [
     [
         'name' => 'Suhaira',
-        'grade' => '8th Grade',
+        'grade' => '7th Grade',
         'role' => 'Lead UI/UX & Catalog Architect',
         'icon' => 'user-check',
-        'badge' => 'Grade 8 Lead'
+        'badge' => 'Grade 7 Lead'
     ],
     [
         'name' => 'Siddharth',
-        'grade' => '8th Grade',
-        'role' => 'PDF Database & Digital Books Manager',
+        'grade' => '7th Grade',
+        'role' => 'Digital Books Manager',
         'icon' => 'cpu',
-        'badge' => 'Grade 8 Architect'
+        'badge' => 'Grade 7 Architect'
     ],
     [
         'name' => 'Aadi',
         'grade' => '7th Grade',
-        'role' => 'Comic Collections & Audio Curator',
+        'role' => 'Comic Collections, PDF Database',
         'icon' => 'zap',
         'badge' => 'Grade 7 Specialist'
     ]
