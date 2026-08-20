@@ -69,7 +69,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <?php echo get_icon('user', '', 44); ?>
     </div>
     <h2 id="userNameDisplay" style="font-size: 1.7rem; color: var(--text-heading);">Suhaira</h2>
-    <span class="chip-badge" id="userRoleDisplay">Student Creator (8th Grade)</span>
+    <span class="chip-badge" id="userRoleDisplay">Student Creator (7th Grade)</span>
 
     <div style="width: 100%; border-top: 1px dashed var(--border-color); margin: 6px 0;"></div>
 
