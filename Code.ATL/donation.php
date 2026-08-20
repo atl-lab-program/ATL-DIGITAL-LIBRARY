@@ -62,6 +62,11 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
 
           <div style="margin-bottom: 16px;">
+            <label style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; display: block; margin-bottom: 6px;">Author</label>
+            <input type="text" id="authorName" class="search-box-ui" style="border-radius: var(--radius-sm); width: 100%; padding: 10px 14px;" placeholder="e.g. Roald Dahl" required />
+          </div>
+
+          <div style="margin-bottom: 16px;">
             <label style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; display: block; margin-bottom: 6px;">Category / Genre</label>
             <select id="genreSelect" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-heading); font-weight: 600;">
               <option value="Mythology">Mythology & History</option>
@@ -167,6 +172,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const description = document.getElementById("description").value.trim();
         const coverFile = coverFileInput.files[0];
         const pdfFile = pdfFileInput.files[0];
+        const authorName = document.getElementById("authorName").value.trim();
+
 
         if (!donorName || !title) {
             alert("Please enter donor name and book title.");
@@ -197,6 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 formData.append("description", description);
                 if (coverFile) formData.append("cover", coverFile);
                 formData.append("pdf", pdfFile);
+                formData.append("authorName", authorName);
+
 
                 const response = await fetch("upload_book.php", {
                     method: "POST",
