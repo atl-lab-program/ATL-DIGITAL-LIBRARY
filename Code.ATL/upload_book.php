@@ -14,6 +14,7 @@ $donorName   = trim($_POST['donorName'] ?? '');
 $title       = trim($_POST['title'] ?? '');
 $genre       = trim($_POST['genre'] ?? 'General');
 $description = trim($_POST['description'] ?? '');
+$authorName  = trim($_POST['authorName'] ?? '');
 
 if (empty($donorName) || empty($title)) {
     echo json_encode(['success' => false, 'message' => 'Donor name and book title are required.']);
@@ -91,12 +92,13 @@ if (file_exists($jsonFile)) {
 $newBook = [
     "id"          => "donated_" . time(),
     "title"       => $title,
-    "author"      => "Donated by " . $donorName,
+    "donator"      => "Donated by " . $donorName,
+    "author"     => "Author: " . $authorName,
     "genre"       => $genre,
     "category"    => "donated",
     "cover"       => $coverRelPath,
     "pdf"         => $pdfRelPath,
-    "rating"      => "5.0",
+    "rating"      => "4.7",
     "description" => $description ?: "Donated by $donorName to ATL Digital Library.",
     "badge"       => "🎁 Donated Book",
     "badgeColor"  => "green",
