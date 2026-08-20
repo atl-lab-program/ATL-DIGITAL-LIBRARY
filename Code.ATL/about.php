@@ -12,7 +12,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <?php echo get_icon('info', 'icon-svg highlight', 36); ?> About ATL Digital Library
     </h1>
     <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-muted); max-width: 820px; margin: 0 auto; line-height: 1.6;">
-      Welcome to the ATL Digital Library! Developed by talented 7th & 8th grade students at Atal Tinkering Lab (ATL). Our mission is to make reading engaging, educational, and accessible for students through 3D digital flipbooks, comic collections, and softcopy book donations!
+      Welcome to the ATL Digital Library! Developed by talented 7th grade students at Atal Tinkering Lab (ATL). Our mission is to make reading engaging, educational, and accessible for students through 3D digital flipbooks, comic collections, and softcopy book donations!
     </p>
   </div>
 
