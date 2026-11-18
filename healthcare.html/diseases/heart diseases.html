@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive Guide to Heart Diseases, Symptoms &amp; Onset</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #b71c1c;
+    }
+    /* Audio Controls Styling */
+    .audio-bar {
+      position: sticky;
+      top: 10px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    .audio-bar button {
+      background-color: #b71c1c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .audio-bar button:hover {
+      background-color: #8e0000;
+    }
+    .audio-bar button.secondary {
+      background-color: #555;
+    }
+    .audio-bar button.secondary:hover {
+      background-color: #333;
+    }
+    .audio-bar select {
+      padding: 7px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      max-width: 200px;
+    }
+    /* Highlight Styling for Active Word */
+    .spoken-word {
+      border-radius: 3px;
+      transition: background-color 0.1s ease;
+    }
+    .spoken-word.active-highlight {
+      background-color: #ffeb3b;
+      color: #000;
+      box-shadow: 0 0 0 2px #ffeb3b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .note {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Reader Control Bar -->
+  <div class="audio-bar">
+    <span><strong>Listen to Page:</strong></span>
+    <button onclick="playAudio()">▶ Read Aloud</button>
+    <button class="secondary" onclick="pauseAudio()">⏸ Pause</button>
+    <button class="secondary" onclick="stopAudio()">⏹ Stop</button>
+    
+    <label for="voiceSelect">Voice:</label>
+    <select id="voiceSelect"></select>
+
+    <label for="rate">Speed:</label>
+    <select id="rate" onchange="changeSpeed()">
+      <option value="0.8">0.8x</option>
+      <option value="1" selected>1.0x (Normal)</option>
+      <option value="1.25">1.25x</option>
+      <option value="1.5">1.5x</option>
+    </select>
+  </div>
+
+  <!-- Main Content Container -->
+  <main id="readable-content">
+    <h1>Heart Diseases: Categories, Symptoms &amp; Age of Onset</h1>
+    <p>Because "heart disease" is an umbrella term encompassing dozens of specific structural, electrical, vascular, and infectious conditions, medical organizations categorize them into major clinical groups.</p>
+
+    <h2>Major Categories of Heart Disease</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Heart Disease Category</th>
+          <th>Specific Conditions Included</th>
+          <th>Common Symptoms</th>
+          <th>Typical Age of Onset</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Coronary Artery Disease (CAD)</strong><br><em>(Plaque buildup narrowing the heart's arteries)</em></td>
+          <td>
+            <ul>
+              <li>Stable Angina</li>
+              <li>Unstable Angina</li>
+              <li>Myocardial Infarction (Heart Attack)</li>
+              <li>Silent Ischemia</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Chest pain, pressure, tightness, or squeezing (<em>angina</em>)</li>
+              <li>Pain radiating to neck, jaw, back, stomach, or arms</li>
+              <li>Shortness of breath</li>
+              <li>Cold sweats, nausea, lightheadedness</li>
+              <li>Unusual fatigue (especially in women)</li>
+            </ul>
+          </td>
+          <td><strong>45+ in men; 55+ in women</strong><br><em>(Average first heart attack is ~65 in men / ~72 in women globally, though onset can occur at 45–50 in high-risk populations like South Asia)</em></td>
+        </tr>
+        <tr>
+          <td><strong>2. Heart Arrhythmias</strong><br><em>(Electrical system malfunctions causing irregular heartbeats)</em></td>
+          <td>
+            <ul>
+              <li>Atrial Fibrillation (AFib)</li>
+              <li>Supraventricular Tachycardia (SVT)</li>
+              <li>Ventricular Tachycardia / Fibrillation</li>
+              <li>Bradycardia (slow heart rate)</li>
+              <li>Long QT Syndrome</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Fluttering, racing, or pounding in the chest (<em>palpitations</em>)</li>
+              <li>Slow or skipped heartbeats</li>
+              <li>Dizziness or lightheadedness</li>
+              <li>Fainting (<em>syncope</em>) or near-fainting</li>
+              <li>Shortness of breath and chest discomfort</li>
+            </ul>
+          </td>
+          <td><strong>Any age</strong>, depending on type:<br>• Inherited/SVT: <strong>Childhood to 30s</strong><br>• AFib &amp; degenerative arrhythmias: <strong>60+ years</strong></td>
+        </tr>
+        <tr>
+          <td><strong>3. Heart Failure</strong><br><em>(Heart muscle becomes too weak or stiff to pump blood efficiently)</em></td>
+          <td>
+            <ul>
+              <li>Systolic Heart Failure (HFrEF)</li>
+              <li>Diastolic Heart Failure (HFpEF)</li>
+              <li>Left-sided vs. Right-sided Heart Failure</li>
+              <li>Congestive Heart Failure (CHF)</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Shortness of breath during activity or when lying flat</li>
+              <li>Waking up breathless at night</li>
+              <li>Swelling (<em>edema</em>) in feet, ankles, legs, or abdomen</li>
+              <li>Persistent cough with white or pink mucus</li>
+              <li>Rapid weight gain (fluid retention) and severe fatigue</li>
+            </ul>
+          </td>
+          <td><strong>65+ years</strong><br><em>(Incidence doubles every decade after age 65)</em></td>
+        </tr>
+        <tr>
+          <td><strong>4. Heart Valve Disease</strong><br><em>(Valves narrow [stenosis], leak [regurgitation], or fail to close properly [prolapse])</em></td>
+          <td>
+            <ul>
+              <li>Aortic Stenosis</li>
+              <li>Mitral Valve Prolapse (MVP)</li>
+              <li>Mitral Regurgitation</li>
+              <li>Tricuspid / Pulmonary Valve Disease</li>
+              <li>Rheumatic Heart Disease</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Heart murmur (heard via stethoscope)</li>
+              <li>Shortness of breath, especially with exertion</li>
+              <li>Swollen ankles and feet</li>
+              <li>Fatigue and weakness</li>
+              <li>Dizziness or fainting</li>
+              <li>Irregular heartbeat</li>
+            </ul>
+          </td>
+          <td>• Congenital/MVP: <strong>Teens to 30s</strong><br>• Rheumatic valve disease: <strong>20s to 40s</strong><br>• Calcific/degenerative (e.g., Aortic Stenosis): <strong>65–75+ years</strong></td>
+        </tr>
+        <tr>
+          <td><strong>5. Cardiomyopathy</strong><br><em>(Diseases of the heart muscle itself—thickening, stiffening, or enlarging)</em></td>
+          <td>
+            <ul>
+              <li>Dilated Cardiomyopathy</li>
+              <li>Hypertrophic Cardiomyopathy (HCM)</li>
+              <li>Restrictive Cardiomyopathy</li>
+              <li>Arrhythmogenic Right Ventricular Dysplasia (ARVD)</li>
+              <li>Takotsubo ("Broken Heart") Syndrome</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Breathlessness at rest or with minimal exertion</li>
+              <li>Swelling in legs, ankles, and feet</li>
+              <li>Bloating of the abdomen due to fluid</li>
+              <li>Fainting during exercise (classic in HCM)</li>
+              <li>Chest pressure and rapid, fluttering heartbeats</li>
+            </ul>
+          </td>
+          <td>• Hypertrophic (genetic): <strong>Teens to 30s</strong><br>• Dilated / Restrictive: <strong>20 to 60 years</strong></td>
+        </tr>
+        <tr>
+          <td><strong>6. Congenital Heart Defects</strong><br><em>(Structural abnormalities present at birth)</em></td>
+          <td>
+            <ul>
+              <li>Atrial / Ventricular Septal Defects ("hole in the heart")</li>
+              <li>Tetralogy of Fallot</li>
+              <li>Coarctation of the Aorta</li>
+              <li>Patent Ductus Arteriosus (PDA)</li>
+              <li>Hypoplastic Left Heart Syndrome</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>In infants:</strong> Pale gray or blue skin/lips (<em>cyanosis</em>), rapid breathing, poor feeding, slow weight gain, swelling around eyes/belly</li>
+              <li><strong>In older children/adults:</strong> Tiring easily during exercise, shortness of breath, swelling in hands/feet</li>
+            </ul>
+          </td>
+          <td><strong>Birth to early childhood</strong><br><em>(Milder defects may go undetected until adulthood)</em></td>
+        </tr>
+        <tr>
+          <td><strong>7. Carditis (Heart Infections &amp; Inflammation)</strong><br><em>(Inflammation caused by viruses, bacteria, fungi, or autoimmune conditions)</em></td>
+          <td>
+            <ul>
+              <li><strong>Pericarditis:</strong> Inflammation of the outer sac</li>
+              <li><strong>Myocarditis:</strong> Inflammation of the heart muscle</li>
+              <li><strong>Endocarditis:</strong> Infection of the inner lining/valves</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Sharp, stabbing chest pain that improves when sitting up and leaning forward (<em>pericarditis</em>)</li>
+              <li>Fever, chills, and night sweats (<em>endocarditis</em>)</li>
+              <li>Flu-like body aches and severe fatigue</li>
+              <li>Shortness of breath and rapid heartbeat</li>
+              <li>New heart murmur or blood spots under fingernails</li>
+            </ul>
+          </td>
+          <td><strong>Any age</strong><br>• Myocarditis/Pericarditis: Most common in <strong>young adults (20s–40s)</strong><br>• Endocarditis: Peaks in <strong>older adults (60+)</strong> or those with prosthetic valves/IV drug use</td>
+        </tr>
+        <tr>
+          <td><strong>8. Vascular &amp; Aortic Heart Conditions</strong><br><em>(Diseases affecting the major blood vessels connected to the heart)</em></td>
+          <td>
+            <ul>
+              <li>Thoracic / Abdominal Aortic Aneurysm</li>
+              <li>Aortic Dissection</li>
+              <li>Pulmonary Hypertension</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Sudden, severe "tearing" or "ripping" pain in the chest or upper back (<em>aortic dissection</em>)</li>
+              <li>Hoarseness, difficulty swallowing, or coughing</li>
+              <li>Shortness of breath and blue lips (<em>pulmonary hypertension</em>)</li>
+            </ul>
+          </td>
+          <td><strong>55–75+ years</strong><br><em>(Earlier in genetic connective tissue disorders like Marfan syndrome)</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Specific &amp; Rare Heart Conditions</h2>
+    <p>In clinical cardiology (such as the ICD-11), there are over 60 distinct, named heart conditions when separating rare genetic disorders, specific congenital defects, and electrical syndromes.</p>
+
+    <h3>1. Rare Electrical &amp; Genetic Syndromes (Channelopathies)</h3>
+    <ul>
+      <li><strong>Brugada Syndrome:</strong> Causes dangerous irregular beats in the lower chambers; often triggered during sleep or fever (more common in men of Asian descent, typically ages <strong>30–40</strong>).</li>
+      <li><strong>Wolff-Parkinson-White (WPW) Syndrome:</strong> An extra electrical pathway between the upper and lower chambers causing rapid heartbeats (<strong>teens to 20s</strong>).</li>
+      <li><strong>Catecholaminergic Polymorphic Ventricular Tachycardia (CPVT):</strong> Triggered by adrenaline/exercise in children and young adults (<strong>ages 7–20</strong>).</li>
+      <li><strong>Sick Sinus Syndrome:</strong> The heart's natural pacemaker fails to fire properly, causing alternating slow and fast heart rates (<strong>ages 65+</strong>).</li>
+    </ul>
+
+    <h3>2. Rare Structural &amp; Tumor Conditions</h3>
+    <ul>
+      <li><strong>Cardiac Tumors (e.g., Atrial Myxoma):</strong> Non-cancerous or cancerous growths inside the heart chambers that can block blood flow or mimic valve disease (<strong>ages 30–60</strong>).</li>
+      <li><strong>Constrictive Pericarditis:</strong> Scarring and stiffening of the sac around the heart (often post-tuberculosis, radiation, or surgery) that prevents the heart from expanding (<strong>any age</strong>).</li>
+      <li><strong>Cardiac Amyloidosis ("Stiff Heart Syndrome"):</strong> Abnormal protein deposits build up in the heart muscle, making it rigid (<strong>ages 60+</strong>).</li>
+      <li><strong>Cardiac Sarcoidosis:</strong> Clusters of inflammatory cells (granulomas) form in the heart tissue, disrupting rhythm and pumping (<strong>ages 25–50</strong>).</li>
+      <li><strong>Non-Compaction Cardiomyopathy (LVNC):</strong> A rare congenital condition where the lower left chamber muscle remains spongy instead of smooth and firm (<strong>infancy to adulthood</strong>).</li>
+    </ul>
+
+    <h3>3. Specialized Coronary &amp; Microvascular Conditions</h3>
+    <ul>
+      <li><strong>Coronary Microvascular Disease (Cardiac Syndrome X):</strong> Damage to the tiny microscopic blood vessels of the heart rather than the main arteries; causes chest pain despite "clear" angiograms (most common in <strong>women ages 45–60</strong>).</li>
+      <li><strong>Prinzmetal's (Variant) Angina:</strong> Sudden, temporary spasms in a coronary artery that restrict blood flow, often occurring at rest or at night (<strong>ages 40–55</strong>).</li>
+      <li><strong>Spontaneous Coronary Artery Dissection (SCAD):</strong> A sudden tear in the wall of a heart artery without traditional plaque buildup; affects mostly healthy <strong>women ages 30–50</strong> (including postpartum).</li>
+      <li><strong>Kawasaki Disease:</strong> Acute inflammation of blood vessels that can cause coronary artery aneurysms in <strong>children under 5</strong>.</li>
+    </ul>
+
+    <h3>4. Specific Complex Congenital Defects</h3>
+    <ul>
+      <li><strong>Transposition of the Great Arteries (TGA):</strong> The two main arteries leaving the heart are switched (<strong>at birth</strong>).</li>
+      <li><strong>Ebstein’s Anomaly:</strong> Malformed tricuspid valve sitting too low in the right ventricle (<strong>birth to adulthood</strong>).</li>
+      <li><strong>Truncus Arteriosus:</strong> A single large blood vessel comes out of the heart instead of two separate ones (<strong>at birth</strong>).</li>
+      <li><strong>Eisenmenger Syndrome:</strong> Long-term untreated congenital heart defects causing irreversible high blood pressure in the lungs (<strong>teens to 30s</strong>).</li>
+    </ul>
+
+    <hr>
+
+    <h2>Medical Sources &amp; References</h2>
+    <ul>
+      <li><strong>Mayo Clinic:</strong> <em>Heart Disease – Symptoms and Causes</em></li>
+      <li><strong>Cleveland Clinic:</strong> <em>Cardiovascular Disease &amp; Heart Disease Overview</em></li>
+      <li><strong>American Heart Association (AHA):</strong> <em>Heart Disease and Stroke Statistics Update</em></li>
+      <li><strong>British Heart Foundation (BHF):</strong> <em>Signs You Might Have Heart Disease</em></li>
+      <li><strong>World Health Organization (WHO) &amp; Indian Council of Medical Research (ICMR):</strong> <em>Cardiovascular Diseases Fact Sheets &amp; ICD-11</em></li>
+      <li><strong>National Heart, Lung, and Blood Institute (NHLBI) &amp; Orphanet:</strong> <em>Rare and Genetic Cardiovascular Disorders</em></li>
+    </ul>
+
+    <div class="note">
+      <strong>Medical Disclaimer:</strong> Many heart conditions develop silently without noticeable symptoms until an acute event occurs. Sudden chest pressure, fainting, or severe shortness of breath require immediate emergency medical care.
+    </div>
+  </main>
+
+  <!-- Text-to-Speech Script with Voice Selector & Highlighting -->
+  <script>
+    const synth = window.speechSynthesis;
+    let utterance;
+    let wordMap = [];
+    let fullTextToSpeak = "";
+    let currentHighlight = null;
+    let voices = [];
+
+    function populateVoices() {
+      if (!synth) return;
+      voices = synth.getVoices();
+      const voiceSelect = document.getElementById('voiceSelect');
+      voiceSelect.innerHTML = '';
+
+      // Filter for English voices primarily
+      const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+      const voicesToList = englishVoices.length > 0 ? englishVoices : voices;
+
+      voicesToList.forEach((voice, index) => {
+        const option = document.createElement('option');
+        option.value = voices.indexOf(voice); // store original index
+        option.textContent = `${voice.name} (${voice.lang})`;
+
+        // Smart check to pre-select a woman's voice by common naming conventions
+        const nameLower = voice.name.toLowerCase();
+        if (
+          nameLower.includes('female') || 
+          nameLower.includes('woman') || 
+          nameLower.includes('samantha') || 
+          nameLower.includes('victoria') || 
+          nameLower.includes('aria') || 
+          nameLower.includes('jenny') || 
+          nameLower.includes('zira') ||
+          nameLower.includes('karen') ||
+          nameLower.includes('tessa')
+        ) {
+          option.selected = true;
+        }
+
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    if (synth) {
+      populateVoices();
+      if (synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = populateVoices;
+      }
+    }
+
+    function prepareWordsForHighlighting() {
+      const container = document.getElementById('readable-content');
+      if (!container) return;
+      
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      const textNodes = [];
+      let node;
+
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue.trim().length > 0) {
+          textNodes.push(node);
+        }
+      }
+
+      let charIndex = 0;
+
+      textNodes.forEach((textNode) => {
+        const fragment = document.createDocumentFragment();
+        const tokens = textNode.nodeValue.split(/(\s+)/);
+
+        tokens.forEach((token) => {
+          if (token.trim().length > 0) {
+            const span = document.createElement('span');
+            span.textContent = token;
+            span.className = 'spoken-word';
+            fragment.appendChild(span);
+
+            wordMap.push({
+              start: charIndex,
+              end: charIndex + token.length,
+              element: span
+            });
+
+            fullTextToSpeak += token;
+            charIndex += token.length;
+          } else if (token.length > 0) {
+            fragment.appendChild(document.createTextNode(token));
+            fullTextToSpeak += " ";
+            charIndex += 1;
+          }
+        });
+
+        fullTextToSpeak += " ";
+        charIndex += 1;
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', prepareWordsForHighlighting);
+
+    function clearHighlight() {
+      if (currentHighlight) {
+        currentHighlight.classList.remove('active-highlight');
+        currentHighlight = null;
+      }
+    }
+
+    function playAudio() {
+      if (!synth) {
+        alert("Text-to-speech is not supported in your browser.");
+        return;
+      }
+
+      if (synth.paused) {
+        synth.resume();
+        return;
+      }
+
+      synth.cancel();
+      clearHighlight();
+
+      if (!fullTextToSpeak) {
+        alert("No text found to read.");
+        return;
+      }
+
+      utterance = new SpeechSynthesisUtterance(fullTextToSpeak);
+      utterance.rate = parseFloat(document.getElementById('rate').value) || 1;
+      utterance.lang = 'en-US';
+
+      // Set voice based on the dropdown selection
+      const voiceSelect = document.getElementById('voiceSelect');
+      const selectedVoiceIndex = voiceSelect.value;
+      if (selectedVoiceIndex !== "" && voices[selectedVoiceIndex]) {
+        utterance.voice = voices[selectedVoiceIndex];
+      }
+
+      utterance.onboundary = function(event) {
+        if (event.name === 'word') {
+          const idx = event.charIndex;
+          const match = wordMap.find(w => idx >= w.start && idx < w.end);
+
+          if (match && match.element !== currentHighlight) {
+            clearHighlight();
+            currentHighlight = match.element;
+            currentHighlight.classList.add('active-highlight');
+
+            currentHighlight.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }
+      };
+
+      utterance.onend = clearHighlight;
+      utterance.onerror = function(event) {
+        console.error("Speech synthesis error:", event);
+        clearHighlight();
+      };
+
+      setTimeout(() => {
+        synth.speak(utterance);
+      }, 50);
+    }
+
+    function pauseAudio() {
+      if (synth && synth.speaking && !synth.paused) {
+        synth.pause();
+      }
+    }
+
+    function stopAudio() {
+      if (synth) {
+        synth.cancel();
+        clearHighlight();
+      }
+    }
+
+    function changeSpeed() {
+      if (synth && synth.speaking) {
+        stopAudio();
+        playAudio();
+      }
+    }
+
+    window.onbeforeunload = function() {
+      if (synth) synth.cancel();
+    };
+  </script>
+
+</body>
+</html>
