@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,8 @@
         }
 
         body {
-            background-color: lavender;
+            background: #fcd7e9;
+            background: linear-gradient(180deg, rgba(252, 215, 233, 1) 0%, rgba(218, 181, 255, 1) 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -114,6 +116,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+            margin-bottom: 40px;
         }
 
         .explore-btn:hover {
@@ -125,13 +128,13 @@
             display: none;
             background: #fff0f3;
             padding: 30px;
-            margin: 25px auto;
+            margin: 0 auto 40px auto;
             max-width: 800px;
             width: 100%;
             border-radius: 12px;
             text-align: left;
             line-height: 1.7;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
         #information h2 {
@@ -152,8 +155,61 @@
         #information p {
             margin-bottom: 15px;
         }
+
+        /* Catalog Layout */
+        .catalog-title {
+            font-size: 2rem;
+            color: #1e293b;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            width: 100%;
+            justify-content: center;
+            justify-items: center;
+            /* Centers grid items horizontally */
+            margin-bottom: 40px;
+        }
+
+        .catalog-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: bold;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+            width: 100%;
+            max-width: 160px;
+        }
+
+        .catalog-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .catalog-item img.a1 {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="header-container">
@@ -163,23 +219,18 @@
 
     <div class="search-container">
         <div class="search-box">
-            <form action="/search" method="GET" id="searchForm" style="display: flex; width: 100%; align-items: center;">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <form action="/search" method="GET" id="searchForm"
+                style="display: flex; width: 100%; align-items: center;">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                
-                <input 
-                    type="search" 
-                    id="searchInput" 
-                    name="q" 
-                    class="search-input" 
-                    placeholder="Search for templates, articles, code..." 
-                    aria-label="Search website content"
-                    autocomplete="off"
-                    required
-                >
-                
+
+                <input type="search" id="searchInput" name="q" class="search-input"
+                    placeholder="Search for templates, articles, code..." aria-label="Search website content"
+                    autocomplete="off" required>
+
                 <button type="submit" class="search-button">Search</button>
             </form>
         </div>
@@ -192,7 +243,9 @@
     <div id="information">
         <h2>1. What is Saathi AI?</h2>
         <p>
-            Saathi AI is a healthcare technology concept/platform that aims to make healthcare information accessible through artificial intelligence.<br> It can help users understand symptoms, health reports, medicines and general health-related questions.
+            Saathi AI is a healthcare technology concept/platform that aims to make healthcare information accessible
+            through artificial intelligence.<br> It can help users understand symptoms, health reports, medicines and
+            general health-related questions.
         </p>
         <p>
             Saathi is an Indian AI-powered healthcare platform. It provides:
@@ -203,14 +256,14 @@
             <li>Medical report interpretation.</li>
             <li>Medicine information and generic alternatives.</li>
             <li>Health monitoring and medicine reminders.</li>
-            <li>Online doctor consultations.</li>
-            <li>Personalised health and diet recommendations.</li>
+            <li>General health and wellness information.</li>
         </ul>
 
         <h2>2. Diseases and Health Categories</h2>
         <ul>
             <li>Heart diseases and high blood pressure</li>
             <li>Diabetes</li>
+            <li>Stroke</li>
             <li>Respiratory diseases</li>
             <li>Digestive disorders</li>
             <li>Kidney diseases</li>
@@ -233,7 +286,8 @@
 
         <h2>4. Can AI Identify All Diseases?</h2>
         <p>
-            No AI system can guarantee the identification of every disease. AI can sometimes make mistakes, and different diseases may have similar symptoms. A qualified doctor must confirm medical diagnoses.
+            No AI system can guarantee the identification of every disease. AI can sometimes make mistakes, and
+            different diseases may have similar symptoms. A qualified doctor must confirm medical diagnoses.
         </p>
 
         <h2>5. Important Limitations</h2>
@@ -247,8 +301,64 @@
 
         <h2>6. Important Health Warning</h2>
         <p>
-            Saathi AI should be used only as a healthcare information and assistance tool. It should not be used as a substitute for professional medical advice, diagnosis or treatment. For medical emergencies, contact emergency services immediately.
+            Saathi AI should be used only as a healthcare information and assistance tool. It should not be used as a
+            substitute for professional medical advice, diagnosis or treatment. For medical emergencies, contact
+            emergency services immediately.
         </p>
+    </div>
+
+    <h1 class="catalog-title">Browse The Catalog</h1>
+
+    <div class="catalog">
+
+        <a href="catalog/heart-disease.html" class="catalog-item">
+            <img src="/assets/images/heart-disease.png" alt="Heart Disease" class="a1">
+            Heart Disease
+        </a>
+
+        <a href="catalog/diabetes.html" class="catalog-item">
+            <img src="/assets/images/diabetes.png" alt="Diabetes" class="a1">
+            Diabetes
+        </a>
+
+        <a href="catalog/stroke.html" class="catalog-item">
+            <img src="/assets/images/stroke.png" alt="Stroke" class="a1">
+            Stroke
+        </a>
+
+        <a href="catalog/respiratory-disease.html" class="catalog-item">
+            <img src="/assets/images/respiratory-disease.png" alt="Respiratory Disease" class="a1">
+            Respiratory Disease
+        </a>
+
+        <a href="catalog/digestive-disorders.html" class="catalog-item">
+            <img src="/assets/images/digestive-disorders.png" alt="Digestive Disorders" class="a1">
+            Digestive Disorders
+        </a>
+    </div>
+
+    <div class="catalog">
+        <a href="catalog/kidney-disease.html" class="catalog-item">
+            <img src="/assets/images/kidney-disease.png" alt="Kidney Disease" class="a1">
+            Kidney Disease
+        </a>
+
+        <a href="catalog/thyroid-disorders.html" class="catalog-item">
+            <img src="/assets/images/thyroid-disorders.png" alt="Thyroid Disorders" class="a1">
+            Thyroid Disorders
+        </a>
+        <a href="catalog/womens-health.html" class="catalog-item">
+            <img src="/assets/images/womens-health.png" alt="Women's Health" class="a1">
+            Women's Health
+        </a>
+        <a href="catalog/mental-wellness.html" class="catalog-item">
+            <img src="/assets/images/mental-wellness.png" alt="Mental Wellness" class="a1">
+            Mental Wellness
+        </a>
+        <a href="catalog/common-illnesses.html" class="catalog-item">
+            <img src="/assets/images/common-illnesses.png" alt="Common Illnesses" class="a1">
+            Common Illnesses
+        </a>
     </div>
 
     <script>
@@ -274,4 +384,5 @@
         }
     </script>
 </body>
+
 </html>
