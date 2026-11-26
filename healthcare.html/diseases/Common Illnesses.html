@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive Guide to Diabetes &amp; Complications</title>
+
+   <!-- Favicon links -->
+    <link rel="icon" type="image/png" href="/Favicon.png/plus.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #b71c1c;
+    }
+
+    /* Audio Controls Styling */
+    .audio-bar {
+      position: sticky;
+      top: 10px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    .audio-bar button {
+      background-color: #b71c1c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .audio-bar button:hover {
+      background-color: #8e0000;
+    }
+    .audio-bar button.secondary {
+      background-color: #555;
+    }
+    .audio-bar button.secondary:hover {
+      background-color: #333;
+    }
+    .audio-bar select {
+      padding: 7px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      max-width: 200px;
+    }
+    /* Highlight Styling for Active Word */
+    .spoken-word {
+      border-radius: 3px;
+      transition: background-color 0.1s ease;
+    }
+    .spoken-word.active-highlight {
+      background-color: #ffeb3b;
+      color: #000;
+      box-shadow: 0 0 0 2px #ffeb3b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .note {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Reader Control Bar -->
+  <div class="audio-bar">
+    <span><strong>Listen to Page:</strong></span>
+    <button onclick="playAudio()">▶ Read Aloud</button>
+    <button class="secondary" onclick="pauseAudio()">⏸ Pause</button>
+    <button class="secondary" onclick="stopAudio()">⏹ Stop</button>
+    
+    <label for="voiceSelect">Voice:</label>
+    <select id="voiceSelect"></select>
+
+    <label for="rate">Speed:</label>
+    <select id="rate" onchange="changeSpeed()">
+      <option value="0.8">0.8x</option>
+      <option value="1" selected>1.0x (Normal)</option>
+      <option value="1.25">1.25x</option>
+      <option value="1.5">1.5x</option>
+    </select>
+  </div>
+
+  <main id="readable-content">
+    <p>Common illnesses span acute infections that occur across the lifespan and chronic conditions whose onset clusters around specific developmental or aging milestones. </p>
+
+    <h1><strong>Acute & Infectious Illnesses</strong></h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Illness</th>
+          <th>Typical Age of Onset/Peak</th>
+          <th>Primary Symptoms</th>
+          <th>Clinical References</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Upper Respiratory Tract Infection (Common Cold)</strong></td>
+          <td>Any age; peaks in early childhood (6–12 episodes/year)</td>
+          <td>Runny or stuffy nose, sneezing, mild sore throat, cough, low-grade fever</td>
+          <td>CDC; NHS Inform</td>
+        </tr>
+        <tr>
+          <td><strong>Influenza (Flu)</strong></td>
+          <td>Any age; higher complication rates under age 5 and over 65</td>
+          <td>Sudden high fever (38.8°C–40°C / 102°F–104°F), chills, severe body aches, dry cough, profound fatigue</td>
+          <td>WHO; CDC</td>
+        </tr>
+
+
+        <tr>
+          <td><strong>Acute Otitis Media (Middle Ear Infection)</strong></td>
+          <td>6 months to 2 years (most common in early childhood)</td>
+          <td>Ear pain (tugging at ears in infants), fussiness, trouble sleeping, fever, fluid drainage, muffled hearing</td>
+          <td>AAP (American Academy of Pediatrics)</td>
+        </tr>
+         <tr>
+          <td><strong>Streptococcal Pharyngitis (Strep Throat)</strong></td>
+          <td>5 to 15 years</td>
+          <td>Sudden severe sore throat, pain when swallowing, fever over 38.3°C (101°F), red/swollen tonsils with white patches, swollen neck lymph nodes (typically no cough)</td>
+          <td>CDC; IDSA</td>
+        </tr>
+        <tr>
+          <td><strong>Hand, Foot, and Mouth Disease</strong></td>
+          <td>Under 5 years</td>
+          <td>Fever, sore throat, painful mouth sores, non-itchy red spots or blisters on palms and soles</td>
+          <td>CDC; Raising Children Network</td>
+        </tr>
+              </tbody>
+    </table>
+    <hr>
+<h2>Chronic & Non-Communicable Illnesses</h2>
+<p>Chronic conditions follow more predictable epidemiological patterns driven by genetics, hormonal shifts, and cumulative metabolic or mechanical wear.</p>
+  
+<hr>
+<table>
+<thead>
+  <tr>
+    <th>Illness</th> 
+<th>Typical Age of Onset</th> 
+    <th>Primary Symptoms</th> 
+    <th>Clinical References</th>
+    </tr>
+    <tr> 
+    
+<td><strong>Asthma</strong></td>
+<td>Childhood (often before age 5); secondary adult-onset peak</td>
+<td>Episodic wheezing, shortness of breath, chest tightness, persistent cough (often worse at night or with exercise)</td>
+<td>GINA (Global Initiative for Asthma); WHO</td>
+</tr>    
+<tr> 
+    <td><strong>Allergic Rhinitis (Hay Fever)</strong></td>
+<td>Childhood to early adulthood (typically before age 20)</td>
+<td>Sneezing, clear runny nose, nasal congestion, itchy/watery eyes, itchy throat</td>
+<td>AAAAI; NHS Inform</td>
+</tr>    
+<tr> 
+    <td><strong>Type 1 Diabetes</strong></td>
+<td>Bimodal peak: ages 4–7 and 10–14 (puberty)</td>
+<td>Excessive thirst, frequent urination, unexplained weight loss, extreme fatigue, blurred vision</td>
+<td>ADA (American Diabetes Association); MoHFW India</td>
+</tr>    
+<tr> 
+    <td><strong>Major Depressive Disorder</strong></td>
+<td>Late adolescence to mid-20s (median onset ~25 years)</td>
+<td>Persistent low mood, loss of interest/pleasure, sleep and appetite changes, fatigue, difficulty concentrating</td>
+<td>NIMH; DSM-5-TR</td>
+</tr>    
+<tr> 
+    <td><strong>Hypertension (High Blood Pressure)</strong></td>
+<td>Mid-adulthood (typically 40–50 years)</td>
+<td>Usually asymptomatic ("silent"); severe elevations may cause headaches, shortness of breath, or nosebleeds</td>
+<td>WHO; AHA</td>
+</tr>    
+<tr> 
+    <td><strong>Type 2 Diabetes</strong></td>
+
+<td>Middle adulthood (45+ years globally; ~35–45 years in South Asian populations)</td>
+<td>Gradual onset of increased thirst, frequent urination, fatigue, slow-healing sores, numbness/tingling in extremities</td>
+<td>WHO; IDF; MoHFW India</td>
+</tr>  
+  <tr> 
+    <td><strong>Osteoarthritis</strong></td>
+
+<td>50+ years (risk rises sharply after age 45)</td>
+<td>Joint pain that worsens with activity, brief morning stiffness (less than 30 minutes), reduced range of motion, joint swelling</td>
+<td>ACR (American College of Rheumatology); CDC</td>
+</tr>    
+<tr> 
+    <td><strong>Coronary Artery Disease</strong></td>
+<td>55+ years in men; 65+ years in women</td>
+<td>Chest pain or pressure (angina), shortness of breath on exertion, fatigue; may present acutely as a heart attack</td>
+<td>AHA; ESC</td>
+</tr>    
+
+
+  <script>
+    const synth = window.speechSynthesis;
+    let utterance;
+    let wordMap = [];
+    let fullTextToSpeak = "";
+    let currentHighlight = null;
+    let voices = [];
+
+    function populateVoices() {
+      if (!synth) return;
+      voices = synth.getVoices();
+      const voiceSelect = document.getElementById('voiceSelect');
+      voiceSelect.innerHTML = '';
+
+      const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+      const voicesToList = englishVoices.length > 0 ? englishVoices : voices;
+
+      voicesToList.forEach((voice) => {
+        const option = document.createElement('option');
+        option.value = voices.indexOf(voice);
+        option.textContent = `${voice.name} (${voice.lang})`;
+
+        const nameLower = voice.name.toLowerCase();
+        if (
+          nameLower.includes('female') || 
+          nameLower.includes('woman') || 
+          nameLower.includes('samantha') || 
+          nameLower.includes('victoria') || 
+          nameLower.includes('aria') || 
+          nameLower.includes('jenny') || 
+          nameLower.includes('zira') ||
+          nameLower.includes('karen') ||
+          nameLower.includes('tessa')
+        ) {
+          option.selected = true;
+        }
+
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    if (synth) {
+      populateVoices();
+      if (synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = populateVoices;
+      }
+    }
+
+    function prepareWordsForHighlighting() {
+      const container = document.getElementById('readable-content');
+      if (!container) return;
+      
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      const textNodes = [];
+      let node;
+
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue.trim().length > 0) {
+          textNodes.push(node);
+        }
+      }
+
+      let charIndex = 0;
+
+      textNodes.forEach((textNode) => {
+        const fragment = document.createDocumentFragment();
+        const tokens = textNode.nodeValue.split(/(\s+)/);
+
+        tokens.forEach((token) => {
+          if (token.trim().length > 0) {
+            const span = document.createElement('span');
+            span.textContent = token;
+            span.className = 'spoken-word';
+            fragment.appendChild(span);
+
+            wordMap.push({
+              start: charIndex,
+              end: charIndex + token.length,
+              element: span
+            });
+
+            fullTextToSpeak += token;
+            charIndex += token.length;
+          } else if (token.length > 0) {
+            fragment.appendChild(document.createTextNode(token));
+            fullTextToSpeak += " ";
+            charIndex += 1;
+          }
+        });
+
+        fullTextToSpeak += " ";
+        charIndex += 1;
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', prepareWordsForHighlighting);
+
+    function clearHighlight() {
+      if (currentHighlight) {
+        currentHighlight.classList.remove('active-highlight');
+        currentHighlight = null;
+      }
+    }
+
+    function playAudio() {
+      if (!synth) {
+        alert("Text-to-speech is not supported in your browser.");
+        return;
+      }
+
+      if (synth.paused) {
+        synth.resume();
+        return;
+      }
+
+      synth.cancel();
+      clearHighlight();
+
+      if (!fullTextToSpeak) {
+        alert("No text found to read.");
+        return;
+      }
+
+      utterance = new SpeechSynthesisUtterance(fullTextToSpeak);
+      utterance.rate = parseFloat(document.getElementById('rate').value) || 1;
+      utterance.lang = 'en-US';
+
+      const voiceSelect = document.getElementById('voiceSelect');
+      const selectedVoiceIndex = voiceSelect.value;
+      if (selectedVoiceIndex !== "" && voices[selectedVoiceIndex]) {
+        utterance.voice = voices[selectedVoiceIndex];
+      }
+
+      utterance.onboundary = function(event) {
+        if (event.name === 'word') {
+          const idx = event.charIndex;
+          const match = wordMap.find(w => idx >= w.start && idx < w.end);
+
+          if (match && match.element !== currentHighlight) {
+            clearHighlight();
+            currentHighlight = match.element;
+            currentHighlight.classList.add('active-highlight');
+
+            currentHighlight.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }
+      };
+
+      utterance.onend = clearHighlight;
+      utterance.onerror = function(event) {
+        console.error("Speech synthesis error:", event);
+        clearHighlight();
+      };
+
+      setTimeout(() => {
+        synth.speak(utterance);
+      }, 50);
+    }
+
+    function pauseAudio() {
+      if (synth && synth.speaking && !synth.paused) {
+        synth.pause();
+      }
+    }
+
+    function stopAudio() {
+      if (synth) {
+        synth.cancel();
+        clearHighlight();
+      }
+    }
+
+    function changeSpeed() {
+      if (synth && synth.speaking) {
+        stopAudio();
+        playAudio();
+      }
+    }
+
+    window.onbeforeunload = function() {
+      if (synth) synth.cancel();
+    };
+  </script>
+<h2>Primary Reference Sources</h2>
+<p><strong>•	World Health Organization (WHO):</strong>
+  <i> Global Health Observatory (GHO): </i><a href="https://www.who.int/data/gho">Visit Mayo clinic</a><br>
+<i>	Noncommunicable Diseases Fact Sheet: </i><a href=": https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases">Visit </a></p>
+<p><strong>•	Centers for Disease Control and Prevention (CDC):</strong><br>
+  <i>Diseases & Conditions A–Z Index: </i><a href="https://www.cdc.gov/index.html">Visit </a><br>
+ <i>	Chronic Disease Indicators (CDI): </i><a href="https://www.cdc.gov/cdi/index.html">Visit </a></p>
+<p><strong>•	National Health Service (NHS Inform):</strong><br>
+  <i>o	A–Z Health Conditions Database: </i><a href=": https://www.nhsinform.scot/illnesses-and-conditions/a-to-z/">Visit</a><br>
+ </p>
+<p><strong>•	Ministry of Health & Family Welfare (MoHFW), India:</strong><br>
+  <i>	Standard Treatment Guidelines (Clinical Establishments): </i><a href="https://clinicalestablishments.mohfw.gov.in/en/standard-treatment-guidelines">Visit </a><br>
+ <i>	Standard Treatment Guidelines / Technical Guidelines (DGHS): </i><a href="https://dghs.mohfw.gov.in/technical-guidelines.php">Visit </a></p>
+  
+</body>
+</html>
