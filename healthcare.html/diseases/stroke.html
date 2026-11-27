@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive Guide to Stroke &amp; Complications</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #b71c1c;
+    }
+
+    /* Audio Controls Styling */
+    .audio-bar {
+      position: sticky;
+      top: 10px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    .audio-bar button {
+      background-color: #b71c1c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .audio-bar button:hover {
+      background-color: #8e0000;
+    }
+    .audio-bar button.secondary {
+      background-color: #555;
+    }
+    .audio-bar button.secondary:hover {
+      background-color: #333;
+    }
+    .audio-bar select {
+      padding: 7px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      max-width: 200px;
+    }
+    /* Highlight Styling for Active Word */
+    .spoken-word {
+      border-radius: 3px;
+      transition: background-color 0.1s ease;
+    }
+    .spoken-word.active-highlight {
+      background-color: #ffeb3b;
+      color: #000;
+      box-shadow: 0 0 0 2px #ffeb3b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .note {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Reader Control Bar -->
+  <div class="audio-bar">
+    <span><strong>Listen to Page:</strong></span>
+    <button onclick="playAudio()">▶ Read Aloud</button>
+    <button class="secondary" onclick="pauseAudio()">⏸ Pause</button>
+    <button class="secondary" onclick="stopAudio()">⏹ Stop</button>
+    
+    <label for="voiceSelect">Voice:</label>
+    <select id="voiceSelect"></select>
+
+    <label for="rate">Speed:</label>
+    <select id="rate" onchange="changeSpeed()">
+      <option value="0.8">0.8x</option>
+      <option value="1" selected>1.0x (Normal)</option>
+      <option value="1.25">1.25x</option>
+      <option value="1.5">1.5x</option>
+    </select>
+  </div>
+  <main id="readable-content">
+    <h1>Stroke: Categories, Symptoms &amp; Age of Onset</h1>
+    <p>A stroke is a critical medical emergency that happens when blood flow to a part of the brain is suddenly blocked or when a blood vessel bursts, cutting off the vital supply of oxygen and nutrients. Brain tissue is extremely sensitive to these changes; without oxygen, brain cells begin to die within minutes, which can lead to permanent neurological damage, long-term disability, or death if not treated immediately. Much like a heart attack affects the heart muscle, a stroke is effectively a "brain attack" that requires emergency medical evaluation and rapid intervention to restore blood flow and minimize brain injury</p>
+
+    <h2>Main Types Of </h2>
+    <p><strong>• Type 1 Diabetes:</strong> An autoimmune reaction where the body mistakenly attacks and destroys insulin-producing beta cells in the pancreas. It usually develops in children, teens, or young adults, though it can appear at any age. People with Type 1 diabetes must take insulin every day to survive.</p>
+    <p><strong>• Type 2 Diabetes:</strong> The most common form (accounting for roughly 90–95% of cases). The body becomes resistant to insulin, and over time, the pancreas cannot make enough insulin to keep blood sugar at normal levels. It is strongly linked to genetics, excess body weight, and physical inactivity, and is increasingly seen in younger adults as well as older populations.</p>
+    <p><strong>• Gestational Diabetes:</strong> Develops during pregnancy in women who did not previously have diabetes. Hormonal changes block insulin's action. While it usually resolves after childbirth, both the mother and child face a higher risk of developing Type 2 diabetes later in life.</p>
+    <p><strong>• Prediabetes:</strong> A warning stage where blood sugar levels are higher than normal, but not yet high enough for a Type 2 diabetes diagnosis. Lifestyle changes at this stage can often prevent or delay progression.</p>
+    <hr>

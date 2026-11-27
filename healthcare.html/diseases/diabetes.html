@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive Guide to Diabetes &amp; Complications</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #b71c1c;
+    }
+
+    /* Audio Controls Styling */
+    .audio-bar {
+      position: sticky;
+      top: 10px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    .audio-bar button {
+      background-color: #b71c1c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .audio-bar button:hover {
+      background-color: #8e0000;
+    }
+    .audio-bar button.secondary {
+      background-color: #555;
+    }
+    .audio-bar button.secondary:hover {
+      background-color: #333;
+    }
+    .audio-bar select {
+      padding: 7px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      max-width: 200px;
+    }
+    /* Highlight Styling for Active Word */
+    .spoken-word {
+      border-radius: 3px;
+      transition: background-color 0.1s ease;
+    }
+    .spoken-word.active-highlight {
+      background-color: #ffeb3b;
+      color: #000;
+      box-shadow: 0 0 0 2px #ffeb3b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .note {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Reader Control Bar -->
+  <div class="audio-bar">
+    <span><strong>Listen to Page:</strong></span>
+    <button onclick="playAudio()">▶ Read Aloud</button>
+    <button class="secondary" onclick="pauseAudio()">⏸ Pause</button>
+    <button class="secondary" onclick="stopAudio()">⏹ Stop</button>
+    
+    <label for="voiceSelect">Voice:</label>
+    <select id="voiceSelect"></select>
+
+    <label for="rate">Speed:</label>
+    <select id="rate" onchange="changeSpeed()">
+      <option value="0.8">0.8x</option>
+      <option value="1" selected>1.0x (Normal)</option>
+      <option value="1.25">1.25x</option>
+      <option value="1.5">1.5x</option>
+    </select>
+  </div>
+
+  <main id="readable-content">
+    <h1>Diabetes: Categories, Symptoms &amp; Age of Onset</h1>
+    <p>Diabetes mellitus is a chronic metabolic condition characterized by consistently high blood sugar (glucose) levels. It occurs when the body either does not produce enough insulin—a hormone made by the pancreas that lets glucose enter cells for energy—or cannot effectively use the insulin it produces.</p>
+
+    <h2>Main Types Of Diabetes</h2>
+    <p><strong>• Type 1 Diabetes:</strong> An autoimmune reaction where the body mistakenly attacks and destroys insulin-producing beta cells in the pancreas. It usually develops in children, teens, or young adults, though it can appear at any age. People with Type 1 diabetes must take insulin every day to survive.</p>
+    <p><strong>• Type 2 Diabetes:</strong> The most common form (accounting for roughly 90–95% of cases). The body becomes resistant to insulin, and over time, the pancreas cannot make enough insulin to keep blood sugar at normal levels. It is strongly linked to genetics, excess body weight, and physical inactivity, and is increasingly seen in younger adults as well as older populations.</p>
+    <p><strong>• Gestational Diabetes:</strong> Develops during pregnancy in women who did not previously have diabetes. Hormonal changes block insulin's action. While it usually resolves after childbirth, both the mother and child face a higher risk of developing Type 2 diabetes later in life.</p>
+    <p><strong>• Prediabetes:</strong> A warning stage where blood sugar levels are higher than normal, but not yet high enough for a Type 2 diabetes diagnosis. Lifestyle changes at this stage can often prevent or delay progression.</p>
+    <hr>
+
+    <h2><strong>Common Symptoms</strong></h2>
+    <p>Symptoms often develop rapidly in Type 1 diabetes, whereas in Type 2 they may appear gradually or go unnoticed for years:</p>
+    <p>• Increased thirst (polydipsia) and frequent urination (polyuria)</p>
+    <p>• Unexplained weight loss (more common in Type 1)</p>
+    <p>• Increased hunger (polyphagia)</p>
+    <p>• Persistent fatigue and weakness</p>
+    <p>• Blurred vision</p>
+    <p>• Slow-healing cuts, sores, or frequent infections (such as skin or yeast infections)</p>
+    <p>• Tingling, numbness, or pain in the hands or feet (more common in Type 2)</p>
+
+    <h2><strong>Diagnosis &amp; Key Blood Tests</strong></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Normal</th>
+          <th>Pre Diabetes</th>
+          <th>Diabetes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HbA1c (2–3 month average)</td>
+          <td>Below 5.7%</td>
+          <td>5.7% – 6.4%</td>
+          <td>6.5% or higher</td>
+        </tr>
+        <tr>
+          <td>Fasting Plasma Glucose</td>
+          <td>Below 100 mg/dL</td>
+          <td>100 – 125 mg/dL</td>
+          <td>126 mg/dL or higher</td>
+        </tr>
+        <tr>
+          <td>Oral Glucose Tolerance Test (2-hr)</td>
+          <td>Below 140 mg/dL</td>
+          <td>140 – 199 mg/dL</td>
+          <td>200 mg/dL or higher</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Potential Long-Term Complications</h2>
+    <p>If blood sugar remains elevated over many years, it can damage blood vessels and nerves throughout the body, leading to:</p>
+    <ul>
+      <li><strong>Cardiovascular disease:</strong> Increased risk of heart attack, stroke, and high blood pressure.</li>
+      <li><strong>Neuropathy (Nerve damage):</strong> Numbness, tingling, or burning pain, typically starting in the toes and feet.</li>
+      <li><strong>Nephropathy (Kidney damage):</strong> Can progress to chronic kidney disease or kidney failure.</li>
+      <li><strong>Retinopathy (Eye damage):</strong> Damage to blood vessels in the retina that can lead to vision loss or blindness.</li>
+      <li><strong>Foot complications:</strong> Poor circulation combined with nerve damage increases the risk of ulcers and serious infections.</li>
+    </ul>
+  </main>
+
+  <script>
+    const synth = window.speechSynthesis;
+    let utterance;
+    let wordMap = [];
+    let fullTextToSpeak = "";
+    let currentHighlight = null;
+    let voices = [];
+
+    function populateVoices() {
+      if (!synth) return;
+      voices = synth.getVoices();
+      const voiceSelect = document.getElementById('voiceSelect');
+      voiceSelect.innerHTML = '';
+
+      const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+      const voicesToList = englishVoices.length > 0 ? englishVoices : voices;
+
+      voicesToList.forEach((voice) => {
+        const option = document.createElement('option');
+        option.value = voices.indexOf(voice);
+        option.textContent = `${voice.name} (${voice.lang})`;
+
+        const nameLower = voice.name.toLowerCase();
+        if (
+          nameLower.includes('female') || 
+          nameLower.includes('woman') || 
+          nameLower.includes('samantha') || 
+          nameLower.includes('victoria') || 
+          nameLower.includes('aria') || 
+          nameLower.includes('jenny') || 
+          nameLower.includes('zira') ||
+          nameLower.includes('karen') ||
+          nameLower.includes('tessa')
+        ) {
+          option.selected = true;
+        }
+
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    if (synth) {
+      populateVoices();
+      if (synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = populateVoices;
+      }
+    }
+
+    function prepareWordsForHighlighting() {
+      const container = document.getElementById('readable-content');
+      if (!container) return;
+      
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      const textNodes = [];
+      let node;
+
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue.trim().length > 0) {
+          textNodes.push(node);
+        }
+      }
+
+      let charIndex = 0;
+
+      textNodes.forEach((textNode) => {
+        const fragment = document.createDocumentFragment();
+        const tokens = textNode.nodeValue.split(/(\s+)/);
+
+        tokens.forEach((token) => {
+          if (token.trim().length > 0) {
+            const span = document.createElement('span');
+            span.textContent = token;
+            span.className = 'spoken-word';
+            fragment.appendChild(span);
+
+            wordMap.push({
+              start: charIndex,
+              end: charIndex + token.length,
+              element: span
+            });
+
+            fullTextToSpeak += token;
+            charIndex += token.length;
+          } else if (token.length > 0) {
+            fragment.appendChild(document.createTextNode(token));
+            fullTextToSpeak += " ";
+            charIndex += 1;
+          }
+        });
+
+        fullTextToSpeak += " ";
+        charIndex += 1;
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', prepareWordsForHighlighting);
+
+    function clearHighlight() {
+      if (currentHighlight) {
+        currentHighlight.classList.remove('active-highlight');
+        currentHighlight = null;
+      }
+    }
+
+    function playAudio() {
+      if (!synth) {
+        alert("Text-to-speech is not supported in your browser.");
+        return;
+      }
+
+      if (synth.paused) {
+        synth.resume();
+        return;
+      }
+
+      synth.cancel();
+      clearHighlight();
+
+      if (!fullTextToSpeak) {
+        alert("No text found to read.");
+        return;
+      }
+
+      utterance = new SpeechSynthesisUtterance(fullTextToSpeak);
+      utterance.rate = parseFloat(document.getElementById('rate').value) || 1;
+      utterance.lang = 'en-US';
+
+      const voiceSelect = document.getElementById('voiceSelect');
+      const selectedVoiceIndex = voiceSelect.value;
+      if (selectedVoiceIndex !== "" && voices[selectedVoiceIndex]) {
+        utterance.voice = voices[selectedVoiceIndex];
+      }
+
+      utterance.onboundary = function(event) {
+        if (event.name === 'word') {
+          const idx = event.charIndex;
+          const match = wordMap.find(w => idx >= w.start && idx < w.end);
+
+          if (match && match.element !== currentHighlight) {
+            clearHighlight();
+            currentHighlight = match.element;
+            currentHighlight.classList.add('active-highlight');
+
+            currentHighlight.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }
+      };
+
+      utterance.onend = clearHighlight;
+      utterance.onerror = function(event) {
+        console.error("Speech synthesis error:", event);
+        clearHighlight();
+      };
+
+      setTimeout(() => {
+        synth.speak(utterance);
+      }, 50);
+    }
+
+    function pauseAudio() {
+      if (synth && synth.speaking && !synth.paused) {
+        synth.pause();
+      }
+    }
+
+    function stopAudio() {
+      if (synth) {
+        synth.cancel();
+        clearHighlight();
+      }
+    }
+
+    function changeSpeed() {
+      if (synth && synth.speaking) {
+        stopAudio();
+        playAudio();
+      }
+    }
+
+    window.onbeforeunload = function() {
+      if (synth) synth.cancel();
+    };
+  </script>
+</body>
+</html>
